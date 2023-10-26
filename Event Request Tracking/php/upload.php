@@ -9,11 +9,15 @@ if (isset($_POST['upload'])) {
     $pdfTmpName = $_FILES['reqLetter']['tmp_name'];
 
     if ($_FILES['reqLetter']['error'] === UPLOAD_ERR_OK) {
+        $fileExtension = pathinfo($pdfName, PATHINFO_EXTENSION);
+
+        $newFileName = $eventName . '.' . $fileExtension;
+
         $pdfData = file_get_contents($pdfTmpName);
         $userID = $_SESSION['userID'];
 
         $insertRequest = "INSERT INTO tbl_requests(reqLetter, reqEventName, reqEventDate, userID) VALUES(?, ?, ?, ?)";
-        $stmt = mysqli_prepare($conn, $insertRequest);
+        $stmt = mysqli_prepare($conn, $insertRequest);  
         mysqli_stmt_bind_param($stmt, "ssss", $pdfData, $eventName, $eventDate, $userID);
         mysqli_stmt_execute($stmt);
 
