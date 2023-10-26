@@ -18,6 +18,38 @@ if (isset($_SESSION['userName'])) {
 } else {
     header('location: login.php');
 }
+
+if ($userType == 'Organization') {
+    include 'config.php';
+
+    $userID = $_SESSION['userID'];
+    $query = "SELECT * FROM tbl_reqhistory WHERE reqStatus = 'Pending'";
+    $stmt = mysqli_prepare($conn, $query);
+    mysqli_stmt_bind_param($stmt, "s", $userID);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+
+    $queryArch = "SELECT * FROM tbl_reqhistory WHERE userID = ? and reqStatus = 'Approved'";
+    $stmtArch = mysqli_prepare($conn, $queryArch);
+    mysqli_stmt_bind_param($stmtArch, "s", $userID);
+    mysqli_stmt_execute($stmtArch);
+    $resultArch = mysqli_stmt_get_result($stmtArch);
+
+}elseif ($userType == "Office"){
+    include 'config.php';
+    $userID = $_SESSION['userID'];
+
+    $query = "SELECT * FROM tbl_reqhistory WHERE reqStatus = 'Pending'";
+    $stmt = mysqli_prepare($conn, $query);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    
+    $queryArch = "SELECT * FROM tbl_reqhistory WHERE reqStatus = 'Approved'";
+    $stmtArch = mysqli_prepare($conn, $queryArch);
+    mysqli_stmt_execute($stmtArch);
+    $resultArch = mysqli_stmt_get_result($stmtArch);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -25,38 +57,132 @@ if (isset($_SESSION['userName'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="js/script.js"></script>
     <title>Document</title>
 </head>
 <body>
-    <a href="letter.php" id="uploadLetter">Upload a letter</a>
+    <?php
+    if ($userType == 'Organization') {
+        echo '<a href="letter.php" id="uploadLetter">Upload a letter</a>';
+    }
+    ?>
 
     <h1>Welcome to Event Tracking System</h1>
+
+    <button id="showForm1">Dashboard</button>
+    <button id="showForm2">Request</button>
+    <button id="showForm3">Archive</button>
+    <button id="showForm4">Account</button>
+
+    <p><a href="login.php">Logout</a></p>
+    
     <form id="form1" style="display: block;">
-        <h1>Dashboard</h1>
+        <h2>Dashboard</h2>
     </form>
     
     <form id="form2" style="display: none;">
-    <h1>Requests</h1>
-</form>
+        <h2>Requests</h2>
+
+    <style>
+    table {
+        text-align: center;
+    }
+    .bordered {
+        padding: 5px;
+        border-collapse: collapse;
+        border: 1px solid #000;
+    }
+
+    .bordered th, .bordered td {
+        padding: 5px;
+        border: 1px solid #000;
+    }
+    </style>
+
+        <table class="bordered">
+            <thead>
+                <tr>
+                    <th>histID</th>
+                    <th>reqStatus</th>
+                    <th>statusDate</th>
+                    <th>reqDeadline</th>
+                    <th>userID</th>
+                    <th>reqID</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                include 'config.php';
+                while ($row = mysqli_fetch_assoc($result)) {
+                    echo "<tr>";
+                    echo "<td>{$row['histID']}</td>";
+                    echo "<td>{$row['reqStatus']}</td>";
+                    echo "<td>{$row['statusDate']}</td>";
+                    echo "<td>{$row['reqDeadline']}</td>";
+                    echo "<td>{$row['userID']}</td>";
+                    echo "<td>{$row['reqID']}</td>";
+                    echo "</tr>";
+                }
+                ?>
+            </tbody>
+        </table>
+    </form>
 
 
     <form id="form3" style="display: none;">
-        <h1>Archive</h1>
+        <h2>Archive</h2>
+        <style>
+    table {
+        text-align: center;
+    }
+    .bordered {
+        padding: 5px;
+        border-collapse: collapse;
+        border: 1px solid #000;
+    }
+
+    .bordered th, .bordered td {
+        padding: 5px;
+        border: 1px solid #000;
+    }
+    </style>
+
+        <table class="bordered">
+            <thead>
+                <tr>
+                    <th>histID</th>
+                    <th>reqStatus</th>
+                    <th>statusDate</th>
+                    <th>reqDeadline</th>
+                    <th>userID</th>
+                    <th>reqID</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                include 'config.php';
+                while ($rowArch = mysqli_fetch_assoc($resultArch)) {
+                    echo "<tr>";
+                    echo "<td>{$rowArch['histID']}</td>";
+                    echo "<td>{$rowArch['reqStatus']}</td>";
+                    echo "<td>{$rowArch['statusDate']}</td>";
+                    echo "<td>{$rowArch['reqDeadline']}</td>";
+                    echo "<td>{$rowArch['userID']}</td>";
+                    echo "<td>{$rowArch['reqID']}</td>";
+                    echo "</tr>";
+                }
+                ?>
+            </tbody>
+        </table>
     </form>
     
     <form id="form4" style="display: none;">
-      <h1>Account</h1>
+      <h2>Account</h2>
       <p>Username: <span id="userNameDisplay"></span></p>
       <p>Department: <span id="userDeptDisplay"></span></p>
       <p>Email: <span id="userEmailDisplay"></span></p>
     </form>
     
-      <button id="showForm1">Dashboard</button>
-      <button id="showForm2">Request</button>
-      <button id="showForm3">Archive</button>
-      <button id="showForm4">Account</button>
-
-<a href="login.php">Logout</a>
 </body>
 <script>
     function updateAccountInformation(userName, userDept, userEmail) {
