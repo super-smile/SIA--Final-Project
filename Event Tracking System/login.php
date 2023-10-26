@@ -19,8 +19,7 @@ if (isset($_POST['login'])) {
         $_SESSION['userID'] = $row['userID'];
         $_SESSION['userType'] = $row['userType'];
         header('location: home.php');
-        header('location: home.php');
-    }else {
+    } else {
         $error[] = 'Incorrect email or password';
     }
 }
@@ -28,25 +27,67 @@ if (isset($_POST['login'])) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Request Tracking</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href='https://fonts.googleapis.com/css?family=Poppins'>
+    <link rel="stylesheet" href="styles.css">
+    <title>Login</title>
 </head>
+
 <body>
-    <h1>Login</h1>
-    <?php
-    if (isset($error)) {
-        foreach ($error as $errorMsg) {
-            echo '<span class="error-msg">' . $errorMsg . '</span>';
-        }
-    }
-    ?>
-    <form method="post">
-        <input type="text" name="userEmail" placeholder="Enter your Email" required>
-        <input type="password" name="userPass" placeholder="Enter your Password" required>
-        <input type="submit" name="login" value="Login">
-    </form>
-    <p>Don't have an account? Register <a href="register.php">Here!</a></p>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="container text-center mx-auto" style="padding-top: 50px;" id="image-container">
+                    <h2><img src="logoo.png" alt="" width="300" height="300" class="img-fluid"></h2>
+                </div>
+            </div>
+            <div class="col-md-6 d-flex align-items-center justify-content-center" id="login-container">
+                <div class="container text-center mx-auto" style="padding-top: 30px;">
+                    <div class="mx-auto" style="font-family: 'Poppins'; font-weight: bold; font-size: 41.953px;">LOGIN</div>
+                    <div class="border border-dark w-80"></div>
+                    <br>Please login to access your account</br>
+                    <p>
+                    <?php
+                    if (isset($error)) {
+                        foreach ($error as $errorMsg) {
+                            echo '<span class="error-msg">' . $errorMsg . '</span>';
+                        }
+                    }
+                    ?>
+                    </p>
+                    <form method="post">
+                        <div class="form-group">
+                            <input type="text" name="userEmail" class="form-control" id="InputText" placeholder="Email Address" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" name="userPass" class="form-control" id="InputPassword" placeholder="Password" required>
+                        </div>
+                        <button type="submit" name="login" class="btn btn-outline-dark btn-lg btn-block">Login</button>
+                    </form>
+                    <div class="container text-center">
+                        <div class="horizontal-line"></div>
+                        <span class="or-text">or</span>
+                        <div class="horizontal-line"></div>
+                    </div>
+                    <button type="button" class="btn btn-outline-dark btn-lg btn-block">Login with Google</button>
+                    <div class="mt-4"><b>Note:</b> If you're experiencing difficulty logging in, please contact the Office of Student Organization for assistance.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
 </body>
+
 </html>
