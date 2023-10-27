@@ -21,7 +21,7 @@ if (isset($_SESSION['userName'])) {
 }
 
 //Archive Organization
-if ($userType == 'Organization') {
+$userType == 'Organization';
     include 'config.php';
 
     $userID = $_SESSION['userID'];
@@ -37,23 +37,6 @@ if ($userType == 'Organization') {
     mysqli_stmt_bind_param($stmtArch, "s", $userID);
     mysqli_stmt_execute($stmtArch);
     $resultArch = mysqli_stmt_get_result($stmtArch);
-
-
-//Archive for Office    
-}elseif ($userType == "Office"){
-    include 'config.php';
-    $userID = $_SESSION['userID'];
-
-    $query = "SELECT * FROM tbl_reqhistory WHERE reqStatus = 'Pending'";
-    $stmt = mysqli_prepare($conn, $query);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-    
-    $queryArch = "SELECT * FROM tbl_reqhistory WHERE reqStatus = 'Approved'";
-    $stmtArch = mysqli_prepare($conn, $queryArch);
-    mysqli_stmt_execute($stmtArch);
-    $resultArch = mysqli_stmt_get_result($stmtArch);
-}
 
 ?>
 

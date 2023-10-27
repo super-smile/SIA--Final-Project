@@ -5,13 +5,12 @@ include 'config.php';
 //Account Information
 if (isset($_SESSION['userName'])) {
     $userName = $_SESSION['userName'];
-    echo "Welcome Back, $userName!";
-
+    
     $query = "SELECT userName, userDept, userEmail FROM tbl_account WHERE userName = ?";
     $stmt = mysqli_prepare($conn, $query);
     mysqli_stmt_bind_param($stmt, "s", $userName);
     mysqli_stmt_execute($stmt);
-    mysqli_stmt_bind_result($stmt, $dbUserName, $userDept, $userEmail);
+    mysqli_stmt_bind_result($stmt, $userName, $userDept, $userEmail);
     mysqli_stmt_fetch($stmt);
     
     $userType = $_SESSION['userType'];
@@ -44,23 +43,43 @@ $resultArch = mysqli_stmt_get_result($stmtArch);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styleHome.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href='https://fonts.googleapis.com/css?family=Poppins'>
     <title>Document</title>
 </head>
-<body>
-    <?php
-    if ($userType == 'Organization') {
-        echo '<a href="letter.php" id="uploadLetter">Upload a letter</a>';
-    }
-    ?>
+<body style="background:#F3F3F3">
+    <div class="header">
+        <img src="logoo.png" alt="Logo" width="50" height="50" class="img-fluid">
+        <div class="header-text">
+            <p style="font-size: 15px; font-weight: bold; margin: 0;">Event Tracking System</p>
+            <span style="font-size: 12px;">Office of the Student Organizations</span>
+        </div>
+    </div>
 
-    <h1>Welcome to Event Tracking System - Organization</h1>
+    <div class="wrapper">
+        <div class="sidebar">
+            <img src="logoo.png" alt="sideLogo" width="260" height="260" style="padding: 30px 0px 0px 30px" class="img-fluid" >
+            <?php
+            if (isset($_SESSION['userName'])) {
+                $userName = $_SESSION['userName'];
+                echo '<div class="welcome-message">Welcome Back,</div>';
+                echo '<div class="user-name">' . $userName . '</div>';
+            }
+            
+        if ($userType == 'Organization') {
+            echo '<a href="letter.php" id="uploadLetter">Upload a letter</a>';
+        }
+        ?>
+        <br>
+        <button id="showForm1">Dashboard</button><br>
+        <button id="showForm2">Request</button><br>
+        <button id="showForm3">Archive</button><br>
+        <button id="showForm4">Account</button><br><br>
 
-    <button id="showForm1">Dashboard</button>
-    <button id="showForm2">Request</button>
-    <button id="showForm3">Archive</button>
-    <button id="showForm4">Account</button>
+        <button class="logout" onclick="location.href='login.php'" ><u>Logout</u></button>
 
-    <p><a href="login.php">Logout</a></p>
+</div>
     
     <form id="form1" style="display: block;">
         <h2>Dashboard</h2>
@@ -214,7 +233,7 @@ $resultArch = mysqli_stmt_get_result($stmtArch);
       form3.style.display = "none";
       form4.style.display = "block";
 
-      updateAccountInformation("<?php echo $dbUserName; ?>", "<?php echo $userDept; ?>", "<?php echo $userEmail; ?>");
+      updateAccountInformation("<?php echo $userName; ?>", "<?php echo $userDept; ?>", "<?php echo $userEmail; ?>");
     });
 </script>
 </html>
