@@ -4,8 +4,7 @@ session_start();
 include 'config.php';
 
 if (isset($_SESSION['userName'])) {
-    $userName = $_SESSION['userName'];
-    echo "Welcome Back, $userName!";
+    
 
     $query = "SELECT userName, userDept, userEmail FROM tbl_account WHERE userName = ?";
     $stmt = mysqli_prepare($conn, $query);
@@ -54,28 +53,52 @@ if ($userType == 'Organization') {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="js/script.js"></script>
-    <title>Document</title>
+    <link rel="stylesheet" href="styleHome.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href='https://fonts.googleapis.com/css?family=Poppins'>
+    <title>Home</title>
 </head>
-<body>
-    <?php
-    if ($userType == 'Organization') {
-        echo '<a href="letter.php" id="uploadLetter">Upload a letter</a>';
-    }
-    ?>
 
-    <h1>Welcome to Event Tracking System</h1>
 
-    <button id="showForm1">Dashboard</button>
-    <button id="showForm2">Request</button>
-    <button id="showForm3">Archive</button>
-    <button id="showForm4">Account</button>
+<body style="background:#F3F3F3">
+<div class="header">
+  <img src="logoo.png" alt="Logo" width="50" height="50" class="img-fluid">
+  <div class="header-text">
+    <p style="font-size: 15px; font-weight: bold; margin: 0;">Event Tracking System</p>
+    <span style="font-size: 12px;">Office of the Student Organizations</span>
+  </div>
+</div>
 
-    <p><a href="login.php">Logout</a></p>
-    
+<div class="wrapper">
+    <div class="sidebar">
+        <img src="logoo.png" alt="sideLogo" width="260" height="260" style="padding: 30px 0px 0px 30px" class="img-fluid" >
+        <?php
+            if (isset($_SESSION['userName'])) {
+                $userName = $_SESSION['userName'];
+                echo '<div class="welcome-message">Welcome Back,</div>';
+                echo '<div class="user-name">' . $userName . '</div>';
+            }
+            ?>
+
+        <?php
+        if ($userType == 'Organization') {
+            echo '<a href="letter.php" id="uploadLetter">Upload a letter</a>';
+        }
+        ?>
+        <br>
+        <button id="showForm1">Dashboard</button><br>
+        <button id="showForm2">Request</button><br>
+        <button id="showForm3">Archive</button><br>
+        <button id="showForm4">Account</button><br><br>
+
+        <button class="logout" onclick="location.href='login.php'" ><u>Logout</u></button>
+
+</div>
+
     <form id="form1" style="display: block;">
         <h2>Dashboard</h2>
     </form>
