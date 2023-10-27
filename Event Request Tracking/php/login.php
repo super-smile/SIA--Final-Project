@@ -44,13 +44,13 @@ if (isset($_POST['login'])) {
             <div class="col-md-6">
                 <div class="container text-center mx-auto" style="padding-top: 50px;" id="image-container">
                     <h2><img src="logoo.png" alt="" width="350" height="550" class="img-fluid"></h2>
-                    <div class="mt-4" style="font-size: 14px; color: white; padding-top: 90px">This website is managed by the Office of the Student Organization at Batangas State University
+                    <div class="mt-4" style="font-size: 14px; color: white; padding-top: 90px">This website is managed by the Office of the Student Organization <br>at Batangas State University
              - The NEU Lipa Campus</div>
                 </div>
             </div>
             <div class="col-md-6 d-flex align-items-center justify-content-center"  id="login-container">
                 <div class="container text-center mx-auto" style="padding-top: 30px; padding-right: 100px; padding-left: 100px;">
-                    <div class="mx-auto" style="font-family: 'Poppins'; font-size: 41.953px; font: weight 700px;"><strong>LOGIN</strong></div>
+                    <div class="mx-auto" style="font-family: 'Poppins'; font-size: 41.953px;"><strong>LOGIN</strong></div>
                     <div class="border border-dark w-80"></div>
                     <br>Please login to access your account</br>
                     <p>
