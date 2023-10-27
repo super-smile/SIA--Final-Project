@@ -48,9 +48,9 @@ if (isset($_POST['login'])) {
 <body>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-6">
-                <div class="container text-center mx-auto" style="padding-top: 50px;" id="image-container">
-                    <h2><img src="logoo.png" alt="" width="350" height="550" class="img-fluid"></h2>
+            <div class="col-md-6" id="imgCon">
+                <div class="container text-center mx-auto" id="image-container">
+                    <h2><img src="logoo.png" alt="" width="350" height="400" class="img-fluid"></h2>
                     <div class="mt-4" style="font-size: 14px; color: white; padding-top: 90px">This website is managed by the Office of the Student Organization <br>at Batangas State University
              - The NEU Lipa Campus</div>
                 </div>

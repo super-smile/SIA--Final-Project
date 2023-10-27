@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+
 include 'config.php';
 //Account Information
 if (isset($_SESSION['userName'])) {
@@ -38,39 +39,42 @@ $resultArch = mysqli_stmt_get_result($stmtArch);
 
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styleHome.css">
+    <link rel="stylesheet" href="styleOrg.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href='https://fonts.googleapis.com/css?family=Poppins'>
     <title>Document</title>
 </head>
 <body style="background:#F3F3F3">
     <div class="header">
-        <img src="logoo.png" alt="Logo" width="50" height="50" class="img-fluid">
+        <img src="logoo.png" alt="Logo" width="50" height="50" style="padding: 5px;" class="img-fluid">
         <div class="header-text">
             <p style="font-size: 15px; font-weight: bold; margin: 0;">Event Tracking System</p>
             <span style="font-size: 12px;">Office of the Student Organizations</span>
+            <?php
+        if ($userType == 'Organization') {
+            echo '<a href="letter.php" class="upload-button" id="uploadLetter">Upload a letter</a>';
+        }
+        ?>
         </div>
     </div>
 
     <div class="wrapper">
         <div class="sidebar">
-            <img src="logoo.png" alt="sideLogo" width="260" height="260" style="padding: 30px 0px 0px 30px" class="img-fluid" >
+            <img src="logoo.png" alt="sideLogo" width="180" height="180" style="padding: 30px 0px 0px 30px; margin-left:50px;" class="img-fluid" >
             <?php
             if (isset($_SESSION['userName'])) {
                 $userName = $_SESSION['userName'];
                 echo '<div class="welcome-message">Welcome Back,</div>';
                 echo '<div class="user-name">' . $userName . '</div>';
             }
+            ?>
             
-        if ($userType == 'Organization') {
-            echo '<a href="letter.php" id="uploadLetter">Upload a letter</a>';
-        }
-        ?>
         <br>
         <button id="showForm1">Dashboard</button><br>
         <button id="showForm2">Request</button><br>
@@ -191,6 +195,11 @@ $resultArch = mysqli_stmt_get_result($stmtArch);
     
 </body>
 <script>
+
+function loginUser() {
+
+showForm1Button.click('clicked');
+}
     function updateAccountInformation(userName, userDept, userEmail) {
     document.getElementById('userNameDisplay').textContent = userName;
     document.getElementById('userDeptDisplay').textContent = userDept;
@@ -235,5 +244,61 @@ $resultArch = mysqli_stmt_get_result($stmtArch);
 
       updateAccountInformation("<?php echo $userName; ?>", "<?php echo $userDept; ?>", "<?php echo $userEmail; ?>");
     });
+
+
+var showForm1Button = document.getElementById('showForm1');
+var showForm2Button = document.getElementById('showForm2');
+var showForm3Button = document.getElementById('showForm3');
+var showForm4Button = document.getElementById('showForm4');
+
+showForm1Button.addEventListener('click', function() {
+    if (showForm1Button.classList.contains('clicked')) {
+        showForm1Button.classList.remove('clicked');
+    } else {
+        showForm1Button.classList.add('clicked');
+        // Remove the 'clicked' class from other buttons
+        showForm2Button.classList.remove('clicked');
+        showForm3Button.classList.remove('clicked');
+        showForm4Button.classList.remove('clicked');
+    }
+});
+
+showForm2Button.addEventListener('click', function() {
+    if (showForm2Button.classList.contains('clicked')) {
+        showForm2Button.classList.remove('clicked');
+    } else {
+        showForm2Button.classList.add('clicked');
+        // Remove the 'clicked' class from other buttons
+        showForm1Button.classList.remove('clicked');
+        showForm3Button.classList.remove('clicked');
+        showForm4Button.classList.remove('clicked');
+    }
+});
+
+showForm3Button.addEventListener('click', function() {
+    if (showForm3Button.classList.contains('clicked')) {
+        showForm3Button.classList.remove('clicked');
+    } else {
+        showForm3Button.classList.add('clicked');
+        // Remove the 'clicked' class from other buttons
+        showForm1Button.classList.remove('clicked');
+        showForm2Button.classList.remove('clicked');
+        showForm4Button.classList.remove('clicked');
+    }
+});
+
+showForm4Button.addEventListener('click', function() {
+    if (showForm4Button.classList.contains('clicked')) {
+        showForm4Button.classList.remove('clicked');
+    } else {
+        showForm4Button.classList.add('clicked');
+        // Remove the 'clicked' class from other buttons
+        showForm1Button.classList.remove('clicked');
+        showForm2Button.classList.remove('clicked');
+        showForm3Button.classList.remove('clicked');
+    }
+});
+
+
 </script>
 </html>
