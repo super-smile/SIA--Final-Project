@@ -32,7 +32,7 @@ if (isset($_POST['upload'])) {
         mysqli_stmt_bind_param($stmt, "sssss", $reqStatus, $statusDate, $reqDeadline, $userID, $lastReqID);
         mysqli_stmt_execute($stmt);
 
-        header('location: home.php');
+        header('location: org.php');
     } else {
         $error[] = 'File upload error: ' . $_FILES['reqLetter']['error'];
     }

@@ -29,7 +29,7 @@ if (isset($_POST['submit'])) {
             $stmt = mysqli_prepare($conn, $insert);
             mysqli_stmt_bind_param($stmt, "sssss", $userName, $userDept, $userEmail, $userPass, $userType);
             mysqli_stmt_execute($stmt);
-            header('location:login.php');
+            header('location:oso.php');
         }
     }
 }
@@ -66,7 +66,7 @@ if (isset($_POST['submit'])) {
             </select>
             <input type="submit" name="submit" value="Register" class="form-btn">
         </form>
-        <p>Already have an account? <a href="login.php">Login</a></p>
+        <p>Go <a href="oso.php">Back</a></p>
     </div>
 </body>
 </html>
