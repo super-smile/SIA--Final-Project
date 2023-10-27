@@ -40,7 +40,7 @@ if (isset($_POST['login'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styleLogin.css">
+    <link rel="stylesheet" href="styleLogin.css"> 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href='https://fonts.googleapis.com/css?family=Poppins'>
     <title>Event Request Tracking</title>
@@ -51,7 +51,7 @@ if (isset($_POST['login'])) {
             <div class="col-md-6">
                 <div class="container text-center mx-auto" style="padding-top: 50px;" id="image-container">
                     <h2><img src="logoo.png" alt="" width="350" height="550" class="img-fluid"></h2>
-                    <div class="mt-4" style="font-size: 14px; color: white; padding-top: 90px">This website is managed by the Office of the Student Organization at Batangas State University
+                    <div class="mt-4" style="font-size: 14px; color: white; padding-top: 90px">This website is managed by the Office of the Student Organization <br>at Batangas State University
              - The NEU Lipa Campus</div>
                 </div>
             </div>
