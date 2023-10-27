@@ -7,7 +7,7 @@
 </head>
 <body>
 <h1>Upload Request Letter</h1>
-<p> <a href="home.php">Home</a></p>
+<p> <a href="org.php">Home</a></p>
 <form action="upload.php" method="post" enctype="multipart/form-data">
     <p>Fill the event information</p>
         Event Name:
