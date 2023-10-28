@@ -188,22 +188,43 @@ $resultArch = mysqli_stmt_get_result($stmtArch);
     </form>
     
     <form id="form4" style="display: none;">
-      <h2>Account</h2>
-      <p>Username: <span id="userNameDisplay"></span></p>
-      <p>Department: <span id="userDeptDisplay"></span></p>
-      <p>Email: <span id="userEmailDisplay"></span></p>
-    </form>
+    <h2 style="font-family:'Poppins'; margin:10px 10px 10px 10px" ><strong>Account</strong></h2>
+    <div class="container-fluid" id="account-container">
+        <h3 style="top: 10px">Organizations Information</h3>
+
+        <div class="container" id="information-container">
+        <p><strong>Organizations Name:</strong> <input type="text" id="userNameDisplay" class="text" readonly /></p>
+        <p><strong>Department:</strong>         <input type="text" id="userDeptDisplay" class="text" readonly /></p>
+        <p><strong>Email Address:</strong>      <input type="text" id="userEmailDisplay" class="text" readonly /></p>
+        </div>
+
+        <div class="container-fluid" id="container-assistance">
+            <p>If you find that the provided information is incorrect, please reach out to the Office of Student<br>
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Organization for assistance.</p>
+            <p style="margin-left: 175px; font-weight:normal">Email: studentorganization.lipa@g.batstate-u.edu.ph</p>
+        </div>
     </div>
+</form>
+</div>
 </body>
+
+
+
+
+
 <script>
+
+
+
 
 function loginUser() {
 
 }
-    function updateAccountInformation(userName, userDept, userEmail) {
-    document.getElementById('userNameDisplay').textContent = userName;
-    document.getElementById('userDeptDisplay').textContent = userDept;
-    document.getElementById('userEmailDisplay').textContent = userEmail;
+function updateAccountInformation(userName, userDept, userEmail) {
+    document.getElementById('userNameDisplay').value = userName;
+    document.getElementById('userDeptDisplay').value = userDept;
+    document.getElementById('userEmailDisplay').value = userEmail;
+
 }
     var button1 = document.getElementById("showForm1");
     var button2 = document.getElementById("showForm2");
