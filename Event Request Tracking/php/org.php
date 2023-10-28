@@ -1,17 +1,16 @@
 <?php
 session_start();
 
-
 include 'config.php';
 //Account Information
 if (isset($_SESSION['userName'])) {
     $userName = $_SESSION['userName'];
-    
+
     $query = "SELECT userName, userDept, userEmail FROM tbl_account WHERE userName = ?";
     $stmt = mysqli_prepare($conn, $query);
     mysqli_stmt_bind_param($stmt, "s", $userName);
     mysqli_stmt_execute($stmt);
-    mysqli_stmt_bind_result($stmt, $userName, $userDept, $userEmail);
+    mysqli_stmt_bind_result($stmt, $dbUserName, $userDept, $userEmail);
     mysqli_stmt_fetch($stmt);
     
     $userType = $_SESSION['userType'];
@@ -24,14 +23,20 @@ include 'config.php';
 $userID = $_SESSION['userID'];
 
 //Request 
-$query = "SELECT * FROM tbl_reqhistory WHERE userID = ? and reqStatus = 'Pending'";
+$query = "SELECT * FROM tbl_reqhistory WHERE orgID = ? and reqStatus = 'Pending'";
 $stmt = mysqli_prepare($conn, $query);
 mysqli_stmt_bind_param($stmt, "s", $userID);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 
+$queryReq = "SELECT * FROM tbl_requests WHERE userID = ?";
+$stmtReq = mysqli_prepare($conn, $queryReq);
+mysqli_stmt_bind_param($stmtReq, "s", $userID);
+mysqli_stmt_execute($stmtReq);
+$resultReq = mysqli_stmt_get_result($stmtReq);
+
 //Archive
-$queryArch = "SELECT * FROM tbl_reqhistory WHERE userID = ? and reqStatus = 'Approved'";
+$queryArch = "SELECT * FROM tbl_reqhistory WHERE orgID = ? and reqStatus = 'Approved'";
 $stmtArch = mysqli_prepare($conn, $queryArch);
 mysqli_stmt_bind_param($stmtArch, "s", $userID);
 mysqli_stmt_execute($stmtArch);
@@ -47,6 +52,8 @@ $resultArch = mysqli_stmt_get_result($stmtArch);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styleOrg.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href='https://fonts.googleapis.com/css?family=Poppins'>
     <title>Document</title>
 </head>
@@ -77,10 +84,10 @@ $resultArch = mysqli_stmt_get_result($stmtArch);
             ?>
             
         <br>
-        <button id="showForm1">Dashboard</button><br>
-        <button id="showForm2">Request</button><br>
-        <button id="showForm3">Archive</button><br>
-        <button id="showForm4">Account</button><br><br>
+        <button type="button" class="btn" id="showForm1">Dashboard</button><br>
+        <button type="button" class="btn" id="showForm2">Request</button><br>
+        <button type="button" class="btn" id="showForm3">Archive</button><br>
+        <button type="button" class="btn" id="showForm4">Account</button><br><br>
 
         <button class="logout" onclick="location.href='login.php'" ><u>Logout</u></button>
 
@@ -109,15 +116,15 @@ $resultArch = mysqli_stmt_get_result($stmtArch);
     }
     </style>
 
-        <table class="bordered">
+        <table id="Req" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
-                    <th>histID</th>
-                    <th>reqStatus</th>
-                    <th>statusDate</th>
-                    <th>reqDeadline</th>
-                    <th>userID</th>
-                    <th>reqID</th>
+                    <th>Req ID</th>
+                    <th>Status</th>
+                    <th>Date Approved</th>
+                    <th>Deadline</th>
+                    <th>Organization ID</th>
+                    <th>Office ID</th>
                 </tr>
             </thead>
             <tbody>
@@ -125,12 +132,12 @@ $resultArch = mysqli_stmt_get_result($stmtArch);
                 include 'config.php';
                 while ($row = mysqli_fetch_assoc($result)) {
                     echo "<tr>";
-                    echo "<td>{$row['histID']}</td>";
+                    echo "<td>{$row['reqID']}</td>";
                     echo "<td>{$row['reqStatus']}</td>";
                     echo "<td>{$row['statusDate']}</td>";
                     echo "<td>{$row['reqDeadline']}</td>";
-                    echo "<td>{$row['userID']}</td>";
-                    echo "<td>{$row['reqID']}</td>";
+                    echo "<td>{$row['orgID']}</td>";
+                    echo "<td>{$row['officeID']}</td>";
                     echo "</tr>";
                 }
                 ?>
@@ -157,7 +164,7 @@ $resultArch = mysqli_stmt_get_result($stmtArch);
     }
     </style>
 
-        <table class="bordered">
+        <table id="Arch" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
                     <th>Request ID</th>
@@ -178,7 +185,7 @@ $resultArch = mysqli_stmt_get_result($stmtArch);
                     echo "<td>{$rowArch['reqStatus']}</td>";
                     
                     echo "<td>{$rowArch['reqDeadline']}</td>";
-                    echo "<td>{$rowArch['userID']}</td>";
+                    echo "<td>{$rowArch['orgID']}</td>";
                     
                     echo "</tr>";
                 }
@@ -207,17 +214,16 @@ $resultArch = mysqli_stmt_get_result($stmtArch);
 </form>
 </div>
 </body>
-
-
-
-
-
 <script>
 
 
 
 
+new DataTable('#Req');
+new DataTable('#Arch');
 function loginUser() {
+
+
 
 }
 function updateAccountInformation(userName, userDept, userEmail) {
