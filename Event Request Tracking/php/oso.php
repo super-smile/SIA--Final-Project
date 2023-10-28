@@ -50,6 +50,8 @@ $resultEvents = mysqli_stmt_get_result($stmtEvents);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
     <title>OSO</title>
 </head>
 <body>
@@ -57,17 +59,18 @@ $resultEvents = mysqli_stmt_get_result($stmtEvents);
 
     <h2>Welcome to Event Tracking System</h2>
 
-    <button id="showForm1">Dashboard</button>
-    <button id="showForm2">Organizations</button>
-    <button id="showForm3">Requests</button>
-    <button id="showForm4">All Events</button>
-    <button id="showForm5">Create Account</button>
-    <button id="showForm6">Account</button>
+    <button type="button" class="btn btn-primary" id="showForm1">Dashboard</button>
+    <button type="button" class="btn btn-primary" id="showForm2">Organizations</button>
+    <button type="button" class="btn btn-primary" id="showForm3">Requests</button>
+    <button type="button" class="btn btn-primary" id="showForm4">All Events</button>
+    <button type="button" class="btn btn-primary" id="showForm5">Create Account</button>
+    <button type="button" class="btn btn-primary"id="showForm6">Account</button>
 
     <p><a href="login.php">Logout</a></p>
     
     <form id="form1" style="display: block;">
         <h2>Dashboard</h2>
+        <div id="piechart" style="width: 900px; height: 500px;"></div>
     </form>
     
     <form id="form2" style="display: none;">
@@ -89,10 +92,10 @@ $resultEvents = mysqli_stmt_get_result($stmtEvents);
     }
     </style>
 
-        <table class="bordered">
-            <thead>
+    <table id="Requests" class="table table-striped text-center" style="width:100%" >
+        <thead>
                 <tr>
-                    <th>Organizations Name</th>
+                    <th class="text-center">Organizations Name</th>
                 </tr>
             </thead>
             <tbody>
@@ -127,15 +130,15 @@ $resultEvents = mysqli_stmt_get_result($stmtEvents);
     }
     </style>
 
-        <table class="bordered">
+        <table id="example" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
-                    <th>histID</th>
-                    <th>reqStatus</th>
-                    <th>statusDate</th>
-                    <th>reqDeadline</th>
-                    <th>userID</th>
-                    <th>reqID</th>
+                    <th class="text-center">histID</th>
+                    <th class="text-center">reqStatus</th>
+                    <th class="text-center">statusDate</th>
+                    <th class="text-center">reqDeadline</th>
+                    <th class="text-center">userID</th>
+                    <th class="text-center">reqID</th>
                 </tr>
             </thead>
             <tbody>
@@ -147,7 +150,7 @@ $resultEvents = mysqli_stmt_get_result($stmtEvents);
                     echo "<td>{$rowReq['reqStatus']}</td>";
                     echo "<td>{$rowReq['statusDate']}</td>";
                     echo "<td>{$rowReq['reqDeadline']}</td>";
-                    echo "<td>{$rowReq['userID']}</td>";
+                    echo "<td>{$rowReq['orgID']}</td>";
                     echo "<td>{$rowReq['reqID']}</td>";
                     echo "</tr>";
                 }
@@ -175,13 +178,14 @@ $resultEvents = mysqli_stmt_get_result($stmtEvents);
     }
     </style>
 
-        <table class="bordered">
+        <table id="AllEvents" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
-                    <th>Request ID</th>
-                    <th>Approval Date</th>
-                    <th>Status</th>
+                    <th class="text-center">Request ID</th>
+                    <th class="text-center">Approval Date</th>
+                    <th class="text-center">Status</th>
                 </tr>
+                
             </thead>
             <tbody>
                 <?php
@@ -211,7 +215,51 @@ $resultEvents = mysqli_stmt_get_result($stmtEvents);
     </form>
     
 </body>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+  google.charts.load('current', {'packages':['corechart']});
+  google.charts.setOnLoadCallback(drawChart);
+
+  function drawChart() {
+    // Fetch data from your database using PHP and config.php
+    <?php
+    // Include your database connection configuration
+    include('config.php');
+
+    // Query the database to retrieve data
+    $queryPie = "SELECT reqStatus, COUNT(reqStatus) as count FROM tbl_reqhistory GROUP BY reqStatus";
+    $resultPie = mysqli_query($conn, $queryPie);
+
+    // Create an empty array for the chart data
+    $chartData = [['Status', 'Count']];
+
+    // Loop through the database results and add them to the chart data array
+    while ($rowPie = mysqli_fetch_assoc($resultPie)) {
+      $chartData[] = [$rowPie['reqStatus'], (int)$rowPie['count']];
+    }
+    ?>
+
+    var data = google.visualization.arrayToDataTable(<?php echo json_encode($chartData); ?>);
+
+    var options = {
+      title: 'Request Status Distribution'
+    };
+
+    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+    chart.draw(data, options);
+  }
+</script>
+
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 <script>
+
+new DataTable('#example');
+new DataTable('#Requests');
+new DataTable('#AllEvents');
+
     function updateAccountInformation(userName, userDept, userEmail) {
     document.getElementById('userNameDisplay').textContent = userName;
     document.getElementById('userDeptDisplay').textContent = userDept;
