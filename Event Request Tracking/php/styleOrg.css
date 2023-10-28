@@ -1,8 +1,7 @@
 body {
     background: gray;
-    width: 100vw; /* 100% of viewport width */
-    height: 100vh; /* 100% of viewport height */
-      
+    width: 100vw;
+    height: 100vh;
 }
 
 
@@ -36,7 +35,7 @@ body {
     font-size: 15px;
     text-decoration: none;
     color: #FFF;
-    margin-right: 10px; /* Adjust the margin as needed for spacing */
+    margin-right: 10px;
     position: absolute;
     top: 5px;
     right: 10px;
@@ -45,8 +44,8 @@ body {
 .upload-button {
     font-size: 12px;
     text-decoration: none;
-    border-radius: 4px; /* Rounded corners */
-    padding: 6px 12px; /* Padding for the button */
+    border-radius: 4px;
+    padding: 6px 12px;
     cursor: pointer;
     color: #FFF;
     background: black;
@@ -54,10 +53,12 @@ body {
 
 .upload-button:hover {
     background-color: #0056b3;
-    color: white; /* Change the background color on hover */
+    color: white;
 }
 .wrapper {
     display: flex;
+    width: 100%;
+    height: 100% ;
 }
 
 .sidebar {
@@ -99,92 +100,92 @@ body {
 
 #showForm1 {
     background: transparent;
-    border: none; /* Original border styling */
+    border: none;
     font-family: 'Poppins', sans-serif;
-    font-size: 20.98px;
+    font-size: 20px;
     font-style: normal;
-    font-weight: 600;
     line-height: 31.717px;
     color: white;
     width: 300px;
     cursor: pointer;
     margin-top: 30px;
+    outline: none;
 }
 
 #showForm1.clicked {
-    background: white; /* Change the background color when clicked */
-    color: black; /* Change the text color when clicked */
-    border: none; /* Remove the border when clicked */
+    background: white;
+    color: black;
+    border: none;
 }
+
 
 
 #showForm2{
     background: transparent;
     border: none;
     font-family: 'Poppins', sans-serif;
-    font-size: 20.98px;
+    font-size: 20px;
     font-style: normal;
-    font-weight: 600;
     line-height: 31.717px;
     align-items: center;
     color: white;
     width: 300px;
+    outline: none;
 }
 
 #showForm2.clicked {
-    background: white; /* Change the background color when clicked */
-    color: black; /* Change the text color when clicked */
-    border: none; /* Remove the border when clicked */
+    background: white;
+    color: black;
+    border: none;
 }
 
 #showForm3{
     background: transparent;
     border: none;
     font-family: 'Poppins', sans-serif;
-    font-size: 20.98px;
+    font-size: 20px;
     font-style: normal;
-    font-weight: 600;
     line-height: 31.717px;
     align-items: center;
     color: white;
     width: 300px;
+    outline: none;
 }
 
 #showForm3.clicked {
-    background: white; /* Change the background color when clicked */
-    color: black; /* Change the text color when clicked */
-    border: none; /* Remove the border when clicked */
+    background: white;
+    color: black;
+    border: none;
 }
 
 #showForm4{
     background: transparent;
     border: none;
     font-family: 'Poppins', sans-serif;
-    font-size: 20.98px;
+    font-size: 20px;
     font-style: normal;
-    font-weight: 600;
     line-height: 31.717px;
     align-items: center;
     color: white;
     width: 300px;
+    outline: none;
 }
 
 #showForm4.clicked {
-    background: white; /* Change the background color when clicked */
-    color: black; /* Change the text color when clicked */
-    border: none; /* Remove the border when clicked */
+    background: white;
+    color: black; 
+    border: none;
 }
 
 .logout{
     background: transparent;
     border: none;
     font-family: 'Poppins', sans-serif;
-    font-size: 20.98px;
+    font-size: 20px;
     font-style: normal;
-    font-weight: 600;
     line-height: 31.717px;
     align-items: center;
     color: blue;
     width: 300px;
-    bottom: 10px;
+    margin-top: 30%;
 }

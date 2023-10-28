@@ -50,7 +50,8 @@ $resultArch = mysqli_stmt_get_result($stmtArch);
     <link rel="stylesheet" href='https://fonts.googleapis.com/css?family=Poppins'>
     <title>Document</title>
 </head>
-<body style="background:#F3F3F3">
+<body style="background:#F3F3F3; margin: 0; padding: 0; height: 100vh;">
+    <div class="container-fluid" style="height: 100vh; display: flex; flex-direction: column;">
     <div class="header">
         <img src="logoo.png" alt="Logo" width="50" height="50" style="padding: 5px;" class="img-fluid">
         <div class="header-text">
@@ -192,13 +193,12 @@ $resultArch = mysqli_stmt_get_result($stmtArch);
       <p>Department: <span id="userDeptDisplay"></span></p>
       <p>Email: <span id="userEmailDisplay"></span></p>
     </form>
-    
+    </div>
 </body>
 <script>
 
 function loginUser() {
 
-showForm1Button.click('clicked');
 }
     function updateAccountInformation(userName, userDept, userEmail) {
     document.getElementById('userNameDisplay').textContent = userName;
@@ -251,54 +251,47 @@ var showForm2Button = document.getElementById('showForm2');
 var showForm3Button = document.getElementById('showForm3');
 var showForm4Button = document.getElementById('showForm4');
 
+var activeButton = null;
+
 showForm1Button.addEventListener('click', function() {
-    if (showForm1Button.classList.contains('clicked')) {
-        showForm1Button.classList.remove('clicked');
-    } else {
+    if (activeButton !== showForm1Button) {
+        if (activeButton) {
+            activeButton.classList.remove('clicked');
+        }
         showForm1Button.classList.add('clicked');
-        // Remove the 'clicked' class from other buttons
-        showForm2Button.classList.remove('clicked');
-        showForm3Button.classList.remove('clicked');
-        showForm4Button.classList.remove('clicked');
+        activeButton = showForm1Button;
     }
 });
 
 showForm2Button.addEventListener('click', function() {
-    if (showForm2Button.classList.contains('clicked')) {
-        showForm2Button.classList.remove('clicked');
-    } else {
+    if (activeButton !== showForm2Button) {
+        if (activeButton) {
+            activeButton.classList.remove('clicked');
+        }
         showForm2Button.classList.add('clicked');
-        // Remove the 'clicked' class from other buttons
-        showForm1Button.classList.remove('clicked');
-        showForm3Button.classList.remove('clicked');
-        showForm4Button.classList.remove('clicked');
+        activeButton = showForm2Button;
     }
 });
 
 showForm3Button.addEventListener('click', function() {
-    if (showForm3Button.classList.contains('clicked')) {
-        showForm3Button.classList.remove('clicked');
-    } else {
+    if (activeButton !== showForm3Button) {
+        if (activeButton) {
+            activeButton.classList.remove('clicked');
+        }
         showForm3Button.classList.add('clicked');
-        // Remove the 'clicked' class from other buttons
-        showForm1Button.classList.remove('clicked');
-        showForm2Button.classList.remove('clicked');
-        showForm4Button.classList.remove('clicked');
+        activeButton = showForm3Button;
     }
 });
 
 showForm4Button.addEventListener('click', function() {
-    if (showForm4Button.classList.contains('clicked')) {
-        showForm4Button.classList.remove('clicked');
-    } else {
+    if (activeButton !== showForm4Button) {
+        if (activeButton) {
+            activeButton.classList.remove('clicked');
+        }
         showForm4Button.classList.add('clicked');
-        // Remove the 'clicked' class from other buttons
-        showForm1Button.classList.remove('clicked');
-        showForm2Button.classList.remove('clicked');
-        showForm3Button.classList.remove('clicked');
+        activeButton = showForm4Button;
     }
 });
-
 
 </script>
 </html>
