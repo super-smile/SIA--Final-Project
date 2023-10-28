@@ -24,14 +24,14 @@ include 'config.php';
 $userID = $_SESSION['userID'];
 
 //Request 
-$query = "SELECT * FROM tbl_reqhistory WHERE userID = ? and reqStatus = 'Pending'";
+$query = "SELECT * FROM tbl_reqhistory WHERE orgID = ? and reqStatus = 'Pending'";
 $stmt = mysqli_prepare($conn, $query);
 mysqli_stmt_bind_param($stmt, "s", $userID);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 
 //Archive
-$queryArch = "SELECT * FROM tbl_reqhistory WHERE userID = ? and reqStatus = 'Approved'";
+$queryArch = "SELECT * FROM tbl_reqhistory WHERE orgID = ? and reqStatus = 'Approved'";
 $stmtArch = mysqli_prepare($conn, $queryArch);
 mysqli_stmt_bind_param($stmtArch, "s", $userID);
 mysqli_stmt_execute($stmtArch);
@@ -111,12 +111,12 @@ $resultArch = mysqli_stmt_get_result($stmtArch);
         <table class="bordered">
             <thead>
                 <tr>
-                    <th>histID</th>
-                    <th>reqStatus</th>
-                    <th>statusDate</th>
-                    <th>reqDeadline</th>
-                    <th>userID</th>
-                    <th>reqID</th>
+                    <th>Req ID</th>
+                    <th>Status</th>
+                    <th>Date Approved</th>
+                    <th>Deadline</th>
+                    <th>Organization ID</th>
+                    <th>Office ID</th>
                 </tr>
             </thead>
             <tbody>
@@ -124,12 +124,12 @@ $resultArch = mysqli_stmt_get_result($stmtArch);
                 include 'config.php';
                 while ($row = mysqli_fetch_assoc($result)) {
                     echo "<tr>";
-                    echo "<td>{$row['histID']}</td>";
+                    echo "<td>{$row['reqID ']}</td>";
                     echo "<td>{$row['reqStatus']}</td>";
                     echo "<td>{$row['statusDate']}</td>";
                     echo "<td>{$row['reqDeadline']}</td>";
-                    echo "<td>{$row['userID']}</td>";
-                    echo "<td>{$row['reqID']}</td>";
+                    echo "<td>{$row['orgID']}</td>";
+                    echo "<td>{$row['officeID ']}</td>";
                     echo "</tr>";
                 }
                 ?>
