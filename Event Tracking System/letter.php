@@ -18,6 +18,5 @@
         <input type="file" name="reqLetter" accept=".pdf" required>
         <input type="submit" name="upload" value="Upload and Submit">
     </form>
-    
 </body>
 </html>
