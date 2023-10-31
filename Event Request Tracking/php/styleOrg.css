@@ -68,9 +68,10 @@ body {
 }
 
 .sidebar {
-  background-color: #a21a1e;
-  color: white;
-  height: 100vh;
+    width: 100vw;;
+    background-color: #A21A1E;
+    color: white;
+    height: 100vh;
 }
 
 .Logo {
@@ -204,9 +205,8 @@ body {
   border-radius: 0.5rem;
 }
 
-
-#h3style {
-  padding: 10px;
+#h3style{
+    padding: 10px;
 }
 
 #information-container {

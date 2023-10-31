@@ -93,123 +93,86 @@ $resultArch = mysqli_stmt_get_result($stmtArch);
 
                 <button class="logout" onclick="location.href='login.php'"><u>Logout</u></button>
 
-            </div>
-
-            <form id="form1" style="display: block;">
-                <h2 style="font-family:'Poppins'; margin:10px 10px 10px 10px"><strong>Dashboard</strong></h2>
-            </form>
-
-            <form id="form2" style="display: none;">
-                <h2 style="font-family:'Poppins'; margin:10px 10px 10px 10px"><strong>Request</strong></h2>
-                <div class="container" style="background: white;
-                        margin: 30px 50px 25px 65px;
-                        padding: 10px 45px 10px 45px;
-                        box-shadow: 0 0 7px rgba(0, 0, 0, 0.2);
-                        border-radius: .5rem;">
-                    <h3 id="date-time">Date</h3>
-
-                    <script>
-                        function updateDateTime() {
-                            const dateTimeElement = document.getElementById("date-time");
-                            const currentDate = new Date();
-                            const dateOptions = {
-                                weekday: 'long',
-                                year: 'numeric',
-                                month: 'long',
-                                day: 'numeric'
-                            };
-                            const timeOptions = {
-                                hour: '2-digit',
-                                minute: '2-digit',
-                                second: '2-digit'
-                            };
-                            const formattedDate = currentDate.toLocaleDateString(undefined, dateOptions);
-                            const formattedTime = currentDate.toLocaleTimeString(undefined, timeOptions);
-
-                            dateTimeElement.innerHTML = `${formattedDate} <span style="float: right">${formattedTime}</span>`;
-                        }
-
-                        updateDateTime();
-
-                        setInterval(updateDateTime, 1000);
-                    </script>
-
-                    <div class="horizontal-line" style="width:100%"></div>
-                    <br>
-                    <table id="Req" class="table table-striped" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>Req ID</th>
-                                <th>Status</th>
-                                <th>Date Approved</th>
-                                <th>Deadline</th>
-                                <th>Organization ID</th>
-                                <th>Office ID</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            include 'config.php';
-                            while ($row = mysqli_fetch_assoc($result)) {
-                                echo "<tr>";
-                                echo "<td>{$row['reqID']}</td>";
-                                echo "<td>{$row['reqStatus']}</td>";
-                                echo "<td>{$row['statusDate']}</td>";
-                                echo "<td>{$row['reqDeadline']}</td>";
-                                echo "<td>{$row['orgID']}</td>";
-                                echo "<td>{$row['officeID']}</td>";
-                                echo "</tr>";
-                            }
-                            ?>
-                        </tbody>
-                    </table>
-                </div>
-            </form>
+</div>
+    
+    <form id="form1" style="display: block;">
+        <h2 style="font-family:'Poppins'; margin:10px 10px 10px 10px" ><strong>Dashboard</strong></h2>
+    </form>
+    
+    <form id="form2" style="display: none;">
+        <h2 style="font-family:'Poppins'; margin:10px 10px 10px 10px" ><strong>Request</strong></h2>
+        <div class="container-fluid" id="request-con">
+            <h3>Date</h3>
+            
+        <table id="Req" class="table table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Req ID</th>
+                    <th>Status</th>
+                    <th>Date Approved</th>
+                    <th>Deadline</th>
+                    <th>Organization ID</th>
+                    <th>Office ID</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                include 'config.php';
+                while ($row = mysqli_fetch_assoc($result)) {
+                    echo "<tr>";
+                    echo "<td>{$row['reqID']}</td>";
+                    echo "<td>{$row['reqStatus']}</td>";
+                    echo "<td>{$row['statusDate']}</td>";
+                    echo "<td>{$row['reqDeadline']}</td>";
+                    echo "<td>{$row['orgID']}</td>";
+                    echo "<td>{$row['officeID']}</td>";
+                    echo "</tr>";
+                }
+                ?>
+            </tbody>
+        </table>
+        </div>
+    </form>
 
 
-            <form id="form3" style="display: none;">
-                <h2 style="font-family:'Poppins'; margin:10px 10px 10px 10px"><strong>Archive</strong></h2>
-                <div class="container" style="background: white;
-                        margin: 30px 50px 25px 65px;
-                        padding: 10px 45px 10px 45px;
-                        box-shadow: 0 0 7px rgba(0, 0, 0, 0.2);
-                        border-radius: .5rem;">
+    <form id="form3" style="display: none;">
+        <h2 style="font-family:'Poppins'; margin:10px 10px 10px 10px" ><strong>Archive</strong></h2>
+        
 
-                    <table id="Arch" class="table table-striped" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>Request ID</th>
-                                <th>Submission Date</th>
-                                <th>Status</th>
-                                <th>Request Deadline</th>
-                                <th>userID</th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            include 'config.php';
-                            while ($rowArch = mysqli_fetch_assoc($resultArch)) {
-                                echo "<tr>";
-                                echo "<td>{$rowArch['reqID']}</td>";
-                                echo "<td>{$rowArch['statusDate']}</td>";
-                                echo "<td>{$rowArch['reqStatus']}</td>";
-
-                                echo "<td>{$rowArch['reqDeadline']}</td>";
-                                echo "<td>{$rowArch['orgID']}</td>";
-
-                                echo "</tr>";
-                            }
-                            ?>
-                        </tbody>
-                    </table>
-                </div>
-            </form>
-
-            <form id="form4" style="display: none;">
-                <h2 style="font-family:'Poppins'; margin:10px 10px 10px 10px"><strong>Account</strong></h2>
-                <div class="container" id="account-container">
-                    <h3 id="h3style">Organizations Information</h3>
+        <table id="Arch" class="table table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Request ID</th>
+                    <th>Submission Date</th>
+                    <th>Status</th>
+                    <th>Request Deadline</th>
+                    <th>userID</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                include 'config.php';
+                while ($rowArch = mysqli_fetch_assoc($resultArch)) {
+                    echo "<tr>";
+                    echo "<td>{$rowArch['reqID']}</td>";
+                    echo "<td>{$rowArch['statusDate']}</td>";
+                    echo "<td>{$rowArch['reqStatus']}</td>";
+                    
+                    echo "<td>{$rowArch['reqDeadline']}</td>";
+                    echo "<td>{$rowArch['orgID']}</td>";
+                    
+                    echo "</tr>";
+                }
+                ?>
+            </tbody>
+        </table>
+    </form>
+    
+    <form id="form4" style="display: none;">
+    <h2 style="font-family:'Poppins'; margin:10px 10px 10px 10px" ><strong>Account</strong></h2>
+    <div class="container-fluid" id="account-container">
+        <h3 id="h3style">Organizations Information</h3>
 
                     <div class="container" id="information-container">
                         <p><strong>Organizations Name:</strong> <input type="text" id="userNameDisplay" class="text" readonly /></p>
@@ -217,14 +180,14 @@ $resultArch = mysqli_stmt_get_result($stmtArch);
                         <p><strong>Email Address:</strong> <input type="text" id="userEmailDisplay" class="text" readonly /></p>
                     </div>
 
-                    <div class="container" id="container-assistance">
-                        <p>If you find that the provided information is incorrect, please reach out to the Office of Student<br>
-                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Organization for assistance.</p>
-                        <p style="margin-left: 175px; font-weight:normal">Email: studentorganization.lipa@g.batstate-u.edu.ph</p>
-                    </div>
-                </div>
-            </form>
+        <div class="container-fluid" id="container-assistance">
+            <p>If you find that the provided information is incorrect, please reach out to the Office of Student<br>
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Organization for assistance.</p>
+            <p style="margin-left: 175px; font-weight:normal">Email: studentorganization.lipa@g.batstate-u.edu.ph</p>
         </div>
+    </div>
+</form>
+    </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
