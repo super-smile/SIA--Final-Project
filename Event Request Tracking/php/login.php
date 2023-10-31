@@ -79,9 +79,9 @@ if (isset($_POST['login'])) {
                         <button type="submit" name="login" class="btn btn-outline-dark btn-lg btn-block">LOGIN</button>
                     </form>
                     <div class="container text-center">
-                        <div class="horizontal-line"></div>
+                        <div class="horizontal-line" style="width: 45%;"></div>
                         <span class="or-text">   or   </span>
-                        <div class="horizontal-line"></div>
+                        <div class="horizontal-line" style="width: 45%;"></div>
                         </div>
                     <button type="button" class="btn btn-outline-dark btn-lg btn-block">Log in with Google</button>
                     <div class="mt-4" style="font-size: 14px;"><b>Note:</b> If you're experiencing difficulty logging in, please contact the Office of Student Organization for assistance.</div>
