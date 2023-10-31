@@ -42,19 +42,10 @@ $stmtEvents = mysqli_prepare($conn, $queryEvents);
 mysqli_stmt_execute($stmtEvents);
 $resultEvents = mysqli_stmt_get_result($stmtEvents);
 
+include 'oso.html'
+?>  
 
-?>
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
-    <title>OSO</title>
-</head>
 
 <body>
 
@@ -70,12 +61,12 @@ $resultEvents = mysqli_stmt_get_result($stmtEvents);
 
     <p><a href="login.php">Logout</a></p>
 
-    <form id="form1" style="display: block;">
+    <div id="form1" style="display: block;">
         <h2>Dashboard</h2>
         <div id="piechart" style="width: 900px; height: 500px;"></div>
-    </form>
+    </div>
 
-    <form id="form2" style="display: none;">
+    <div id="form2" style="display: none;">
         <h2>Organizations</h2>
 
         <style>
@@ -113,28 +104,12 @@ $resultEvents = mysqli_stmt_get_result($stmtEvents);
                 ?>
             </tbody>
         </table>
-    </form>
+    </div>
 
 
-    <form id="form3" style="display: none;">
+    <div id="form3" style="display: none;">
         <h2>Requests</h2>
-        <style>
-            table {
-                text-align: center;
-            }
-
-            .bordered {
-                padding: 5px;
-                border-collapse: collapse;
-                border: 1px solid #000;
-            }
-
-            .bordered th,
-            .bordered td {
-                padding: 5px;
-                border: 1px solid #000;
-            }
-        </style>
+        
 
         <table id="example" class="table table-striped" style="width:100%">
             <thead>
@@ -163,28 +138,12 @@ $resultEvents = mysqli_stmt_get_result($stmtEvents);
                 ?>
             </tbody>
         </table>
-    </form>
+    </div>
 
-    <form id="form4" style="display: none">
+    <div id="form4" style="display: none">
         <h2>All Events</h2>
 
-        <style>
-            table {
-                text-align: center;
-            }
-
-            .bordered {
-                padding: 5px;
-                border-collapse: collapse;
-                border: 1px solid #000;
-            }
-
-            .bordered th,
-            .bordered td {
-                padding: 5px;
-                border: 1px solid #000;
-            }
-        </style>
+        
 
         <table id="AllEvents" class="table table-striped" style="width:100%">
             <thead>
@@ -208,19 +167,19 @@ $resultEvents = mysqli_stmt_get_result($stmtEvents);
                 ?>
             </tbody>
         </table>
-    </form>
+    </div>
 
-    <form id="form5" style="display: none;">
+    <div id="form5" style="display: none;">
         <h2>Create Account</h2>
         <p>Create New Account <a href="register.php">Here!</a></p>
-    </form>
+    </div>
 
-    <form id="form6" style="display: none;">
+    <div id="form6" style="display: none;">
         <h2>Account</h2>
         <p>Username: <span id="userNameDisplay"></span></p>
         <p>Department: <span id="userDeptDisplay"></span></p>
         <p>Email: <span id="userEmailDisplay"></span></p>
-    </form>
+    </div>
 
 </body>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -229,24 +188,17 @@ $resultEvents = mysqli_stmt_get_result($stmtEvents);
     google.charts.setOnLoadCallback(drawChart);
 
     function drawChart() {
-        // Fetch data from your database using PHP and config.php
         <?php
-        // Include your database connection configuration
         include('config.php');
 
-        // Query the database to retrieve data
         $queryPie = "SELECT reqStatus, COUNT(reqStatus) as count FROM tbl_reqhistory GROUP BY reqStatus";
         $resultPie = mysqli_query($conn, $queryPie);
 
-        // Create an empty array for the chart data
         $chartData = [['Status', 'Count']];
-
-        // Loop through the database results and add them to the chart data array
         while ($rowPie = mysqli_fetch_assoc($resultPie)) {
             $chartData[] = [$rowPie['reqStatus'], (int) $rowPie['count']];
         }
         ?>
-
         var data = google.visualization.arrayToDataTable(<?php echo json_encode($chartData); ?>);
 
         var options = {
@@ -254,7 +206,6 @@ $resultEvents = mysqli_stmt_get_result($stmtEvents);
         };
 
         var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-
         chart.draw(data, options);
     }
 </script>
