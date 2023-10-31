@@ -57,8 +57,8 @@ $resultArch = mysqli_stmt_get_result($stmtArch);
     <link rel="stylesheet" href='https://fonts.googleapis.com/css?family=Poppins'>
     <title>Document</title>
 </head>
-<body style="background:#F3F3F3; margin: 0; padding: 0; height: 100vh;">
-    <div class="container-fluid" style="height: 100vh; display: flex; flex-direction: column;">
+<body style="background:#F3F3F3;">
+    <div class="container-fluid" style="height: 100vh; width:100%; margin:0; padding: 0; display: flex; flex-direction: column;">
     <div class="header">
         <img src="logoo.png" alt="Logo" width="50" height="50" style="padding: 5px;" class="img-fluid">
         <div class="header-text">
@@ -94,28 +94,14 @@ $resultArch = mysqli_stmt_get_result($stmtArch);
 </div>
     
     <form id="form1" style="display: block;">
-        <h2>Dashboard</h2>
+        <h2 style="font-family:'Poppins'; margin:10px 10px 10px 10px" ><strong>Dashboard</strong></h2>
     </form>
     
     <form id="form2" style="display: none;">
-        <h2>Requests</h2>
-
-    <style>
-    table {
-        text-align: center;
-    }
-    .bordered {
-        padding: 5px;
-        border-collapse: collapse;
-        border: 1px solid #000;
-    }
-
-    .bordered th, .bordered td {
-        padding: 5px;
-        border: 1px solid #000;
-    }
-    </style>
-
+        <h2 style="font-family:'Poppins'; margin:10px 10px 10px 10px" ><strong>Request</strong></h2>
+        <div class="container-fluid" id="request-con">
+            <h3>Date</h3>
+            
         <table id="Req" class="table table-striped" style="width:100%">
             <thead>
                 <tr>
@@ -143,26 +129,13 @@ $resultArch = mysqli_stmt_get_result($stmtArch);
                 ?>
             </tbody>
         </table>
+        </div>
     </form>
 
 
     <form id="form3" style="display: none;">
-        <h2>Archive</h2>
-        <style>
-    table {
-        text-align: center;
-    }
-    .bordered {
-        padding: 5px;
-        border-collapse: collapse;
-        border: 1px solid #000;
-    }
-
-    .bordered th, .bordered td {
-        padding: 5px;
-        border: 1px solid #000;
-    }
-    </style>
+        <h2 style="font-family:'Poppins'; margin:10px 10px 10px 10px" ><strong>Archive</strong></h2>
+        
 
         <table id="Arch" class="table table-striped" style="width:100%">
             <thead>
@@ -217,7 +190,6 @@ $resultArch = mysqli_stmt_get_result($stmtArch);
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-
 <script>
 
 new DataTable('#Req');
