@@ -140,7 +140,7 @@ include 'HTML/oso.html'
                                 echo "<td>{$rowReq['statusDate']}</td>";
                                 echo "<td>{$rowReq['reqDeadline']}</td>";
                                 echo "<td>{$rowReq['orgID']}</td>";
-                                echo '<td><button class="btn btn-primary">Update</button> <button class="btn">Delete</button></td>';
+                                echo '<td><button class="btn btn-primary">Update</button> <button class="btn btn-danger">Delete</button></td>';
                                 echo "</tr>";
                             }
                             ?>
