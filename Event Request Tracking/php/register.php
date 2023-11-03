@@ -8,7 +8,7 @@ if (isset($_POST['submit'])) {
     $userPass = $_POST['userPass'];
     $cuserPass = $_POST['cuserPass'];
     $userType = $_POST['userType'];
-    
+
 
     // Check if passwords match
     if ($userPass !== $cuserPass) {
@@ -37,14 +37,16 @@ if (isset($_POST['submit'])) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="osoStyles.css">
     <title>Document</title>
 </head>
+
 <body>
     <div class="form-container">
-        <h1>Register</h1>
         <?php
         if (isset($error)) {
             foreach ($error as $errorMsg) {
@@ -52,21 +54,47 @@ if (isset($_POST['submit'])) {
             }
         }
         ?>
-        <form method="post">
-            <input type="text" name="userName" placeholder="Enter Organization Name" required>
-            <input type="text" name="userDept" placeholder="Enter your Department Name" required>
-            <input type="text" name="userEmail" placeholder="Enter your Email" required>
-            <input type="password" name="userPass" placeholder="Enter your password" required>
-            <input type="password" name="cuserPass" placeholder="Confirm your password" required>
-            <p>Select User Type:</p>
-            <select name="userType">
-                <option value="Organization">Organization</option>
-                <option value="OSO">OSO</option>
-                <option value="Office">Office</option>
-            </select>
-            <input type="submit" name="submit" value="Register" class="form-btn">
-        </form>
-        <p>Go <a href="oso.php">Back</a></p>
+        <div class="container">
+            <form method="post">
+                <div class="form-group">
+                    <label for="userName">Organization Name:</label>
+                    <input type="text" id="userName" name="userName" class="form-control"
+                        placeholder="Enter Organization Name" required>
+                </div>
+                <div class="form-group">
+                    <label for="userDept">Department Name:</label>
+                    <input type="text" id="userDept" name="userDept" class="form-control"
+                        placeholder="Enter your Department Name" required>
+                </div>
+                <div class="form-group">
+                    <label for="userEmail">Email:</label>
+                    <input type="text" id="userEmail" name="userEmail" class="form-control"
+                        placeholder="Enter your Email" required>
+                </div>
+                <div class="form-group">
+                    <label for="userPass">Password:</label>
+                    <input type="password" id="userPass" name="userPass" class="form-control"
+                        placeholder="Enter your password" required>
+                </div>
+                <div class="form-group">
+                    <label for="cuserPass">Confirm Password:</label>
+                    <input type="password" id="cuserPass" name="cuserPass" class="form-control"
+                        placeholder="Confirm your password" required>
+                </div>
+                <div class="form-group">
+                    <label for="userType">Select User Type:</label>
+                    <select id="userType" name="userType" class="form-control">
+                        <option value="Organization">Organization</option>
+                        <option value="OSO">OSO</option>
+                        <option value="Office">Office</option>
+                    </select>
+                </div>
+                <input type="button" name="submit" value="Register" class="form-btn">
+            </form>
+        </div>
     </div>
+
+
 </body>
+
 </html>

@@ -127,7 +127,7 @@ $resultArch = mysqli_stmt_get_result($stmtArch);
                             const formattedDate = currentDate.toLocaleDateString(undefined, dateOptions);
                             const formattedTime = currentDate.toLocaleTimeString(undefined, timeOptions);
 
-                            dateTimeElement.innerHTML = `${formattedDate} <span style="float: right">${formattedTime}</span>`;
+                            dateTimeElement.innerHTML = ${formattedDate} <span style="float: right">${formattedTime}</span>;
                         }
 
                         // Call the function to update the date and time initially

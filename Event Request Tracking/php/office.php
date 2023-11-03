@@ -20,21 +20,17 @@ if (isset($_SESSION['userName'])) {
     header('location: login.php');
 }
 
-//Archive Organization
-$userType == 'Organization';
     include 'config.php';
 
     $userID = $_SESSION['userID'];
 
-    $query = "SELECT * FROM tbl_reqhistory WHERE userID = ? and reqStatus = 'Pending'";
+    $query = "SELECT * FROM tbl_reqhistory WHERE reqStatus = 'Pending'";
     $stmt = mysqli_prepare($conn, $query);
-    mysqli_stmt_bind_param($stmt, "s", $userID);
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
 
-    $queryArch = "SELECT * FROM tbl_reqhistory WHERE userID = ? and reqStatus = 'Approved'";
+    $queryArch = "SELECT * FROM tbl_reqhistory WHERE reqStatus = 'Approved'";
     $stmtArch = mysqli_prepare($conn, $queryArch);
-    mysqli_stmt_bind_param($stmtArch, "s", $userID);
     mysqli_stmt_execute($stmtArch);
     $resultArch = mysqli_stmt_get_result($stmtArch);
 
@@ -96,19 +92,21 @@ $userType == 'Organization';
                     <th>reqDeadline</th>
                     <th>userID</th>
                     <th>reqID</th>
+                    <th>office ID</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
                 include 'config.php';
-                while ($row = mysqli_fetch_assoc($result)) {
+                while ($rowArch = mysqli_fetch_assoc($result)) {
                     echo "<tr>";
-                    echo "<td>{$row['histID']}</td>";
-                    echo "<td>{$row['reqStatus']}</td>";
-                    echo "<td>{$row['statusDate']}</td>";
-                    echo "<td>{$row['reqDeadline']}</td>";
-                    echo "<td>{$row['userID']}</td>";
-                    echo "<td>{$row['reqID']}</td>";
+                    echo "<td>{$rowArch['histID']}</td>";
+                    echo "<td>{$rowArch['reqStatus']}</td>";
+                    echo "<td>{$rowArch['statusDate']}</td>";
+                    echo "<td>{$rowArch['reqDeadline']}</td>";
+                    echo "<td>{$rowArch['orgID']}</td>";
+                    echo "<td>{$rowArch['reqID']}</td>";
+                    echo "<td>{$rowArch['officeID']}</td>";
                     echo "</tr>";
                 }
                 ?>
@@ -155,8 +153,9 @@ $userType == 'Organization';
                     echo "<td>{$rowArch['reqStatus']}</td>";
                     echo "<td>{$rowArch['statusDate']}</td>";
                     echo "<td>{$rowArch['reqDeadline']}</td>";
-                    echo "<td>{$rowArch['userID']}</td>";
+                    echo "<td>{$rowArch['orgID']}</td>";
                     echo "<td>{$rowArch['reqID']}</td>";
+                    echo "<td>{$rowArch['officeID']}</td>";
                     echo "</tr>";
                 }
                 ?>
