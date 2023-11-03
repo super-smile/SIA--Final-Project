@@ -4,33 +4,50 @@
 }
 
 .header {
-  display: flex;
   align-items: center;
   background-color: #a21a1e;
   color: white;
+  display: flex;
+}
+.notification-icon {
+  color: white;
+  width: 30px;
+  padding: 0;
+}
+.notif {
+  font-size: 10px;
 }
 
 .header img {
   margin-right: 10px;
 }
-
 .header-text {
   display: flex;
   flex-direction: column;
   margin: 0;
 }
-.container-form{
+.container-form {
   background-color: white;
   padding: 10px;
 }
-.form-group{
+.form-group {
   margin-bottom: 10px;
 }
 
 .active-link {
-  color: #fff !important; /* Change this to your desired active link color */
-  background-color: #a21a1e; /* Change this to your desired background color */
+  color: #fff !important;
+  background-color: #a21a1e;
+  font-weight: bold;
 }
-.text{
+.text {
   color: #a21a1e;
+  cursor: pointer !important;
+  padding-left: 50px;
+}
+.subtitle {
+  text-align: center;
+  padding: 0 5px !important;
+}
+.welcom {
+  font-size: 12px;
 }
