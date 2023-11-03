@@ -96,12 +96,22 @@ $resultArch = mysqli_stmt_get_result($stmtArch);
             </div>
 
             <form id="form1" style="display: block;">
-                <h2 style="font-family:'Poppins'; margin:10px 10px 10px 10px"><strong>Dashboard</strong></h2>
+                <h2 style="font-family:'Poppins'; margin:20px 20px 20px 20px"><strong>Dashboard</strong></h2>
+                <div class="container-fluid" id="account-messdash">
+                    <h3     >Welcome</h3> 
+                    <span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Incidunt deserunt, quod dolorem, voluptatum exercitationem suscipit reiciendis ducimus ut esse, blanditiis aspernatur. Reiciendis quod corporis eos iusto consequatur ex enim eligendi.</span>  
+                </div>
+                <div class="container-fluid" id="dash-req">
+                    <h3 id="h3style">Requests</h3>
+                </div>
+                <div class="container-fluid" id="dash-over">
+                    <h3 id="h3style">Overview</h3>
+                </div>
             </form>
 
             <form id="form2" style="display: none;">
                 <h2 style="font-family:'Poppins'; margin:10px 10px 10px 10px"><strong>Request</strong></h2>
-                <div class="container-fluid request" style="background: white;
+                <div class="container-fluid-request" style="background: white;
                         margin: 30px 50px 25px 65px;
                         padding: 10px 45px 10px 45px;
                         box-shadow: 0 0 7px rgba(0, 0, 0, 0.2);
@@ -127,7 +137,7 @@ $resultArch = mysqli_stmt_get_result($stmtArch);
                             const formattedDate = currentDate.toLocaleDateString(undefined, dateOptions);
                             const formattedTime = currentDate.toLocaleTimeString(undefined, timeOptions);
 
-                            dateTimeElement.innerHTML = ${formattedDate} <span style="float: right">${formattedTime}</span>;
+                            dateTimeElement.innerHTML = `${formattedDate} <span style="float: right">${formattedTime}</span>`;
                         }
 
                         // Call the function to update the date and time initially
@@ -139,6 +149,7 @@ $resultArch = mysqli_stmt_get_result($stmtArch);
 
                     <div class="horizontal-line" style="width:100%"></div>
                     <table id="Req" class="table table-striped" style="width:100%">
+                    <br>
                         <thead>
                             <tr>
                                 <th>Req ID</th>
@@ -201,13 +212,13 @@ $resultArch = mysqli_stmt_get_result($stmtArch);
                         ?>
                     </tbody>
                 </table>
+                </div>
             </form>
-
+                        
             <form id="form4" style="display: none;">
                 <h2 style="font-family:'Poppins'; margin:10px 10px 10px 10px"><strong>Account</strong></h2>
-                <div class="container" id="account-container">
+                <div class="container-fluid-account" id="account-container">
                     <h3 id="h3style">Organizations Information</h3>
-
                     <div class="container" id="information-container">
                         <p><strong>Organizations Name:</strong> <input type="text" id="userNameDisplay" class="text" readonly /></p>
                         <p><strong>Department:</strong> <input type="text" id="userDeptDisplay" class="text" readonly /></p>
@@ -221,6 +232,7 @@ $resultArch = mysqli_stmt_get_result($stmtArch);
                     </div>
                 </div>
             </form>
+            
         </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
