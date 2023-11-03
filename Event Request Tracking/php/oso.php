@@ -34,6 +34,11 @@ $stmtReq = mysqli_prepare($conn, $queryReq);
 mysqli_stmt_execute($stmtReq);
 $resultReq = mysqli_stmt_get_result($stmtReq);
 
+$queryReq2 = "SELECT * FROM tbl_reqhistory";
+$stmtReq2 = mysqli_prepare($conn, $queryReq2);
+mysqli_stmt_execute($stmtReq2);
+$resultReq2 = mysqli_stmt_get_result($stmtReq2);
+
 $queryEvents = "SELECT * FROM tbl_requests";
 $stmtEvents = mysqli_prepare($conn, $queryEvents);
 mysqli_stmt_execute($stmtEvents);
@@ -43,28 +48,28 @@ include 'HTML/oso.html'
     ?>
 
 <body>
-<div class="header d-flex justify-content-between align-items-center">
-            <div class="d-flex align-items-center">
-                <img src="logoo.png" alt="Logo" width="45" style="padding: 5px;" class="img-fluid">
-                <div class="header-text">
-                    <p style="font-size: 11px; font-weight: 800; margin: 0;">Event Tracking System</p>
-                    <span style="font-size: 9px;">Office of the Student Organizations</span>
-                </div>
+    <div class="header d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+            <img src="logoo.png" alt="Logo" width="45" style="padding: 5px;" class="img-fluid">
+            <div class="header-text">
+                <p style="font-size: 11px; font-weight: 800; margin: 0;">Event Tracking System</p>
+                <span style="font-size: 9px;">Office of the Student Organizations</span>
             </div>
-            <div class="notification-icon position-relative">
-                <i class="far fa-bell fa-lg"></i>
-                <span class="position-absolute top-0 start-99 translate-middle badge rounded-pill bg-danger">
-                    <span class="notif">10</span> 
-                    <span class="visually-hidden">unread messages</span>
-                </span>
-            </div>
-
         </div>
+        <div class="notification-icon position-relative">
+            <i class="far fa-bell fa-lg"></i>
+            <span class="position-absolute top-0 start-99 translate-middle badge rounded-pill bg-danger">
+                <span class="notif">10</span>
+                <span class="visually-hidden">unread messages</span>
+            </span>
+        </div>
+
+    </div>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-2 bg-light text p-0" style="height: 100%;">
-                <div class="AccLogo p-4">
-                    <img src="logoo.png" alt="Logo" class="img-fluid">
+            <div class="col-md-2 bg-light p-0">
+                <div class="image-container p-1">
+                    <img src="JPCS.png" alt="Logo" class="img-fluid">
                 </div>
                 <div class="subtitle">
                     <?php
@@ -105,8 +110,7 @@ include 'HTML/oso.html'
                         <a class="nav-link text text-left" id="showForm6">
                             <i class="fas fa-user"></i> Account
                         </a>
-                    </li>
-                    <br><br><br>
+                    </li><br><br><br><br><br>
                     <li class="nav-item">
                         <a class="nav-link text text-left" href="login.php">
                             <i class="fas fa-sign-out-alt"></i> Logout
@@ -115,14 +119,68 @@ include 'HTML/oso.html'
                 </ul>
 
             </div>
-            <div class="col-md-10 p-4 bg-body-secondary" style="height: 100%">
+            <div class="col-md-10 p-4 bg-body-secondary">
                 <div id="form1" style="display: block;">
-                    <h2>Dashboard</h2>
-                    <div id="piechart" style="width: 100%; height: 500px;"></div>
+                    <h2 class="form-title">Dashboard</h2>
+                    <div class="row">
+                        <div class="col-md-7" style="padding:10px">
+                            <div class="card text-bg-white mb-3" style="max-width:100%; height:115px">
+                                <div class="card-header"><strong>Welcome!</strong></div>
+                                <div class="card-body">
+                                    <p class="card-text">Some quick example text to build on the card title and make up
+                                        the bulk of the card's content.</p>
+                                </div>
+                            </div>
+                            <div class="db-container" style="height:430px">
+                                <table id="example" class="table table-striped" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">ID</th>
+                                            <th class="text-center">Status</th>
+                                            <th class="text-center">Date</th>
+                                            <th class="text-center">Deadline</th>
+                                            <th class="text-center">User ID</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="text-center">
+                                        <?php
+                                        include 'config.php';
+                                        while ($rowReq = mysqli_fetch_assoc($resultReq)) {
+                                            echo "<tr>";
+                                            echo "<td>{$rowReq['histID']}</td>";
+                                            echo "<td>{$rowReq['reqStatus']}</td>";
+                                            echo "<td>{$rowReq['statusDate']}</td>";
+                                            echo "<td>{$rowReq['reqDeadline']}</td>";
+                                            echo "<td>{$rowReq['orgID']}</td>";
+                                            echo "</tr>";
+                                        }
+                                        ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-5" style="padding:10px">
+                            <div class="card text-bg-white mb-3" style="max-width: 100%; height:115px">
+                                <div class="card-header"><strong>Organizations</strong></div>
+                                <div class="card-body">
+                                    <p class="card-text">Some quick example text to build on the card title and make up
+                                        the bulk of the card's content.</p>
+                                </div>
+                            </div>
+                            <div class="card text-bg-white mb-3" style="max-width: 100%; height:411px">
+                                <div class="card-header"><strong>Overview</strong></div>
+                                <div class="card-body">
+                                    <div class="overview" style="height:411px">
+                                        <div id="piechart" style="width: 100%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div id="form2" style="display: none;">
-                    <h2>Organizations</h2>
+                    <h2 class="form-title">Organizations</h2>
 
                     <table id="Requests" class="table table-striped text-center" style="width:100%">
                         <thead>
@@ -145,7 +203,7 @@ include 'HTML/oso.html'
 
 
                 <div id="form3" style="display: none;">
-                    <h2>Requests</h2>
+                    <h2 class="form-title">Requests</h2>
 
 
                     <table id="example" class="table table-striped" style="width:100%">
@@ -162,13 +220,13 @@ include 'HTML/oso.html'
                         <tbody class="text-center">
                             <?php
                             include 'config.php';
-                            while ($rowReq = mysqli_fetch_assoc($resultReq)) {
+                            while ($rowReq2 = mysqli_fetch_assoc($resultReq2)) {
                                 echo "<tr>";
-                                echo "<td>{$rowReq['histID']}</td>";
-                                echo "<td>{$rowReq['reqStatus']}</td>";
-                                echo "<td>{$rowReq['statusDate']}</td>";
-                                echo "<td>{$rowReq['reqDeadline']}</td>";
-                                echo "<td>{$rowReq['orgID']}</td>";
+                                echo "<td>{$rowReq2['histID']}</td>";
+                                echo "<td>{$rowReq2['reqStatus']}</td>";
+                                echo "<td>{$rowReq2['statusDate']}</td>";
+                                echo "<td>{$rowReq2['reqDeadline']}</td>";
+                                echo "<td>{$rowReq2['orgID']}</td>";
                                 echo '<td><button class="btn btn-primary">Update</button> <button class="btn btn-danger">Delete</button></td>';
                                 echo "</tr>";
                             }
@@ -178,7 +236,7 @@ include 'HTML/oso.html'
                 </div>
 
                 <div id="form4" style="display: none">
-                    <h2>All Events</h2>
+                    <h2 class="form-title">All Events</h2>
                     <table id="AllEvents" class="table table-striped" style="width:100%">
                         <thead>
                             <tr>
@@ -204,12 +262,12 @@ include 'HTML/oso.html'
                 </div>
 
                 <div id="form5" style="display: none;">
-                    <h2>Create Account</h2>
+                    <h2 class="form-title">Create Account</h2>
                     <?php require "register.php"; ?>
                 </div>
 
                 <div id="form6" style="display: none;">
-                    <h2>Account</h2>
+                    <h2 class="form-title">Account</h2>
                     <p>Username: <span id="userNameDisplay"></span></p>
                     <p>Department: <span id="userDeptDisplay"></span></p>
                     <p>Email: <span id="userEmailDisplay"></span></p>
@@ -239,7 +297,7 @@ include 'HTML/oso.html'
         var data = google.visualization.arrayToDataTable(<?php echo json_encode($chartData); ?>);
 
         var options = {
-            title: 'Request Status Distribution'
+            title: 'Event Approval Overview'
         };
 
         var chart = new google.visualization.PieChart(document.getElementById('piechart'));
