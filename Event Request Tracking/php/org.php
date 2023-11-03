@@ -149,6 +149,7 @@ $resultArch = mysqli_stmt_get_result($stmtArch);
 
                     <div class="horizontal-line" style="width:100%"></div>
                     <table id="Req" class="table table-striped" style="width:100%">
+                    <br>
                         <thead>
                             <tr>
                                 <th>Req ID</th>
@@ -181,11 +182,7 @@ $resultArch = mysqli_stmt_get_result($stmtArch);
 
             <form id="form3" style="display: none;">
                 <h2 style="font-family:'Poppins'; margin:10px 10px 10px 10px"><strong>Archive</strong></h2>
-                <div class="container-fluid-archive" style="background: white;
-                        margin: 30px 50px 25px 65px;
-                        padding: 10px 45px 10px 45px;
-                        box-shadow: 0 0 7px rgba(0, 0, 0, 0.2);
-                        border-radius: .5rem;">
+
 
                 <table id="Arch" class="table table-striped" style="width:100%">
                     <thead>
@@ -215,6 +212,7 @@ $resultArch = mysqli_stmt_get_result($stmtArch);
                         ?>
                     </tbody>
                 </table>
+                </div>
             </form>
                         
             <form id="form4" style="display: none;">
