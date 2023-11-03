@@ -43,53 +43,82 @@ include 'HTML/oso.html'
     ?>
 
 <body>
-    <div class="container-fluid">
-        <nav>
-            <div class="header">
-                <img src="logoo.png" alt="Logo" width="50" height="50" style="padding: 5px;" class="img-fluid">
+<div class="header d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+                <img src="logoo.png" alt="Logo" width="45" style="padding: 5px;" class="img-fluid">
                 <div class="header-text">
                     <p style="font-size: 11px; font-weight: 800; margin: 0;">Event Tracking System</p>
                     <span style="font-size: 9px;">Office of the Student Organizations</span>
                 </div>
             </div>
-        </nav>
+            <div class="notification-icon position-relative">
+                <i class="far fa-bell fa-lg"></i>
+                <span class="position-absolute top-0 start-99 translate-middle badge rounded-pill bg-danger">
+                    <span class="notif">10</span> 
+                    <span class="visually-hidden">unread messages</span>
+                </span>
+            </div>
+
+        </div>
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-md-2 bg-light text-light p-4" style="height: 100vh;">
-                <img src="logoo.png" alt="Logo" class="img-fluid">
-                <?php
-                if (isset($_SESSION['userName'])) {
-                    $userName = $_SESSION['userName'];
-                    echo "<p>Welcome Back, $userName!</p>";
-                }
-                ?>
-                <ul class="nav flex-column">
+            <div class="col-md-2 bg-light text p-0" style="height: 100%;">
+                <div class="AccLogo p-4">
+                    <img src="logoo.png" alt="Logo" class="img-fluid">
+                </div>
+                <div class="subtitle">
+                    <?php
+                    if (isset($_SESSION['userName'])) {
+                        $userName = $_SESSION['userName'];
+                        echo "<span class = welcom >Welcome Back,</span><br><p><b> $userName!</b></p>";
+                    }
+                    ?>
+                </div>
+
+                <ul class="nav flex-column ">
                     <li class="nav-item">
-                        <a class="nav-link text active-link" href="#" id="showForm1">Dashboard</a>
+                        <a class="nav-link text text-left  active-link" id="showForm1">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text" href="#" id="showForm2">Organizations</a>
+                        <a class="nav-link text text-left" id="showForm2">
+                            <i class="fas fa-users"></i> Organizations
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text" href="#" id="showForm3">Requests</a>
+                        <a class="nav-link text text-left" id="showForm3">
+                            <i class="fas fa-tasks"></i> Requests
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text" href="#" id="showForm4">All Events</a>
+                        <a class="nav-link text text-left" id="showForm4">
+                            <i class="fas fa-calendar"></i> All Events
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text" href="#" id="showForm5">Create Account</a>
+                        <a class="nav-link text text-left" id="showForm5">
+                            <i class="fas fa-user-plus"></i> Create Account
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text" href="#" id="showForm6">Account</a>
+                        <a class="nav-link text text-left" id="showForm6">
+                            <i class="fas fa-user"></i> Account
+                        </a>
                     </li>
+                    <br><br><br>
                     <li class="nav-item">
-                        <a class="nav-link text" href="login.php">Logout</a>
+                        <a class="nav-link text text-left" href="login.php">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
                     </li>
                 </ul>
+
             </div>
-            <div class="col-md-10 p-4 bg-body-secondary">
+            <div class="col-md-10 p-4 bg-body-secondary" style="height: 100%">
                 <div id="form1" style="display: block;">
                     <h2>Dashboard</h2>
-                    <div id="piechart" style="width: 900px; height: 500px;"></div>
+                    <div id="piechart" style="width: 100%; height: 500px;"></div>
                 </div>
 
                 <div id="form2" style="display: none;">
@@ -122,12 +151,12 @@ include 'HTML/oso.html'
                     <table id="example" class="table table-striped" style="width:100%">
                         <thead>
                             <tr>
-                                <th class="text-center">histID</th>
-                                <th class="text-center">reqStatus</th>
-                                <th class="text-center">statusDate</th>
-                                <th class="text-center">reqDeadline</th>
-                                <th class="text-center">userID</th>
-                                <th class="text-center">reqID</th>
+                                <th class="text-center">ID</th>
+                                <th class="text-center">Status</th>
+                                <th class="text-center">Date</th>
+                                <th class="text-center">Deadline</th>
+                                <th class="text-center">User ID</th>
+                                <th class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody class="text-center">
