@@ -98,8 +98,8 @@ $resultArch = mysqli_stmt_get_result($stmtArch);
             <form id="form1" style="display: block;">
                 <h2 style="font-family:'Poppins'; margin:20px 20px 20px 20px"><strong>Dashboard</strong></h2>
                 <div class="container-fluid" id="account-messdash">
-                    <h3     >Welcome</h3> 
-                    <span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Incidunt deserunt, quod dolorem, voluptatum exercitationem suscipit reiciendis ducimus ut esse, blanditiis aspernatur. Reiciendis quod corporis eos iusto consequatur ex enim eligendi.</span>  
+                    <h3>Welcome</h3>
+                    <span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Incidunt deserunt, quod dolorem, voluptatum exercitationem suscipit reiciendis ducimus ut esse, blanditiis aspernatur. Reiciendis quod corporis eos iusto consequatur ex enim eligendi.</span>
                 </div>
                 <div class="container-fluid" id="dash-req">
                     <h3 id="h3style">Requests</h3>
@@ -111,7 +111,7 @@ $resultArch = mysqli_stmt_get_result($stmtArch);
 
             <form id="form2" style="display: none;">
                 <h2 style="font-family:'Poppins'; margin:10px 10px 10px 10px"><strong>Request</strong></h2>
-                <div class="container-fluid-request" style="background: white;
+                <div class="container-fluid request" style="background: white;
                         margin: 30px 50px 25px 65px;
                         padding: 10px 45px 10px 45px;
                         box-shadow: 0 0 7px rgba(0, 0, 0, 0.2);
@@ -149,7 +149,7 @@ $resultArch = mysqli_stmt_get_result($stmtArch);
 
                     <div class="horizontal-line" style="width:100%"></div>
                     <table id="Req" class="table table-striped" style="width:100%">
-                    <br>
+                        <br>
                         <thead>
                             <tr>
                                 <th>Req ID</th>
@@ -183,38 +183,42 @@ $resultArch = mysqli_stmt_get_result($stmtArch);
             <form id="form3" style="display: none;">
                 <h2 style="font-family:'Poppins'; margin:10px 10px 10px 10px"><strong>Archive</strong></h2>
 
+                <div class="container" style="background: white;
+                        margin: 30px 50px 25px 65px;
+                        padding: 10px 45px 10px 45px;
+                        box-shadow: 0 0 7px rgba(0, 0, 0, 0.2);
+                        border-radius: .5rem;">
+                    <table id="Arch" class="table table-striped" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Request ID</th>
+                                <th>Submission Date</th>
+                                <th>Status</th>
+                                <th>Request Deadline</th>
+                                <th>userID</th>
 
-                <table id="Arch" class="table table-striped" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th>Request ID</th>
-                            <th>Submission Date</th>
-                            <th>Status</th>
-                            <th>Request Deadline</th>
-                            <th>userID</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            include 'config.php';
+                            while ($rowArch = mysqli_fetch_assoc($resultArch)) {
+                                echo "<tr>";
+                                echo "<td>{$rowArch['reqID']}</td>";
+                                echo "<td>{$rowArch['statusDate']}</td>";
+                                echo "<td>{$rowArch['reqStatus']}</td>";
 
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        include 'config.php';
-                        while ($rowArch = mysqli_fetch_assoc($resultArch)) {
-                            echo "<tr>";
-                            echo "<td>{$rowArch['reqID']}</td>";
-                            echo "<td>{$rowArch['statusDate']}</td>";
-                            echo "<td>{$rowArch['reqStatus']}</td>";
+                                echo "<td>{$rowArch['reqDeadline']}</td>";
+                                echo "<td>{$rowArch['orgID']}</td>";
 
-                            echo "<td>{$rowArch['reqDeadline']}</td>";
-                            echo "<td>{$rowArch['orgID']}</td>";
-
-                            echo "</tr>";
-                        }
-                        ?>
-                    </tbody>
-                </table>
+                                echo "</tr>";
+                            }
+                            ?>
+                        </tbody>
+                    </table>
                 </div>
             </form>
-                        
+
             <form id="form4" style="display: none;">
                 <h2 style="font-family:'Poppins'; margin:10px 10px 10px 10px"><strong>Account</strong></h2>
                 <div class="container-fluid-account" id="account-container">
@@ -232,7 +236,7 @@ $resultArch = mysqli_stmt_get_result($stmtArch);
                     </div>
                 </div>
             </form>
-            
+
         </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
@@ -341,4 +345,5 @@ $resultArch = mysqli_stmt_get_result($stmtArch);
         }
     });
 </script>
+
 </html>
