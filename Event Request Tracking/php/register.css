@@ -1,0 +1,22 @@
+.container{
+    background-color: white;
+    padding: 20px 40px ;
+    border-radius: 5px;
+}
+.sub-container{
+    border-radius: 5px;
+    background-color: #f8d7da;
+    text-align: center;
+    padding: 20px 10px 10px;
+    margin: 20px 0;
+}
+.sub-title{
+    font-weight: bold;
+    font-size: 14px;
+}
+.sub-email{
+    font-size: 12px;
+}
+.error-msg{
+    color: red;
+}

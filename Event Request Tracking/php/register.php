@@ -1,6 +1,9 @@
 <?php
 include 'config.php';
 
+// Initialize the $error array
+$error = [];
+
 if (isset($_POST['submit'])) {
     $userName = $_POST['userName'];
     $userDept = $_POST['userDept'];
@@ -8,7 +11,6 @@ if (isset($_POST['submit'])) {
     $userPass = $_POST['userPass'];
     $cuserPass = $_POST['cuserPass'];
     $userType = $_POST['userType'];
-
 
     // Check if passwords match
     if ($userPass !== $cuserPass) {
@@ -29,7 +31,7 @@ if (isset($_POST['submit'])) {
             $stmt = mysqli_prepare($conn, $insert);
             mysqli_stmt_bind_param($stmt, "sssss", $userName, $userDept, $userEmail, $userPass, $userType);
             mysqli_stmt_execute($stmt);
-            header('location:oso.php');
+            header('location: oso.php');
         }
     }
 }
@@ -41,20 +43,21 @@ if (isset($_POST['submit'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="osoStyles.css">
+    <link rel="stylesheet" href="register.css">
     <title>Document</title>
 </head>
 
 <body>
     <div class="form-container">
-        <?php
-        if (isset($error)) {
-            foreach ($error as $errorMsg) {
-                echo '<span class="error-msg">' . $errorMsg . '</span>';
-            }
-        }
-        ?>
         <div class="container">
+            <p><strong>Personal Information</strong></p>
+            <?php
+            if (!empty($error)) { // Check if the $error array is not empty
+                foreach ($error as $errorMsg) {
+                    echo '<span class="error-msg">' . $errorMsg . '</span>';
+                }
+            }
+            ?>
             <form method="post">
                 <div class="form-group">
                     <label for="userName">Organization Name:</label>
@@ -91,6 +94,11 @@ if (isset($_POST['submit'])) {
                 </div>
                 <input type="button" name="submit" value="Register" class="form-btn">
             </form>
+            <div class="sub-container">
+                <p class="sub-title">If you find that the provided information is incorrect, please reach out to the
+                    Lipa Office for assistance.</p>
+                <span class="sub-email">Email: ict.lipa@g.batstate-u.edu.ph</span>
+            </div>
         </div>
     </div>
 
