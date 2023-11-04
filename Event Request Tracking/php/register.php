@@ -58,42 +58,61 @@ if (isset($_POST['submit'])) {
                 }
             }
             ?>
-            <form method="post">
+            <form method="post" enctype="multipart/form-data">
                 <div class="form-group">
-                    <label for="userName">Organization Name:</label>
-                    <input type="text" id="userName" name="userName" class="form-control"
-                        placeholder="Enter Organization Name" required>
+                    <div class="label-input">
+                        <label for="userImage">Profile Picture:</label>
+                        <input type="file" id="userImage" name="userImage" accept="image/*" class="form-control"
+                            required>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="userDept">Department Name:</label>
-                    <input type="text" id="userDept" name="userDept" class="form-control"
-                        placeholder="Enter your Department Name" required>
+                    <div class="label-input">
+                        <label for="userName">Organization Name:</label>
+                        <input type="text" id="userName" name="userName" class="form-control"
+                            placeholder="Enter Organization Name" required>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="userEmail">Email:</label>
-                    <input type="text" id="userEmail" name="userEmail" class="form-control"
-                        placeholder="Enter your Email" required>
+                    <div class="label-input">
+                        <label for="userDept">Department Name:</label>
+                        <input type="text" id="userDept" name="userDept" class="form-control"
+                            placeholder="Enter your Department Name" required>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="userPass">Password:</label>
-                    <input type="password" id="userPass" name="userPass" class="form-control"
-                        placeholder="Enter your password" required>
+                    <div class="label-input">
+                        <label for="userEmail">Email Address:</label>
+                        <input type="text" id="userEmail" name "userEmail" class="form-control"
+                            placeholder="Enter your Email" required>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="cuserPass">Confirm Password:</label>
-                    <input type="password" id="cuserPass" name="cuserPass" class="form-control"
-                        placeholder="Confirm your password" required>
+                    <div class="label-input">
+                        <label for="userPass">Password:</label>
+                        <input type="password" id="userPass" name="userPass" class="form-control"
+                            placeholder="Enter your password" required>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="userType">Select User Type:</label>
-                    <select id="userType" name="userType" class="form-control">
-                        <option value="Organization">Organization</option>
-                        <option value="OSO">OSO</option>
-                        <option value="Office">Office</option>
-                    </select>
+                    <div class="label-input">
+                        <label for="userType">Select User Type:</label>
+                        <select id="userType" name="userType" class="form-control">
+                            <option value="Organization">Organization</option>
+                            <option value="OSO">OSO</option>
+                            <option value="Office">Office</option>
+                        </select>
+                    </div>
                 </div>
-                <input type="button" name="submit" value="Register" class="form-btn">
+                <button class="pushable" type="submit" name="submit" value="Register">
+                    <span class="shadow"></span>
+                    <span class="edge"></span>
+                    <span class="front">
+                        Register
+                    </span>
+                </button>
             </form>
+
             <div class="sub-container">
                 <p class="sub-title">If you find that the provided information is incorrect, please reach out to the
                     Lipa Office for assistance.</p>
