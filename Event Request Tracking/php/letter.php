@@ -26,7 +26,9 @@
                 <input type="date" name="event-date" id="event-date" required />
             </div>
 
-            <div class="subcontainer"></div>
+            <div class="subcontainer">
+                <p class="attachment-file"></p>
+            </div>
 
             <div class="upload-icon">
                 <i class='bx bx-cloud-upload'></i>
@@ -34,38 +36,33 @@
 
             <a href="org.php">
                 <div class="home-icon">
-
                     <i class='bx bx-home'></i>
+                </div>
             </a>
 
+            <p class="text1">Select a file from the computer or drag and drop here.</p>
+            <p class="text2">For the best results, please submit a PDF file.</p>
+            <input type="file" id="pdfFile" name="pdfFile" accept=".pdf, .jpg, .png" style="display: none; visibility: visible;">
+            <input type="button" value="Browse File" class="browse-file-button" onclick="uploadPDF()">
+            <script>
+                function uploadPDF() {
+                    document.getElementById("pdfFile").click();
+                }
 
+                document.getElementById("pdfFile").addEventListener("change", function() {
+                    var file = this.files[0];
+                    var fileName = file ? file.name : "No file selected";
+                    document.querySelector(".attachment-file").textContent = fileName;
+                });
+            </script>
+
+            <input type="submit" value="Cancel" class="cancel-button">
+            <input type="submit" value="Submit" class="submit-button">
+        </form>
     </div>
 
-    <p class="text1">Select a file from the computer or drag and drop here.</p>
-
-    <p class="text2">For the best results, please submit a PDF file.</p>
-
-
-    <form action="letter.php" method="post" enctype="multipart/form-data">
-        <input type="button" value="Browse File" class="browse-file-button" onclick="uploadPDF() ">
-
-        <input type="file" id="pdfFile" name="pdfFile" accept=".pdf" style="display: none;">
-    </form>
-
-    <script>
-        function uploadPDF() {
-            document.getElementById('pdfFile').click();
-        }
+    <script src="script.js">
     </script>
-
-    <input type="submit" value="Cancel" class="cancel-button">
-
-
-    <input type="submit" value="Submit" class="submit-button">
-
-    </form>
-    </div>
-
 </body>
 
 </html>
