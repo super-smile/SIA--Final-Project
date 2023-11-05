@@ -42,82 +42,133 @@ mysqli_stmt_bind_param($stmtArch, "s", $userID);
 mysqli_stmt_execute($stmtArch);
 $resultArch = mysqli_stmt_get_result($stmtArch);
 
+include 'HTML/org.html'
+
 ?>
 
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styleOrg.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
-    <link rel="stylesheet" href='https://fonts.googleapis.com/css?family=Poppins'>
-    <title>Document</title>
-</head>
-
-<body style="background:#F3F3F3;">
-    <div class="container-fluid" style="height: 100vh; width:100%; margin:0; padding: 0; display: flex; flex-direction: column;">
-        <div class="header">
-            <img src="logoo.png" alt="Logo" width="50" height="50" style="padding: 5px;" class="img-fluid">
+<body>
+    <div class="header d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+            <img src="logoo.png" alt="Logo" width="45" style="padding: 5px;" class="img-fluid">
             <div class="header-text">
-                <p style="font-size: 15px; font-weight: bold; margin: 0;">Event Tracking System</p>
-                <span style="font-size: 12px;">Office of the Student Organizations</span>
-                <?php
-                if ($userType == 'Organization') {
-                    echo '<a href="letter.php" class="upload-button" id="uploadLetter">Upload a letter</a>';
-                }
-                ?>
+                <p style="font-size: 11px; font-weight: 800; margin: 0;">Event Tracking System</p>
+                <span style="font-size: 9px;">Office of the Student Organizations</span>
             </div>
         </div>
+        <div class="notification-icon position-relative">
+            <i class="far fa-bell fa-lg" style="color: #cf4444;"></i>
+            <span class="position-absolute top-0 start-99 translate-middle badge rounded-pill bg-danger">
+                <span class="notif">10</span>
+                <span class="visually-hidden">unread messages</span>
+            </span>
+        </div>
+    </div>
 
-        <div class="wrapper">
-            <div class="sidebar">
-                <img src="logoo.png" alt="sideLogo" width="180" height="180" style="padding: 30px 0px 0px 30px; margin-left:50px;" class="img-fluid">
-                <?php
-                if (isset($_SESSION['userName'])) {
-                    $userName = $_SESSION['userName'];
-                    echo '<div class="welcome-message">Welcome Back,</div>';
-                    echo '<div class="user-name">' . $userName . '</div>';
-                }
-                ?>
-
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 p-0" style="background:#a21a1e; color: white;">
+                <div class="image-container p-1">
+                    <img src="logoo.png" alt="Logo" class="img-fluid">
+                </div>
+                <div class="subtitle">
+                    <?php
+                    if (isset($_SESSION['userName'])) {
+                        $userName = $_SESSION['userName'];
+                        echo "<span class = welcom >Welcome Back,</span><br><p><b> $userName!</b></p>";
+                    }
+                    ?>
+                </div>
+                <ul class="nav flex-column ">
+                    <li class="nav-item">
+                        <a class="nav-link text text-left  active-link" id="showForm1">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text text-left " id="showForm2">
+                            <i class="fas fa-users"></i> Request
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text text-left" id="showForm3">
+                            <i class="fas fa-tasks"></i> Archive
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text text-left" id="showForm4">
+                            <i class="fas fa-calendar"></i> Account
+                        </a>
+                    </li>
+                    <br><br><br><br><br><br><br>
+                    <li class="nav-item">
+                        <a class="nav-link text text-left" href="login.php">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </li>
+                </ul>
                 <br>
-                <button type="button" class="btn" id="showForm1">Dashboard</button><br>
-                <button type="button" class="btn" id="showForm2">Request</button><br>
-                <button type="button" class="btn" id="showForm3">Archive</button><br>
-                <button type="button" class="btn" id="showForm4">Account</button><br><br>
-
-                <button class="logout" onclick="location.href='login.php'"><u>Logout</u></button>
-
+                <br>
             </div>
+            <div class="col-md-10 p-4 bg-body-secondary">
+                <div id="form1" style="display: block;">
+                    <h2 class="form-title">Dashboard</h2>
+                    <div class="row">
+                        <div class="col-md-7" style="padding:10px">
+                            <div class="card text-bg-white mb-5" style="max-width:100%; height:115px">
+                                <div class="card-header"><strong>Welcome!</strong></div>
+                                <div class="card-body">
+                                    <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                                </div>
+                                <div class="card text-bg-white mb-5" style="max-width:100%; height:115px; margin-top:40px;">
+                                    <div class="card-header"><strong>Request</strong></div>
+                                    <table id="Req" class="table table-striped" style="width:100%">
+                                        <br>
+                                        <thead>
+                                            <tr>
+                                                <th>Req ID</th>
+                                                <th>Status</th>
+                                                <th>Date Approved</th>
+                                                <th>Deadline</th>
+                                                <th>Organization ID</th>
+                                                <th>Office ID</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            include 'config.php';
+                                            while ($row = mysqli_fetch_assoc($result)) {
+                                                echo "<tr>";
+                                                echo "<td>{$row['reqID']}</td>";
+                                                echo "<td>{$row['reqStatus']}</td>";
+                                                echo "<td>{$row['statusDate']}</td>";
+                                                echo "<td>{$row['reqDeadline']}</td>";
+                                                echo "<td>{$row['orgID']}</td>";
+                                                echo "<td>{$row['officeID']}</td>";
+                                                echo "</tr>";
+                                            }
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5" style="padding:10px">
+                            <div class="card text-bg-white mb-3" style="max-width: 100%; height:411px">
+                                <div class="card-header"><strong>Overview</strong></div>
+                                <div class="card-body">
+                                    <div class="overview" style="height:411px">
+                                        <div id="piechart" style="width: 100%;"></div>
+                                    </div>
+                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-            <form id="form1" style="display: block;">
-                <h2 style="font-family:'Poppins'; margin:20px 20px 20px 20px"><strong>Dashboard</strong></h2>
-                <div class="container-fluid" id="account-messdash">
-                    <h3>Welcome</h3>
-                    <span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Incidunt deserunt, quod dolorem, voluptatum exercitationem suscipit reiciendis ducimus ut esse, blanditiis aspernatur. Reiciendis quod corporis eos iusto consequatur ex enim eligendi.</span>
-                </div>
-                <div class="container-fluid" id="dash-req">
-                    <h3 id="h3style">Requests</h3>
-                </div>
-                <div class="container-fluid" id="dash-over">
-                    <h3 id="h3style">Overview</h3>
-                </div>
-            </form>
 
-            <form id="form2" style="display: none;">
-                <h2 style="font-family:'Poppins'; margin:10px 10px 10px 10px"><strong>Request</strong></h2>
-                <div class="container-fluid request" style="background: white;
-                        margin: 30px 50px 25px 65px;
-                        padding: 10px 45px 10px 45px;
-                        box-shadow: 0 0 7px rgba(0, 0, 0, 0.2);
-                        border-radius: .5rem;">
+                <div id="form2" style="display: none;">
+                    <h2 class="form-title">Request</h2>
                     <h3 id="date-time">Date</h3>
-
                     <script>
                         function updateDateTime() {
                             const dateTimeElement = document.getElementById("date-time");
@@ -177,17 +228,11 @@ $resultArch = mysqli_stmt_get_result($stmtArch);
                         </tbody>
                     </table>
                 </div>
-            </form>
 
 
-            <form id="form3" style="display: none;">
-                <h2 style="font-family:'Poppins'; margin:10px 10px 10px 10px"><strong>Archive</strong></h2>
 
-                <div class="container" style="background: white;
-                        margin: 30px 50px 25px 65px;
-                        padding: 10px 45px 10px 45px;
-                        box-shadow: 0 0 7px rgba(0, 0, 0, 0.2);
-                        border-radius: .5rem;">
+                <div id="form3" style="display: none;">
+                    <h2 style="font-family:'Poppins'; margin:10px 10px 10px 10px"><strong>Archive</strong></h2>
                     <table id="Arch" class="table table-striped" style="width:100%">
                         <thead>
                             <tr>
@@ -217,45 +262,55 @@ $resultArch = mysqli_stmt_get_result($stmtArch);
                         </tbody>
                     </table>
                 </div>
-            </form>
 
-            <form id="form4" style="display: none;">
-                <h2 style="font-family:'Poppins'; margin:10px 10px 10px 10px"><strong>Account</strong></h2>
-                <div class="container-fluid-account" id="account-container">
-                    <h3 id="h3style">Organizations Information</h3>
-                    <div class="container" id="information-container">
-                        <p><strong>Organizations Name:</strong> <input type="text" id="userNameDisplay" class="text" readonly /></p>
-                        <p><strong>Department:</strong> <input type="text" id="userDeptDisplay" class="text" readonly /></p>
-                        <p><strong>Email Address:</strong> <input type="text" id="userEmailDisplay" class="text" readonly /></p>
-                    </div>
+                <div id="form4" style="display: none;">
+                    <h2 style="font-family:'Poppins'; margin:10px 10px 10px 10px"><strong>Account</strong></h2>
+                    <div class="container-fluid-account" id="account-container">
+                        <h2 class="form-title">Organization Information</h2>
+                        <p>Username: <span id="userNameDisplay"></span></p>
+                        <p>Department: <span id="userDeptDisplay"></span></p>
+                        <p>Email: <span id="userEmailDisplay"></span></p>
 
-                    <div class="container" id="container-assistance">
-                        <p>If you find that the provided information is incorrect, please reach out to the Office of Student<br>
-                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Organization for assistance.</p>
-                        <p style="margin-left: 175px; font-weight:normal">Email: studentorganization.lipa@g.batstate-u.edu.ph</p>
+                        <div class="container" id="container-assistance">
+                            <p>If you find that the provided information is incorrect, please reach out to the Office of Student<br>
+                                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Organization for assistance.</p>
+                            <p style="margin-left: 175px; font-weight:normal">Email: studentorganization.lipa@g.batstate-u.edu.ph</p>
+                        </div>
+
                     </div>
                 </div>
-            </form>
-
+            </div>
         </div>
+    </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
 <script>
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    // Function to handle link clicks
+    function handleLinkClick(event) {
+        // Remove the "active-link" class from all links
+        navLinks.forEach(link => link.classList.remove('active-link'));
+
+        // Add the "active-link" class to the clicked link
+        event.target.classList.add('active-link');
+    }
+
+    // Add a click event listener to each navigation link
+    navLinks.forEach(link => {
+        link.addEventListener('click', handleLinkClick);
+    });
+
     new DataTable('#Req');
     new DataTable('#Arch');
 
-    function loginUser() {
-
-
-
-    }
-
     function updateAccountInformation(userName, userDept, userEmail) {
-        document.getElementById('userNameDisplay').value = userName;
-        document.getElementById('userDeptDisplay').value = userDept;
-        document.getElementById('userEmailDisplay').value = userEmail;
+        document.getElementById('userNameDisplay').textContent = userName;
+        document.getElementById('userDeptDisplay').textContent = userDept;
+        document.getElementById('userEmailDisplay').textContent = userEmail;
     }
     var button1 = document.getElementById("showForm1");
     var button2 = document.getElementById("showForm2");
