@@ -2,16 +2,31 @@
 * {
   font-family: "Poppins", sans-serif;
 }
-.container-fluid{
+.container-fluid {
   width: 100%;
   height: 90vh;
-  
+}
+.notification-bell {
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: white;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#sidebar {
+  padding: 0;
+  height: 100%;
+  background-color: #ffffff;
 }
 .header {
   align-items: center;
   background-color: #a21a1e;
   color: white;
   display: flex;
+  height: 10vh;
 }
 .notification-icon {
   color: white;
@@ -50,12 +65,11 @@
 .form-group {
   margin-bottom: 10px;
 }
-.db-container{
+.db-container {
   background-color: white;
   border-radius: 5px;
   margin-bottom: 20px;
   padding: 10px;
- 
 }
 
 .active-link {
@@ -71,7 +85,6 @@
 .text:hover {
   color: #ff474d;
   transform: translateY(-2px);
-  
 }
 .subtitle {
   text-align: center;
@@ -81,7 +94,7 @@
 .welcom {
   font-size: 12px;
 }
-.form-title{
+.form-title {
   font-size: 25px;
   font-weight: bold;
 }
