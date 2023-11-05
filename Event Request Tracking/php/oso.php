@@ -56,18 +56,19 @@ include 'HTML/oso.html'
                 <span style="font-size: 9px;">Office of the Student Organizations</span>
             </div>
         </div>
-        <div class="notification-icon position-relative">
-            <i class="far fa-bell fa-lg"></i>
-            <span class="position-absolute top-0 start-99 translate-middle badge rounded-pill bg-danger">
-                <span class="notif">10</span>
+        <div class="notification-icon position-relative" style="margin-right: 20px">
+            <div class="notification-bell">
+                <i class="fas fa-bell" style="color: #a21a1e; font-size: 17px;"></i>
+            </div>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                <span class="notif">4</span>
                 <span class="visually-hidden">unread messages</span>
             </span>
         </div>
-
     </div>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-2 bg-light p-0">
+            <div class="col-md-2 bg-black p-0" style = "height:90vh">
                 <div class="image-container p-1">
                     <img src="JPCS.png" alt="Logo" class="img-fluid">
                 </div>
@@ -79,11 +80,11 @@ include 'HTML/oso.html'
                     }
                     ?>
                 </div>
-
+                    
                 <ul class="nav flex-column ">
                     <li class="nav-item">
                         <a class="nav-link text text-left  active-link" id="showForm1">
-                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                            <i class="fas fa-chart-line"></i> Dashboard
                         </a>
                     </li>
                     <li class="nav-item">
@@ -93,7 +94,7 @@ include 'HTML/oso.html'
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text text-left" id="showForm3">
-                            <i class="fas fa-tasks"></i> Requests
+                            <i class="fas fa-file"></i> Requests
                         </a>
                     </li>
                     <li class="nav-item">
