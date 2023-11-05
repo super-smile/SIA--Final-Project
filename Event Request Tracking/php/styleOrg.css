@@ -22,6 +22,28 @@
 .notif {
   font-size: 10px;
 }
+#uploadLetter {
+  font-size: 15px;
+  text-decoration: none;
+  color: #fff;
+  margin-right: 30px;
+  position: absolute;
+  top: 5px;
+  right: 10px;
+}
+.upload-button {
+  font-size: 12px;
+  text-decoration: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  cursor: pointer;
+  color: #fff;
+  background: black;
+}
+.upload-button:hover {
+  background-color: #0056b3;
+  color: white;
+}
 .image-container {
   margin: auto;
   margin-top: 20px;

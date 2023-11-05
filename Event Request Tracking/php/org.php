@@ -53,6 +53,11 @@ include 'HTML/org.html'
             <div class="header-text">
                 <p style="font-size: 11px; font-weight: 800; margin: 0;">Event Tracking System</p>
                 <span style="font-size: 9px;">Office of the Student Organizations</span>
+                <?php
+                if ($userType == 'Organization') {
+                    echo '<a href="letter.php" class="upload-button" id="uploadLetter">Upload a letter</a>';
+                }
+                ?>
             </div>
         </div>
         <div class="notification-icon position-relative">
