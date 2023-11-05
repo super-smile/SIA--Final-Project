@@ -68,7 +68,7 @@ include 'HTML/oso.html'
     </div>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-2 p-0" style="height:90vh">
+            <div class="col-md-2 p-0">
                 <div id="sidebar">
                     <div class="image-container p-1">
                         <img src="JPCS.png" alt="Logo" class="img-fluid">
@@ -123,7 +123,7 @@ include 'HTML/oso.html'
                 </div>
             </div>
 
-            <div class="col-md-10 p-4 bg-body-secondary" style = "height:90vh">
+            <div class="col-md-10 p-4 bg-body-secondary" style="height:94vh">
                 <div id="main-content">
                     <div id="form1" style="display: block;">
                         <h2 class="form-title">Dashboard</h2>
@@ -274,9 +274,33 @@ include 'HTML/oso.html'
 
                     <div id="form6" style="display: none;">
                         <h2 class="form-title">Account</h2>
-                        <p>Username: <span id="userNameDisplay"></span></p>
-                        <p>Department: <span id="userDeptDisplay"></span></p>
-                        <p>Email: <span id="userEmailDisplay"></span></p>
+                        <div class="acc-container">
+                            <p><strong>Personal Information</strong></p>
+                            <div class="form-group">
+                                <div class="label-input">
+                                    <label for="userNameDisplay">Organization Name:</label>
+                                    <span id="userNameDisplay" class="form-control"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="label-input">
+                                    <label for="userDeptDisplay">Department Name:</label>
+                                    <span id="userDeptDisplay" class="form-control"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="label-input">
+                                    <label for="userEmailDisplay">Email Address:</label>
+                                    <span id="userEmailDisplay" class="form-control"></span>
+                                </div>
+                            </div>
+                            <div class="sub-container">
+                                <p class="sub-title">If you find that the provided information is incorrect, please
+                                    reach out to the
+                                    Lipa Office for assistance.</p>
+                                <span class="sub-email">Email: ict.lipa@g.batstate-u.edu.ph</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
