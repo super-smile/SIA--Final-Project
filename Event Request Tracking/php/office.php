@@ -32,26 +32,10 @@ if (isset($_SESSION['userName'])) {
     $stmtArch = mysqli_prepare($conn, $queryArch);
     mysqli_stmt_execute($stmtArch);
     $resultArch = mysqli_stmt_get_result($stmtArch);
-
+    include 'HTML/office.html'
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Tracking System</title>
 
-    <!-- Bootstrap CSS and JavaScript CDNs -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
-    <script src="js/script.js"></script>
-    <link rel="stylesheet" href="officeStyle.css">
 </head>
 <body style="background:#F3F3F3;"> 
     <div class="container-fluid" style="height: 100vh; width:100%; margin:0; padding: 0; display: flex; flex-direction: column;">
@@ -72,78 +56,92 @@ if (isset($_SESSION['userName'])) {
 
         <div class="wrapper" style="display: flex;">
         <div class="sidebar" style="background-color: #a21a1e; width: 250px; padding: 20px;">
-            <img src="cics_logo.png" alt="sideLogo" width="180" height="180" class="img-fluid">
+        <center><img src="cics.jpg" alt="sideLogo" width="180" height="180" class="img-fluid" style="border-radius: 50%;"></center>
             <?php
             if (isset($_SESSION['userName'])) {
                 $userName = $_SESSION['userName'];
-                echo '<div class="welcome-message">Welcome Back,</div>';
-                echo '<div class="user-name">' . $userName . '</div>';
+                echo '<center><br><div class="welcome-message">Welcome Back,</div> ';
+                echo '<center> <div class="user-name">' .  $userName . '</div>';
             }
             ?>
 
             <br>
-            <button type="button" class="btn" id="showForm1">
+            <button type="button" class="btn" id="showForm1" style="color: white;">
                 <i class="fas fa-chart-line"></i> Dashboard
             </button><br>
 
-            <button type="button" class="btn" id="showForm2">
+            <button type="button" class="btn" id="showForm2" style="color: white;">
                 <i class="fas fa-users"></i> Organizations
             </button><br>
 
-            <button type="button" class="btn" id="showForm3">
+            <button type="button" class="btn" id="showForm3" style="color: white;">
                 <i class="fas fa-file"></i> Requests
             </button><br>
 
-            <button type="button" class="btn" id="showForm4">
+            <button type="button" class="btn" id="showForm4" style="color: white;">
                 <i class="fas fa-archive"></i> Archive
             </button><br>
 
-            <button type="button" class="btn" id="showForm5">
+            <button type="button" class="btn" id="showForm5" style="color: white;">
                 <i class="fas fa-user"></i> Account
             </button><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
-            <button class="logout" onclick="location.href='login.php'" style="background: none; border: none; padding: 0; text-decoration: underline; cursor: pointer;">
+            <button class="logout" onclick="location.href='login.php'" style="background: none; border: none; padding: 0; text-decoration: underline; cursor: pointer; color: white;">
                 <i class="fas fa-sign-out-alt"></i>  Logout
             </button>
 
         </div>
+  
+ 
+
         <!-- Content Area -->
         <div class="content" style="flex: 1; padding: 20px;">
 
             <form id="form1" style="display: block;">
                 <h2>Dashboard</h2>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <form id="formRequests" style="display: none;">
+                            <h2>Requests</h2>
+                <!-- req -->
+                         </form>
+                    </div>
+                </div> 
             </form>
-
+    
             <form id="form2" style="display: none;">
                 <h2>Organizations</h2>
-
                 <?php
                 include 'config.php';
 
-                    $orgQuery = "SELECT acc.userName, acc.userDept, COUNT(reqhist.reqID) AS numActivities
-                                FROM tbl_account AS acc
-                                LEFT JOIN tbl_reqhistory AS reqhist ON acc.userID = reqhist.orgID
-                                GROUP BY acc.userID";
-                                
-                    $orgResult = mysqli_query($conn, $orgQuery);
+                $orgQuery = "SELECT acc.userName, acc.userDept, COUNT(reqhist.reqID) AS numActivities
+                            FROM tbl_account AS acc
+                            LEFT JOIN tbl_reqhistory AS reqhist ON acc.userID = reqhist.orgID
+                            GROUP BY acc.userID";
 
-                    echo '<table border="1">';
+                $orgResult = mysqli_query($conn, $orgQuery);
+
+                echo '<table border="0" id="orgTable" class="display">';
+                echo '<thead>';
+                echo '<tr>';
+                echo '<th>Organization Name</th>';
+                echo '<th>Department</th>';
+                echo '<th>Number of Activities</th>';
+                echo '</tr>';
+                echo '</thead>';
+                echo '<tbody>';
+
+                while ($rowOrg = mysqli_fetch_assoc($orgResult)) {
                     echo '<tr>';
-                    echo '<th>Organization Name</th>';
-                    echo '<th>Department</th>';
-                    echo '<th>Number of Activities</th>';
+                    echo '<td>' . $rowOrg['userName'] . '</td>';
+                    echo '<td>' . $rowOrg['userDept'] . '</td>';
+                    echo '<td>' . $rowOrg['numActivities'] . '</td>';
                     echo '</tr>';
+                }
 
-                    while ($rowOrg = mysqli_fetch_assoc($orgResult)) {
-                        echo '<tr>';
-                        echo '<td>' . $rowOrg['userName'] . '</td>';
-                        echo '<td>' . $rowOrg['userDept'] . '</td>';
-                        echo '<td>' . $rowOrg['numActivities'] . '</td>';
-                        echo '</tr>';
-                    }
-
-                    echo '</table>';
-                    ?>
+                echo '</tbody>';
+                echo '</table>';
+                ?>
             </form>
 
         <form id="form3" style="display: none;">
@@ -161,89 +159,120 @@ if (isset($_SESSION['userName'])) {
                     }
                 </style>       
             <table class="bordered stripe" id="dataTable">
-                    <thead>
-                        <tr>
-                            <th>histID</th>
-                            <th>reqStatus</th>
-                            <th>statusDate</th>
-                            <th>reqDeadline</th>
-                            <th>userID</th>
-                            <th>reqID</th>
-                            <th>office ID</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        include 'config.php';
-                        while ($rowArch = mysqli_fetch_assoc($result)) {
-                            echo "<tr>";
-                            echo "<td>{$rowArch['histID']}</td>";
-                            echo "<td>{$rowArch['reqStatus']}</td>";
-                            echo "<td>{$rowArch['statusDate']}</td>";
-                            echo "<td>{$rowArch['reqDeadline']}</td>";
-                            echo "<td>{$rowArch['orgID']}</td>";
-                            echo "<td>{$rowArch['reqID']}</td>";
-                            echo "<td>{$rowArch['officeID']}</td>";
-                            echo "</tr>";
-                        }
-                        ?>
-                    </tbody>
-                </table>
-            </form>
+            <thead>
+                <tr>
+                    <th>Request ID</th>
+                    <th>Submission Date</th>
+                    <th>Current Office</th>
+                    <th>Request Status</th>
+                </tr>
+            </thead>
+                <tbody>
+                    <?php
+                    include 'config.php';
+                    // Assuming $result is the result of your query for the specific columns
+                    while ($rowArch = mysqli_fetch_assoc($result)) {
+                        echo "<tr>";
+                        echo "<td>{$rowArch['reqID']}</td>";
+                        echo "<td>{$rowArch['statusDate']}</td>";
+                        echo "<td>{$rowArch['officeID']}</td>";
+                        echo "<td>{$rowArch['reqStatus']}</td>";
+                        echo "</tr>";
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </form>
+ 
+ 
+    <form id="form4" style="display: none;">
+    <h2>Archive</h2>  
+    <table class="bordered stripe" id="dataTableArchive">
+        <thead>
+            <tr>
+                 <!--<th>Reference Number</th>-->
+                <th>Request ID</th>
+                <th>Approval Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+            <tbody>
+                <?php
+                include 'config.php';
+                while ($rowArch = mysqli_fetch_assoc($resultArch)) {
+                    echo "<tr>";
+                    // refnum
+                    echo "<td>{$rowArch['reqID']}</td>";
+                    echo "<td>{$rowArch['statusDate']}</td>";
+                    echo "<td>{$rowArch['reqStatus']}</td>";
+                    echo "</tr>";
+                }
+                ?>
+            </tbody>
+        </table>
+    </form>
 
-            <form id="form4" style="display: none;">
-                <h2>Archive</h2>
-                <!-- Archive Table Styles -->
-                <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
-                <!-- Archive Table -->
-                <table class="bordered stripe" id="dataTableArchive">
-                    <thead>
-                        <tr>
-                            <th>histID</th>
-                            <th>reqStatus</th>
-                            <th>statusDate</th>
-                            <th>reqDeadline</th>
-                            <th>userID</th>
-                            <th>reqID</th>
-                            <th>office ID</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        include 'config.php';
-                        while ($rowArch = mysqli_fetch_assoc($resultArch)) {
-                            echo "<tr>";
-                            echo "<td>{$rowArch['histID']}</td>";
-                            echo "<td>{$rowArch['reqStatus']}</td>";
-                            echo "<td>{$rowArch['statusDate']}</td>";
-                            echo "<td>{$rowArch['reqDeadline']}</td>";
-                            echo "<td>{$rowArch['orgID']}</td>";
-                            echo "<td>{$rowArch['reqID']}</td>";
-                            echo "<td>{$rowArch['officeID']}</td>";
-                            echo "</tr>";
-                        }
-                        ?>
-                    </tbody>
-                </table>
-            </form>
+    <form id="form5" style="display: none;">
+        <h2>Account</h2>
+            <?php
+            include 'config.php';
+            $userQuery = "SELECT * FROM tbl_account WHERE userID = $userID";
+            $userResult = mysqli_query($conn, $userQuery);
 
-
-            <!-- Account Information Form -->
-            <form id="form5" style="display: none;">
-                <h2>Account</h2>
-                <p>Username: <span id="userNameDisplay"></span></p>
-                <p>Department: <span id="userDeptDisplay"></span></p>
-                <p>Email: <span id="userEmailDisplay"></span></p>
-            </form>
+            if ($userResult) {
+                $userData = mysqli_fetch_assoc($userResult);
+                $username = $userData['userName'];
+                $department = $userData['userDept'];
+                $email = $userData['userEmail'];
+            } else {
+                // Handle the error if the query fails
+                echo "Error fetching user information: " . mysqli_error($conn);
+            }
+            ?>
+        <div class="container mt-5 bg-white">
+        <h3><br>Personal Information</h3>
+    <div class="row mb-4">
+        <div class="col-md-12 text-center">
+            <img src="cics.jpg" alt="User Photo" class="img-fluid rounded-circle" width="200">
         </div>
     </div>
+
+    <div class="form-group row">
+        <label for="userNameDisplay" class="col-md-3 col-form-label">Username:</label>
+        <div class="col-md-9">
+            <input type="text" id="userNameDisplay" class="form-control" readonly value="<?php echo $username; ?>">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="userDeptDisplay" class="col-md-3 col-form-label">Department:</label>
+        <div class="col-md-9">
+            <input type="text" id="userDeptDisplay" class="form-control" readonly value="<?php echo $department; ?>">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="userEmailDisplay" class="col-md-3 col-form-label">Email:</label>
+        <div class="col-md-9">
+            <input type="text" id="userEmailDisplay" class="form-control" readonly value="<?php echo $email; ?>">
+        </div><br><br><br><br><br><br>
+    </div>
+
+    <div class="sub-container" style="background-color: #F8D7DA; padding: 20px;">
+    <p class="sub-title" style="text-align: center;">If you find that the provided information is incorrect, please reach out to the Office of Student Organization for assistance.</p>
+    <span class="sub-email"><center>Email: studentorganization.lipa@g.batstate-u.edu.ph</span>
+</div>
+
+</div>
 
     <script>
         $(document).ready(function() {
             $('#dataTable').DataTable();
             $('#dataTableArchive').DataTable();
         });
-
+       
+        $(document).ready(function () {
+            $('#orgTable').DataTable();  
+        });
+ 
         function updateAccountInformation(userName, userDept, userEmail) {
             document.getElementById('userNameDisplay').textContent = userName;
             document.getElementById('userDeptDisplay').textContent = userDept;
