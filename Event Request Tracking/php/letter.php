@@ -10,8 +10,9 @@
     <title>Upload Event Letter</title>
 </head>
 
-<body>
+<body onload="uploadPDF()">
     <div class="container">
+
         <form id="upload-letter">
             <p class="title">Upload Letter</p>
             <p class="subtitle">Please complete the event information.</p>
@@ -27,7 +28,9 @@
             </div>
 
             <div class="subcontainer">
-                <p class="attachment-file"></p>
+                <p class="attachment-file">
+                    <a id="file-link" href="#" target="_blank"></a>
+                </p>
             </div>
 
             <div class="upload-icon">
@@ -40,19 +43,25 @@
                 </div>
             </a>
 
-            <p class="text1">Select a file from the computer or drag and drop here.</p>
+            <p class="text1">Selsect a file from the computer or drag and drop here.</p>
             <p class="text2">For the best results, please submit a PDF file.</p>
+
             <input type="file" id="pdfFile" name="pdfFile" accept=".pdf, .jpg, .png" style="display: none; visibility: visible;">
             <input type="button" value="Browse File" class="browse-file-button" onclick="uploadPDF()">
+
             <script>
                 function uploadPDF() {
                     document.getElementById("pdfFile").click();
                 }
 
                 document.getElementById("pdfFile").addEventListener("change", function() {
-                    var file = this.files[0];
-                    var fileName = file ? file.name : "No file selected";
-                    document.querySelector(".attachment-file").textContent = fileName;
+                    var fileInput = this;
+                    var fileName = fileInput.files[0] ? fileInput.files[0].name : "No file selected" + fileName;
+                    var fileURL = window.URL.createObjectURL(fileInput.files[0]);
+
+                    // Update the file link with the file name and URL
+                    document.querySelector(".attachment-file a").textContent = fileName;
+                    document.querySelector(".attachment-file a").href = fileURL;
                 });
             </script>
 
