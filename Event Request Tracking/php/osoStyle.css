@@ -17,13 +17,16 @@
   justify-content: center;
 }
 #sidebar {
-  justify-content: center;
+  padding: 0;
+  height: 100%;
+  background-color: #ffffff;
 }
 .header {
   align-items: center;
   background-color: #a21a1e;
   color: white;
   display: flex;
+  height: 10vh;
 }
 .notification-icon {
   color: white;

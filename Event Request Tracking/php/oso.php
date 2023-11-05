@@ -68,214 +68,221 @@ include 'HTML/oso.html'
     </div>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-2 bg-black p-0" style = "height:90vh">
-                <div class="image-container p-1">
-                    <img src="JPCS.png" alt="Logo" class="img-fluid">
-                </div>
-                <div class="subtitle">
-                    <?php
-                    if (isset($_SESSION['userName'])) {
-                        $userName = $_SESSION['userName'];
-                        echo "<span class = welcom >Welcome Back,</span><br><p><b> $userName!</b></p>";
-                    }
-                    ?>
-                </div>
-                    
-                <ul class="nav flex-column ">
-                    <li class="nav-item">
-                        <a class="nav-link text text-left  active-link" id="showForm1">
-                            <i class="fas fa-chart-line"></i> Dashboard
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text text-left" id="showForm2">
-                            <i class="fas fa-users"></i> Organizations
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text text-left" id="showForm3">
-                            <i class="fas fa-file"></i> Requests
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text text-left" id="showForm4">
-                            <i class="fas fa-calendar"></i> All Events
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text text-left" id="showForm5">
-                            <i class="fas fa-user-plus"></i> Create Account
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text text-left" id="showForm6">
-                            <i class="fas fa-user"></i> Account
-                        </a>
-                    </li><br><br><br><br><br>
-                    <li class="nav-item">
-                        <a class="nav-link text text-left" href="login.php">
-                            <i class="fas fa-sign-out-alt"></i> Logout
-                        </a>
-                    </li>
-                </ul>
+            <div class="col-md-2 p-0" style="height:90vh">
+                <div id="sidebar">
+                    <div class="image-container p-1">
+                        <img src="JPCS.png" alt="Logo" class="img-fluid">
+                    </div>
+                    <div class="subtitle">
+                        <?php
+                        if (isset($_SESSION['userName'])) {
+                            $userName = $_SESSION['userName'];
+                            echo "<span class = welcom >Welcome Back,</span><br><p><b> $userName!</b></p>";
+                        }
+                        ?>
+                    </div>
 
+                    <ul class="nav flex-column ">
+                        <li class="nav-item">
+                            <a class="nav-link text text-left  active-link" id="showForm1">
+                                <i class="fas fa-chart-line"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text text-left" id="showForm2">
+                                <i class="fas fa-users"></i> Organizations
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text text-left" id="showForm3">
+                                <i class="fas fa-file"></i> Requests
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text text-left" id="showForm4">
+                                <i class="fas fa-calendar"></i> All Events
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text text-left" id="showForm5">
+                                <i class="fas fa-user-plus"></i> Create Account
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text text-left" id="showForm6">
+                                <i class="fas fa-user"></i> Account
+                            </a>
+                        </li><br><br><br><br><br>
+                        <li class="nav-item">
+                            <a class="nav-link text text-left" href="login.php">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </a>
+                        </li>
+                    </ul>
+
+                </div>
             </div>
-            <div class="col-md-10 p-4 bg-body-secondary">
-                <div id="form1" style="display: block;">
-                    <h2 class="form-title">Dashboard</h2>
-                    <div class="row">
-                        <div class="col-md-7" style="padding:10px">
-                            <div class="card text-bg-white mb-3" style="max-width:100%; height:115px">
-                                <div class="card-header"><strong>Welcome!</strong></div>
-                                <div class="card-body">
-                                    <p class="card-text">Some quick example text to build on the card title and make up
-                                        the bulk of the card's content.</p>
+
+            <div class="col-md-10 p-4 bg-body-secondary" style = "height:90vh">
+                <div id="main-content">
+                    <div id="form1" style="display: block;">
+                        <h2 class="form-title">Dashboard</h2>
+                        <div class="row">
+                            <div class="col-md-7" style="padding:10px">
+                                <div class="card text-bg-white mb-3" style="max-width:100%; height:115px">
+                                    <div class="card-header"><strong>Welcome!</strong></div>
+                                    <div class="card-body">
+                                        <p class="card-text">Some quick example text to build on the card title and make
+                                            up the bulk of the card's content.</p>
+                                    </div>
+                                </div>
+                                <div class="db-container" style="height:430px">
+                                    <table id="example" class="table table-striped" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">ID</th>
+                                                <th class="text-center">Status</th>
+                                                <th class="text-center">Date</th>
+                                                <th class="text-center">Deadline</th>
+                                                <th class="text-center">User ID</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="text-center">
+                                            <?php
+                                            include 'config.php';
+                                            while ($rowReq = mysqli_fetch_assoc($resultReq)) {
+                                                echo "<tr>";
+                                                echo "<td>{$rowReq['histID']}</td>";
+                                                echo "<td>{$rowReq['reqStatus']}</td>";
+                                                echo "<td>{$rowReq['statusDate']}</td>";
+                                                echo "<td>{$rowReq['reqDeadline']}</td>";
+                                                echo "<td>{$rowReq['orgID']}</td>";
+                                                echo "</tr>";
+                                            }
+                                            ?>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
-                            <div class="db-container" style="height:430px">
-                                <table id="example" class="table table-striped" style="width:100%">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center">ID</th>
-                                            <th class="text-center">Status</th>
-                                            <th class="text-center">Date</th>
-                                            <th class="text-center">Deadline</th>
-                                            <th class="text-center">User ID</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="text-center">
-                                        <?php
-                                        include 'config.php';
-                                        while ($rowReq = mysqli_fetch_assoc($resultReq)) {
-                                            echo "<tr>";
-                                            echo "<td>{$rowReq['histID']}</td>";
-                                            echo "<td>{$rowReq['reqStatus']}</td>";
-                                            echo "<td>{$rowReq['statusDate']}</td>";
-                                            echo "<td>{$rowReq['reqDeadline']}</td>";
-                                            echo "<td>{$rowReq['orgID']}</td>";
-                                            echo "</tr>";
-                                        }
-                                        ?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="col-md-5" style="padding:10px">
-                            <div class="card text-bg-white mb-3" style="max-width: 100%; height:115px">
-                                <div class="card-header"><strong>Organizations</strong></div>
-                                <div class="card-body">
-                                    <p class="card-text">Some quick example text to build on the card title and make up
-                                        the bulk of the card's content.</p>
+                            <div class="col-md-5" style="padding:10px">
+                                <div class="card text-bg-white mb-3" style="max-width: 100%; height:115px">
+                                    <div class="card-header"><strong>Organizations</strong></div>
+                                    <div class="card-body">
+                                        <p class="card-text">Some quick example text to build on the card title and make
+                                            up
+                                            the bulk of the card's content.</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="card text-bg-white mb-3" style="max-width: 100%; height:411px">
-                                <div class="card-header"><strong>Overview</strong></div>
-                                <div class="card-body">
-                                    <div class="overview" style="height:411px">
-                                        <div id="piechart" style="width: 100%;"></div>
+                                <div class="card text-bg-white mb-3" style="max-width: 100%; height:411px">
+                                    <div class="card-header"><strong>Overview</strong></div>
+                                    <div class="card-body">
+                                        <div class="overview" style="height:411px">
+                                            <div id="piechart" style="width: 100%;"></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div id="form2" style="display: none;">
-                    <h2 class="form-title">Organizations</h2>
+                    <div id="form2" style="display: none;">
+                        <h2 class="form-title">Organizations</h2>
 
-                    <table id="Requests" class="table table-striped text-center" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th class="text-center">Organizations Name</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            include 'config.php';
-                            while ($row = mysqli_fetch_assoc($result)) {
-                                echo "<tr>";
-                                echo "<td>{$row['userName']}</td>";
-                                echo "</tr>";
-                            }
-                            ?>
-                        </tbody>
-                    </table>
-                </div>
-
-
-                <div id="form3" style="display: none;">
-                    <h2 class="form-title">Requests</h2>
+                        <table id="Requests" class="table table-striped text-center" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Organizations Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                include 'config.php';
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    echo "<tr>";
+                                    echo "<td>{$row['userName']}</td>";
+                                    echo "</tr>";
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
 
 
-                    <table id="example" class="table table-striped" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th class="text-center">ID</th>
-                                <th class="text-center">Status</th>
-                                <th class="text-center">Date</th>
-                                <th class="text-center">Deadline</th>
-                                <th class="text-center">User ID</th>
-                                <th class="text-center">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-center">
-                            <?php
-                            include 'config.php';
-                            while ($rowReq2 = mysqli_fetch_assoc($resultReq2)) {
-                                echo "<tr>";
-                                echo "<td>{$rowReq2['histID']}</td>";
-                                echo "<td>{$rowReq2['reqStatus']}</td>";
-                                echo "<td>{$rowReq2['statusDate']}</td>";
-                                echo "<td>{$rowReq2['reqDeadline']}</td>";
-                                echo "<td>{$rowReq2['orgID']}</td>";
-                                echo '<td><button class="btn btn-primary">Update</button> <button class="btn btn-danger">Delete</button></td>';
-                                echo "</tr>";
-                            }
-                            ?>
-                        </tbody>
-                    </table>
-                </div>
+                    <div id="form3" style="display: none;">
+                        <h2 class="form-title">Requests</h2>
 
-                <div id="form4" style="display: none">
-                    <h2 class="form-title">All Events</h2>
-                    <table id="AllEvents" class="table table-striped" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th class="text-center">Request ID</th>
-                                <th class="text-center">Event Name</th>
-                                <th class="text-center">Event Date</th>
-                            </tr>
 
-                        </thead>
-                        <tbody class="text-center">
-                            <?php
-                            include 'config.php';
-                            while ($rowEvents = mysqli_fetch_assoc($resultEvents)) {
-                                echo "<tr>";
-                                echo "<td>{$rowEvents['reqID']}</td>";
-                                echo "<td>{$rowEvents['reqEventName']}</td>";
-                                echo "<td>{$rowEvents['reqEventDate']}</td>";
-                                echo "</tr>";
-                            }
-                            ?>
-                        </tbody>
-                    </table>
-                </div>
+                        <table id="example" class="table table-striped" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">ID</th>
+                                    <th class="text-center">Status</th>
+                                    <th class="text-center">Date</th>
+                                    <th class="text-center">Deadline</th>
+                                    <th class="text-center">User ID</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center">
+                                <?php
+                                include 'config.php';
+                                while ($rowReq2 = mysqli_fetch_assoc($resultReq2)) {
+                                    echo "<tr>";
+                                    echo "<td>{$rowReq2['histID']}</td>";
+                                    echo "<td>{$rowReq2['reqStatus']}</td>";
+                                    echo "<td>{$rowReq2['statusDate']}</td>";
+                                    echo "<td>{$rowReq2['reqDeadline']}</td>";
+                                    echo "<td>{$rowReq2['orgID']}</td>";
+                                    echo '<td><button class="btn btn-primary">Update</button> <button class="btn btn-danger">Delete</button></td>';
+                                    echo "</tr>";
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
 
-                <div id="form5" style="display: none;">
-                    <h2 class="form-title">Create Account</h2>
-                    <?php require "register.php"; ?>
-                </div>
+                    <div id="form4" style="display: none">
+                        <h2 class="form-title">All Events</h2>
+                        <table id="AllEvents" class="table table-striped" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Request ID</th>
+                                    <th class="text-center">Event Name</th>
+                                    <th class="text-center">Event Date</th>
+                                </tr>
 
-                <div id="form6" style="display: none;">
-                    <h2 class="form-title">Account</h2>
-                    <p>Username: <span id="userNameDisplay"></span></p>
-                    <p>Department: <span id="userDeptDisplay"></span></p>
-                    <p>Email: <span id="userEmailDisplay"></span></p>
+                            </thead>
+                            <tbody class="text-center">
+                                <?php
+                                include 'config.php';
+                                while ($rowEvents = mysqli_fetch_assoc($resultEvents)) {
+                                    echo "<tr>";
+                                    echo "<td>{$rowEvents['reqID']}</td>";
+                                    echo "<td>{$rowEvents['reqEventName']}</td>";
+                                    echo "<td>{$rowEvents['reqEventDate']}</td>";
+                                    echo "</tr>";
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="form5" style="display: none;">
+                        <h2 class="form-title">Create Account</h2>
+                        <?php require "register.php"; ?>
+                    </div>
+
+                    <div id="form6" style="display: none;">
+                        <h2 class="form-title">Account</h2>
+                        <p>Username: <span id="userNameDisplay"></span></p>
+                        <p>Department: <span id="userDeptDisplay"></span></p>
+                        <p>Email: <span id="userEmailDisplay"></span></p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
 
 </body>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
