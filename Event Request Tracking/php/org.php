@@ -51,6 +51,7 @@ include 'HTML/org.html'
 ?>
 
 <body>
+
     <div class="header d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center">
             <img src="logoo.png" alt="Logo" width="45" style="padding: 5px;" class="img-fluid">
@@ -61,7 +62,21 @@ include 'HTML/org.html'
                 if ($userType == 'Organization') {
                     echo '<a href="letter.php" class="upload-button" id="uploadLetter">Upload a letter</a>';
                 }
+
                 ?>
+                <script>
+                    function showUploadDialog() {
+                        Swal.fire({
+                            title: 'Upload a Letter',
+                            html: 'You can upload a letter here.',
+                            icon: 'info',
+                            showCloseButton: true,
+                            showCancelButton: false,
+                            focusConfirm: false,
+                            confirmButtonText: 'OK',
+                        });
+                    }
+                </script>
             </div>
         </div>
         <div class="notification-icon position-relative">
@@ -308,7 +323,9 @@ include 'HTML/org.html'
 </body>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
-    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.load('current', {
+        'packages': ['corechart']
+    });
     google.charts.setOnLoadCallback(drawChart);
 
     function drawChart() {

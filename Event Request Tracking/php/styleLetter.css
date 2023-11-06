@@ -11,7 +11,7 @@ body {
 	justify-content: center;
 	align-items: center;
 	width: 100vw;
-	height: 100vh;
+	padding-top: 20px;
 }
 
 .container {
@@ -187,8 +187,8 @@ body {
 }
 
 .submit-button {
-	width: 132px; /* Increase the width to make the background color larger */
-	height: 45px; /* Increase the height to make the background color larger */
+	width: 189px;
+	height: 45px;
 	left: 400px;
 	top: 468px;
 	position: absolute;
@@ -200,6 +200,7 @@ body {
 	font-weight: 600;
 	display: flex;
 	align-items: center;
+	text-decoration: none;
 	justify-content: center;
 	text-align: center;
 	font-family: Poppins;
@@ -223,7 +224,7 @@ body {
 	margin-top: 20px;
 	display: flex;
 	justify-content: center;
-	
+	align-items: ;
 	position: absolute;
 	bottom: 5px;
 	width: 100%;
