@@ -115,7 +115,7 @@ include 'HTML/oso.html'
                         </li><br><br><br><br><br>
                         <li class="nav-item">
                             <a class="nav-link text text-left" href="login.php">
-                                <i class="fas fa-sign-out-alt"></i> Logout
+                                <i class="fas fa-sign-out-alt"></i><u>Logout</u>
                             </a>
                         </li>
                     </ul>
