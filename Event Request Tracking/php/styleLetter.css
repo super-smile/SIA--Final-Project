@@ -187,21 +187,29 @@ body {
 }
 
 .submit-button {
-	position: absolute;
-	width: 189px;
-	height: 45px;
-	left: 398px;
+	width: 132px; /* Increase the width to make the background color larger */
+	height: 45px; /* Increase the height to make the background color larger */
+	left: 400px;
 	top: 468px;
+	position: absolute;
 	background-color: #0084ff;
 	border: none;
 	border-radius: 11px;
 	cursor: pointer;
 	color: white;
-	font-size: 19.03px;
-	font-family: Poppins;
 	font-weight: 600;
-	line-height: 25.86px;
-	word-wrap: break-word;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	font-family: Poppins;
+	font-size: 19.026px;
+	line-height: 25.857px;
+}
+
+.button-text {
+	padding-top: 50px;
+	text-align: left;
 }
 
 .pdfFile {
