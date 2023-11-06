@@ -137,7 +137,8 @@ include 'HTML/oso.html'
                                     </div>
                                 </div>
                                 <div class="db-container" style="height:430px">
-                                    <table id="example" class="table table-striped" style="width:100%">
+                                <div class="card-header"><strong>Dashboard</strong></div>
+                                    <table id="" class="table table-striped" style="width:100%">
                                         <thead>
                                             <tr>
                                                 <th class="text-center">ID</th>
