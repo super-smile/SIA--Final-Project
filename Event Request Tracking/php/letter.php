@@ -66,7 +66,9 @@
             </script>
 
             <input type="submit" value="Cancel" class="cancel-button">
+            <a href="submission.php">
             <input type="submit" value="Submit" class="submit-button">
+            </a>
         </form>
     </div>
 

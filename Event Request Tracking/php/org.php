@@ -21,6 +21,7 @@ if (isset($_SESSION['userName'])) {
 
 include 'config.php';
 $userID = $_SESSION['userID'];
+$orgID = $_SESSION['userID'];
 
 //Request 
 $query = "SELECT * FROM tbl_reqhistory WHERE orgID = ? and reqStatus = 'Pending'";
@@ -29,18 +30,21 @@ mysqli_stmt_bind_param($stmt, "s", $userID);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 
-$queryReq = "SELECT * FROM tbl_requests WHERE userID = ?";
+$queryReq = "SELECT * FROM tbl_reqhistory WHERE orgID = ? and reqStatus = 'Pending'";
 $stmtReq = mysqli_prepare($conn, $queryReq);
 mysqli_stmt_bind_param($stmtReq, "s", $userID);
 mysqli_stmt_execute($stmtReq);
 $resultReq = mysqli_stmt_get_result($stmtReq);
 
+
 //Archive
-$queryArch = "SELECT * FROM tbl_reqhistory WHERE orgID = ? and reqStatus = 'Approved'";
+$queryArch = "SELECT * FROM tbl_reqhistory WHERE orgID = ? AND (reqStatus = 'Approved' OR reqStatus = 'Declined')";
 $stmtArch = mysqli_prepare($conn, $queryArch);
 mysqli_stmt_bind_param($stmtArch, "s", $userID);
 mysqli_stmt_execute($stmtArch);
 $resultArch = mysqli_stmt_get_result($stmtArch);
+
+
 
 include 'HTML/org.html'
 
@@ -164,7 +168,7 @@ include 'HTML/org.html'
                                     <div class="overview" style="height:411px">
                                         <div id="piechart" style="width: 100%;"></div>
                                     </div>
-                                 </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -204,7 +208,7 @@ include 'HTML/org.html'
                     </script>
 
                     <div class="horizontal-line" style="width:100%"></div>
-                    <table id="Req" class="table table-striped" style="width:100%">
+                    <table id="Req2" class="table table-striped" style="width:100%">
                         <br>
                         <thead>
                             <tr>
@@ -219,14 +223,14 @@ include 'HTML/org.html'
                         <tbody>
                             <?php
                             include 'config.php';
-                            while ($row = mysqli_fetch_assoc($result)) {
+                            while ($rowReq = mysqli_fetch_assoc($resultReq)) {
                                 echo "<tr>";
-                                echo "<td>{$row['reqID']}</td>";
-                                echo "<td>{$row['reqStatus']}</td>";
-                                echo "<td>{$row['statusDate']}</td>";
-                                echo "<td>{$row['reqDeadline']}</td>";
-                                echo "<td>{$row['orgID']}</td>";
-                                echo "<td>{$row['officeID']}</td>";
+                                echo "<td>{$rowReq['reqID']}</td>";
+                                echo "<td>{$rowReq['reqStatus']}</td>";
+                                echo "<td>{$rowReq['statusDate']}</td>";
+                                echo "<td>{$rowReq['reqDeadline']}</td>";
+                                echo "<td>{$rowReq['orgID']}</td>";
+                                echo "<td>{$rowReq['officeID']}</td>";
                                 echo "</tr>";
                             }
                             ?>
@@ -270,24 +274,67 @@ include 'HTML/org.html'
 
                 <div id="form4" style="display: none;">
                     <h2 style="font-family:'Poppins'; margin:10px 10px 10px 10px"><strong>Account</strong></h2>
-                    <div class="container-fluid-account" id="account-container">
-                        <h2 class="form-title">Organization Information</h2>
-                        <p>Username: <span id="userNameDisplay"></span></p>
-                        <p>Department: <span id="userDeptDisplay"></span></p>
-                        <p>Email: <span id="userEmailDisplay"></span></p>
-
-                        <div class="container" id="container-assistance">
-                            <p>If you find that the provided information is incorrect, please reach out to the Office of Student<br>
-                                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Organization for assistance.</p>
-                            <p style="margin-left: 175px; font-weight:normal">Email: studentorganization.lipa@g.batstate-u.edu.ph</p>
+                    <div class="acc-container">
+                        <p><strong>Account Information</strong></p>
+                        <div class="form-group">
+                            <div class="label-input">
+                                <label for="userNameDisplay">Organization Name:</label>
+                                <span id="userNameDisplay" class="form-control"></span>
+                            </div>
                         </div>
-
+                        <div class="form-group">
+                            <div class="label-input">
+                                <label for="userDeptDisplay">Department Name:</label>
+                                <span id="userDeptDisplay" class="form-control"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="label-input">
+                                <label for="userEmailDisplay">Email Address:</label>
+                                <span id="userEmailDisplay" class="form-control"></span>
+                            </div>
+                        </div>
+                        <div class="sub-container">
+                            <p class="sub-title">If you find that the provided information is incorrect, please
+                                reach out to the
+                                Lipa Office for assistance.</p>
+                            <span class="sub-email">Email: ict.lipa@g.batstate-u.edu.ph</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </body>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        <?php
+        include('config.php');
+
+        $queryPie = "SELECT reqStatus, COUNT(reqStatus) as count FROM tbl_reqhistory WHERE orgID = '$orgID' GROUP BY reqStatus";
+        $resultPie = mysqli_query($conn, $queryPie);
+
+        $chartData = [['Status', 'Count']];
+        while ($rowPie = mysqli_fetch_assoc($resultPie)) {
+            $chartData[] = [$rowPie['reqStatus'], (int) $rowPie['count']];
+        }
+        ?>
+        var data = google.visualization.arrayToDataTable(<?php echo json_encode($chartData); ?>);
+
+        var options = {
+            title: 'Event Approval Overview'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        chart.draw(data, options);
+    }
+</script>
+
+
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
@@ -310,7 +357,9 @@ include 'HTML/org.html'
     });
 
     new DataTable('#Req');
+    new DataTable('#Req2');
     new DataTable('#Arch');
+
 
     function updateAccountInformation(userName, userDept, userEmail) {
         document.getElementById('userNameDisplay').textContent = userName;

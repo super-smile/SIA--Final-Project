@@ -4,7 +4,7 @@
 }
 .container-fluid {
   width: 100%;
-  height: 90vh;
+  height: 94vh;
 }
 
 .header {
@@ -107,13 +107,29 @@
   font-size: 25px;
   font-weight: bold;
 }
-
-#account-meshdash {
-  background: white;
-  width: 900px;
-  height: 120px;
-  margin: 30px 50px 10px 65px;
-  padding: 0px 0px 10px 10px;
-  box-shadow: 0 0 7px rgba(0, 0, 0, 0.2);
-  border-radius: 0.5rem;
+.acc-container {
+  background-color: white;
+  padding: 20px 40px;
+  border-radius: 5px;
 }
+
+.label-input {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.label-input label {
+  flex-basis: 40%;
+  text-align: left;
+  padding-right: 10px;
+}
+
+.sub-container {
+  border-radius: 5px;
+  background-color: #f8d7da;
+  text-align: center;
+  padding: 20px 10px 10px;
+  margin: 20px 0;
+}
+
