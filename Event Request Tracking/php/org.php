@@ -181,7 +181,6 @@ require 'HTML/org.html'
                         </div>
                     </div>
                 </div>
-
                 <div id="form2" style="display: none;">
                     <h2 class="form-title">Request</h2>
                     <div class="req-container">

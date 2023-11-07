@@ -35,10 +35,9 @@ if (isset($_SESSION['userName'])) {
     include 'HTML/office.html'
 ?>
 
-<link rel="stylesheet" href="officeStyle.css">
 </head>
 <body style="background:#F3F3F3;"> 
-    <div class="container-fluid" style="height: 100vh; width:100%; margin:0; padding: 0; display: flex; flex-direction: column;">
+    <div class="container-fluid" style=" margin:0; padding: 0; display: flex; flex-direction: column;">
         <div class="header">
             <div style="display: flex; align-items: center; justify-content: space-between;">
                 <div style="display: flex; align-items: center;">
@@ -68,7 +67,6 @@ if (isset($_SESSION['userName'])) {
                         echo "<span class = welcom ><center>Welcome Back,</span><br><p><b> $userName!</b></p>";
                     }
                     ?>
-
                 </div>
 
                 <ul class="nav flex-column ">
@@ -136,7 +134,6 @@ if (isset($_SESSION['userName'])) {
                             GROUP BY acc.userID";
 
                 $orgResult = mysqli_query($conn, $orgQuery);
-
                     echo '<table border="0" id="orgTable" class="display">';
                     echo '<thead>';
                     echo '<tr>';
@@ -154,7 +151,6 @@ if (isset($_SESSION['userName'])) {
                         echo '<td>' . $rowOrg['numActivities'] . '</td>';
                         echo '</tr>';
                     }
-
                     echo '</tbody>';
                     echo '</table>';
                 ?>
@@ -162,94 +158,43 @@ if (isset($_SESSION['userName'])) {
 
             
     <form id="form3">
-    <h2>Requests</h2>
-    <table class="bordered stripe" id="dataTablereq">
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        th, td {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
-    </style>
+        <h2>Requests</h2>
+            <table class="bordered stripe" id="dataTable" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Request ID</th>
+                        <th>Submission Date</th>
+                        <th>Current Office</th>
+                        <th>Request Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    include 'config.php';
+                    while ($rowArch = mysqli_fetch_assoc($result)) {
+                        echo "<tr>";
+                        echo "<td>{$rowArch['reqID']}</td>";
+                        echo "<td>{$rowArch['statusDate']}</td>";
+                        echo "<td>{$rowArch['officeID']}</td>";
+                        echo "<td>{$rowArch['reqStatus']}</td>";
+                        echo "<td>
+                                <button class='btn btn-primary approve-btn' data-id='{$rowArch['reqID']}'>Approve</button>
+                                <button class='btn btn-danger decline-btn' data-id='{$rowArch['reqID']}'>Decline</button>
+                            </td>";
+                        echo "</tr>";
+                    }
+                    ?>
+                </tbody>
+            </table>
+    </form>
     
-    <script>
-        $(document).ready(function () {
-            $('#dataTable').DataTable();
-
-            $('.approve-btn').on('click', function () {
-                var requestId = $(this).data('id');
-                $.ajax({
-                    type: 'POST',
-                    url: 'updatestatus.php',
-                    data: { reqId: reqId, reqstatus: 'Approved' },
-                    success: function (response) {
-                        console.log(response);
-                        // Refresh DataTable after update
-                        $('#dataTable').DataTable().ajax.reload();
-                    }
-                });
-            });
-
-            $('.decline-btn').on('click', function () {
-                var requestId = $(this).data('id');
-                $.ajax({
-                    type: 'POST',
-                    url: 'updatestatus.php',
-                    data: { reqId: reqId, reqstatus: 'Declined' },
-                    success: function (response) {
-                        console.log(response);
-                        // Refresh DataTable after update
-                        $('#dataTable').DataTable().ajax.reload();
-                    }
-                });
-            });
-        });
-    </script>
-
-    <table class="bordered stripe" id="dataTable" style="width:100%">
-        <thead>
-            <tr>
-                <th>Request ID</th>
-                <th>Submission Date</th>
-                <th>Current Office</th>
-                <th>Request Status</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            include 'config.php';
-            // Assuming $result is the result of your query for the specific columns
-            while ($rowArch = mysqli_fetch_assoc($result)) {
-                echo "<tr>";
-                echo "<td>{$rowArch['reqID']}</td>";
-                echo "<td>{$rowArch['statusDate']}</td>";
-                echo "<td>{$rowArch['officeID']}</td>";
-                echo "<td>{$rowArch['reqStatus']}</td>";
-                echo "<td>
-                        <button class='btn btn-primary approve-btn' data-id='{$rowArch['reqID']}'>Approve</button>
-                        <button class='btn btn-danger decline-btn' data-id='{$rowArch['reqID']}'>Decline</button>
-                      </td>";
-                echo "</tr>";
-            }
-            ?>
-        </tbody>
-    </table>
-</form>
-
- 
- 
     <form id="form4" style="display: none;">
     <h2>Archive</h2>  
-    <table class="bordered stripe" id="dataTableArchive">
+    <table class="bordered stripe" id="dataTableArchive" style="width:100%">
         <thead>
             <tr>
-                 <!--<th>Reference Number</th>-->
+                <!--<th>Reference Number</th>-->
                 <th>Request ID</th>
                 <th>Approval Date</th>
                 <th>Status</th>
