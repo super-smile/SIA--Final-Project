@@ -64,10 +64,12 @@ require 'HTML/org.html'
 
             </div>
         </div>
-        <div class="notification-icon position-relative">
-            <i class="far fa-bell fa-lg" style="color: #cf4444;"></i>
-            <span class="position-absolute top-0 start-99 translate-middle badge rounded-pill bg-danger">
-                <span class="notif">10</span>
+        <div class="notification-icon position-relative" style="margin-right: 20px">
+            <div class="notification-bell">
+                <i class="fas fa-bell" style="color: white; font-size: 17px;"></i>
+            </div>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                <span class="notif">4</span>
                 <span class="visually-hidden">unread messages</span>
             </span>
         </div>
@@ -76,49 +78,52 @@ require 'HTML/org.html'
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-2 p-0" style="background:#a21a1e; color: white;">
-                <div class="image-container p-1">
-                    <img src="logoo.png" alt="Logo" class="img-fluid">
+                <div class="sidebar">
+                    <div class="image-container p-1">
+                        <img src="Tech-IS.png" alt="Logo" class="img-fluid">
+                    </div>
+                    <div class="subtitle">
+
+                        <?php
+                        if (isset($_SESSION['userName'])) {
+                            $userName = $_SESSION['userName'];
+                            echo "<span class = welcom >Welcome Back,</span><br><p><b> $userName!</b></p>";
+                        }
+                        ?>
+
+                    </div>
+
+                    <ul class="nav flex-column ">
+                        <li class="nav-item">
+                            <a class="nav-link text text-left  active-link" id="showForm1">
+                                <i class="fas fa-chart-line"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text text-left " id="showForm2">
+                                <i class="fas fa-users"></i> Request
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text text-left" id="showForm3">
+                                <i class="fas fa-tasks"></i> Archive
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text text-left" id="showForm4">
+                                <i class="fas fa-calendar"></i> Account
+                            </a>
+                        </li>
+                        <br><br><br><br><br><br><br><br><br><br>
+                        <li class="nav-item">
+                            <a class="nav-link text text-left" href="login.php">
+                                <i class="fas fa-sign-out-alt"></i><u style="margin-left:2px">Logout</u>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
-                <div class="subtitle">
-
-                    <?php
-                    if (isset($_SESSION['userName'])) {
-                        $userName = $_SESSION['userName'];
-                        echo "<span class = welcom >Welcome Back,</span><br><p><b> $userName!</b></p>";
-                    }
-                    ?>
-
-                </div>
-
-                <ul class="nav flex-column ">
-                    <li class="nav-item">
-                        <a class="nav-link text text-left  active-link" id="showForm1">
-                            <i class="fas fa-chart-line"></i> Dashboard
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text text-left " id="showForm2">
-                            <i class="fas fa-users"></i> Request
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text text-left" id="showForm3">
-                            <i class="fas fa-tasks"></i> Archive
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text text-left" id="showForm4">
-                            <i class="fas fa-calendar"></i> Account
-                        </a>
-                    </li>
-                    <br><br><br><br><br><br><br><br><br><br>
-                    <li class="nav-item">
-                        <a class="nav-link text text-left" href="login.php">
-                            <i class="fas fa-sign-out-alt"></i><u style="margin-left:2px">Logout</u>
-                        </a>
-                    </li>
-                </ul>
             </div>
+
 
             <div class="col-md-10 p-4 bg-body-secondary">
                 <div id="form1" style="display: block;">
@@ -207,7 +212,6 @@ require 'HTML/org.html'
                             setInterval(updateDateTime, 1000);
                         </script>
 
-                        <div class="horizontal-line" style="width:100%"></div>
                         <table id="Req2" class="table table-striped" style="width:100%">
                             <br>
                             <thead>

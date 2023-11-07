@@ -44,6 +44,16 @@
   background-color: #0056b3;
   color: white;
 }
+.notification-bell {
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: black;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .image-container {
   margin: auto;
   margin-top: 20px;
@@ -54,9 +64,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0;
+  padding: 0!important;
 }
-
+.notification-icon {
+  color: white;
+  width: 30px;
+  padding: 0;
+  margin-right: 10px;
+}
 .header img {
   margin-right: 10px;
   margin-left: 10px;
@@ -138,12 +153,13 @@
   height: 115px;
   margin-top: 40px;
 }
+
 .req-container{
   background-color: white;
   padding: 15px;
   border-radius: 5px;
 }
-#date-time{
+.date-time{
   border-bottom: 1px solid black;
   padding-bottom: 10px;
 }
