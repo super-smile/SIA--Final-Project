@@ -7,6 +7,10 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" type="text/css" href="styleLetter.css">
+    <link rel="stylesheet" type="text/css" href="styleLetter.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
     <title>Upload Event Letter</title>
 </head>
 
@@ -31,6 +35,7 @@
                 <p class="attachment-file">
                     <a id="file-link" href="#" target="_blank"></a>
                 </p>
+
             </div>
 
             <div class="upload-icon">
@@ -66,9 +71,30 @@
             </script>
 
             <input type="submit" value="Cancel" class="cancel-button">
-            <a href="submission.php">
-            <input type="submit" value="Submit" class="submit-button">
+
+            <a href="#" class="submit-button" id="submit-button">
+                Submit
             </a>
+            <script>
+                document.querySelector("#submit-button").addEventListener("click", function(e) {
+                    e.preventDefault(); // Prevent the default link behavior
+
+                    Swal.fire({
+                        title: 'Submission Confirm',
+                        html: "Are you certain you want to submit this? The information you've entered <strong>cannot be altered or reversed once</strong> it's been submitted.",
+                        showCancelButton: true,
+                        confirmButtonText: 'Confirm Submission',
+                        cancelButtonText: 'Cancel',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = "submission.html";
+                        }
+                    });
+
+                });
+            </script>
+
+
         </form>
     </div>
 

@@ -11,7 +11,7 @@ body {
 	justify-content: center;
 	align-items: center;
 	width: 100vw;
-	height: 100vh;
+	padding-top: 20px;
 }
 
 .container {
@@ -187,21 +187,30 @@ body {
 }
 
 .submit-button {
-	position: absolute;
 	width: 189px;
 	height: 45px;
-	left: 398px;
+	left: 400px;
 	top: 468px;
+	position: absolute;
 	background-color: #0084ff;
 	border: none;
 	border-radius: 11px;
 	cursor: pointer;
 	color: white;
-	font-size: 19.03px;
-	font-family: Poppins;
 	font-weight: 600;
-	line-height: 25.86px;
-	word-wrap: break-word;
+	display: flex;
+	align-items: center;
+	text-decoration: none;
+	justify-content: center;
+	text-align: center;
+	font-family: Poppins;
+	font-size: 19.026px;
+	line-height: 25.857px;
+}
+
+.button-text {
+	padding-top: 50px;
+	text-align: left;
 }
 
 .pdfFile {
@@ -215,7 +224,7 @@ body {
 	margin-top: 20px;
 	display: flex;
 	justify-content: center;
-	
+	align-items: ;
 	position: absolute;
 	bottom: 5px;
 	width: 100%;

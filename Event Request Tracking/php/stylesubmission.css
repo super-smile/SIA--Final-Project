@@ -1,70 +1,93 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 
-.submission-confirm{
-    margin: 10px auto;
-    text-align: center;
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	font-family: Poppins, sans-serif;
 }
+body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100vw;
+	padding-top: 10px;
+}
+
+.submission-confirm {
+	text-align: center;
+	padding-left: 31px;
+}
+
 .container {
-    width: 621px; 
-    height: 326px; 
-    padding-left: 50px;
-    padding-top: 30px;
-    position: relative; 
-    background: white; 
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); 
-    border-radius: 9px; 
-    overflow: hidden; 
-    border: 1px black solid
-    
-  }
-  
-  .title {
-    width: 423px;
-    height: 21px;
-    color: black;
-    font-size: 32px;
-    font-family: Poppins;
-    font-weight: 600;
-    line-height: 31.72px;
-    word-wrap: break-word;
-  }
-  
-  .ConfirmSubmission {
-    width: 521px;
-    height: 30px;
-    text-align: center;
-    color: white;
-    font-size: 19.03px;
-    font-family: Poppins;
-    font-weight: 600;
-    line-height: 25.86px;
-    word-wrap: break-word;
-    background: #0084FF;
-    border-radius: 11px;
-  }
-  
-  .GoBack {
-    width: 545px;
-    height: 30px;
-    text-align: center;
-    color: #E33629;
-    font-size: 19.03px;
-    font-family: Poppins;
-    font-weight: 600;
-    line-height: 25.86px;
-    word-wrap: break-word;
-  }
-  
-  .subtitle {
-    width: 545px;
-    text-align: justify;
-    font-size: 19.03px;
-    font-family: Poppins;
-    font-weight: 400;
-    line-height: 26.36px;
-    word-wrap: break-word;
-  }
-  
-  .bold {
-    font-weight: 600;
-  }
+	width: 621px;
+	height: 326px;
+	position: relative;
+	background: white;
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+	border-radius: 9px;
+	overflow: hidden;
+	border: 1px solid black;
+	margin: auto;
+	display: flex;
+	flex-direction: column;
+}
+
+.title {
+	padding-top: 32px;
+	padding-left: 36px;
+	width: 423px;
+	height: 21px;
+	color: black;
+	font-size: 32px;
+	font-family: Poppins;
+	font-weight: 600;
+	line-height: 31.72px;
+}
+
+.subtitle {
+	padding-top: 50px;
+	padding-left: 32px;
+	color: #000;
+	text-align: justify;
+	font-size: 19.026px;
+	font-style: normal;
+	font-weight: Poppins;
+	line-height: 26.357px;
+	word-wrap: break-word;
+	margin-right: 50px;
+}
+
+.ConfirmSubmission {
+	background: #0084ff;
+	width: 545px;
+	height: 50px;
+	border-radius: 11px;
+	color: white;
+	margin-top: 20px;
+	font-family: Poppins;
+	font-weight: 600;
+	font-size: 19.03px;
+	cursor: pointer;
+	display: inline-block;
+	margin-left: 32px;
+}
+
+.GoBack {
+	color: #e33629;
+	font-weight: 600;
+	font-family: Poppins;
+	width: 545px;
+	height: 50px;
+	border-radius: 11px;
+	border: 1px solid #e33629;
+	font-size: 19.03px;
+	background: transparent;
+	cursor: pointer;
+	display: inline-block;
+	margin-top: 10px;
+	text-decoration: none;
+	margin-left: 32px;
+	padding-left: 235px;
+	padding-top: 10px;
+}
