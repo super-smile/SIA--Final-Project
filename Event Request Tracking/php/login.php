@@ -18,9 +18,9 @@ if (isset($_POST['login'])) {
         $_SESSION['userID'] = $row['userID'];
         $_SESSION['userType'] = $row['userType'];
 
-        $userType = $_SESSION['userType'];
+        $userType = $_SESSION['userType']; //hindi ko muna pakelman to 
         if ($userType == 'OSO') {
-            header('location: oso.php');
+            header('location: oso.php'); //nagano lang ako ng login for Admin
         }elseif($userType == 'Office'){
             header('location: office.php');
         }else{
@@ -52,7 +52,7 @@ if (isset($_POST['login'])) {
                 <div class="container text-center mx-auto" id="image-container">
                     <h2><img src="logoo.png" alt="" width="350" height="400" class="img-fluid"></h2>
                     <div class="mt-4" style="font-size: 14px; color: white; padding-top: 90px">This website is managed by the Office of the Student Organization <br>at Batangas State University
-             - The NEU Lipa Campus</div>
+            - The NEU Lipa Campus</div>
                 </div>
             </div>
             <div class="col-md-6 d-flex align-items-center justify-content-center"  id="login-container">
@@ -78,12 +78,7 @@ if (isset($_POST['login'])) {
                         </div>
                         <button type="submit" name="login" class="btn btn-outline-dark btn-lg btn-block">LOGIN</button>
                     </form>
-                    <div class="container text-center">
-                        <div class="horizontal-line"></div>
-                        <span class="or-text">   or   </span>
-                        <div class="horizontal-line"></div>
-                        </div>
-                    <button type="button" class="btn btn-outline-dark btn-lg btn-block">Log in with Google</button>
+                
                     <div class="mt-4" style="font-size: 14px;"><b>Note:</b> If you're experiencing difficulty logging in, please contact the Office of Student Organization for assistance.</div>
                 </div>
             </div>
