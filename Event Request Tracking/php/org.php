@@ -23,19 +23,19 @@ include 'config.php';
 $userID = $_SESSION['userID'];
 $orgID = $_SESSION['userID'];
 
-//Request 
+//Dashboard
 $query = "SELECT * FROM tbl_reqhistory WHERE orgID = ? and reqStatus = 'Pending'";
 $stmt = mysqli_prepare($conn, $query);
 mysqli_stmt_bind_param($stmt, "s", $userID);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 
+//Request
 $queryReq = "SELECT * FROM tbl_reqhistory WHERE orgID = ? and reqStatus = 'Pending'";
 $stmtReq = mysqli_prepare($conn, $queryReq);
 mysqli_stmt_bind_param($stmtReq, "s", $userID);
 mysqli_stmt_execute($stmtReq);
 $resultReq = mysqli_stmt_get_result($stmtReq);
-
 
 //Archive
 $queryArch = "SELECT * FROM tbl_reqhistory WHERE orgID = ? AND (reqStatus = 'Approved' OR reqStatus = 'Declined')";
@@ -44,39 +44,24 @@ mysqli_stmt_bind_param($stmtArch, "s", $userID);
 mysqli_stmt_execute($stmtArch);
 $resultArch = mysqli_stmt_get_result($stmtArch);
 
+require 'HTML/org.html'
 
-
-include 'HTML/org.html'
-
-?>
+    ?>
 
 <body>
-
     <div class="header d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center">
             <img src="logoo.png" alt="Logo" width="45" style="padding: 5px;" class="img-fluid">
             <div class="header-text">
                 <p style="font-size: 11px; font-weight: 800; margin: 0;">Event Tracking System</p>
                 <span style="font-size: 9px;">Office of the Student Organizations</span>
+
                 <?php
                 if ($userType == 'Organization') {
                     echo '<a href="letter.php" class="upload-button" id="uploadLetter">Upload a letter</a>';
                 }
-
                 ?>
-                <script>
-                    function showUploadDialog() {
-                        Swal.fire({
-                            title: 'Upload a Letter',
-                            html: 'You can upload a letter here.',
-                            icon: 'info',
-                            showCloseButton: true,
-                            showCancelButton: false,
-                            focusConfirm: false,
-                            confirmButtonText: 'OK',
-                        });
-                    }
-                </script>
+
             </div>
         </div>
         <div class="notification-icon position-relative">
@@ -95,17 +80,20 @@ include 'HTML/org.html'
                     <img src="logoo.png" alt="Logo" class="img-fluid">
                 </div>
                 <div class="subtitle">
+
                     <?php
                     if (isset($_SESSION['userName'])) {
                         $userName = $_SESSION['userName'];
                         echo "<span class = welcom >Welcome Back,</span><br><p><b> $userName!</b></p>";
                     }
                     ?>
+
                 </div>
+
                 <ul class="nav flex-column ">
                     <li class="nav-item">
                         <a class="nav-link text text-left  active-link" id="showForm1">
-                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                            <i class="fas fa-chart-line"></i> Dashboard
                         </a>
                     </li>
                     <li class="nav-item">
@@ -123,16 +111,15 @@ include 'HTML/org.html'
                             <i class="fas fa-calendar"></i> Account
                         </a>
                     </li>
-                    <br><br><br><br><br><br><br>
+                    <br><br><br><br><br><br><br><br><br><br>
                     <li class="nav-item">
                         <a class="nav-link text text-left" href="login.php">
-                            <i class="fas fa-sign-out-alt"></i> Logout
+                            <i class="fas fa-sign-out-alt"></i><u style="margin-left:2px">Logout</u>
                         </a>
                     </li>
                 </ul>
-                <br>
-                <br>
             </div>
+
             <div class="col-md-10 p-4 bg-body-secondary">
                 <div id="form1" style="display: block;">
                     <h2 class="form-title">Dashboard</h2>
@@ -141,9 +128,9 @@ include 'HTML/org.html'
                             <div class="card text-bg-white mb-5" style="max-width:100%; height:115px">
                                 <div class="card-header"><strong>Welcome!</strong></div>
                                 <div class="card-body">
-                                    <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                                    <p class="card-text">Welcome to Event Tracking System by Group 7</p>
                                 </div>
-                                <div class="card text-bg-white mb-5" style="max-width:100%; height:115px; margin-top:40px;">
+                                <div class="db-table card text-bg-white mb-5">
                                     <div class="card-header"><strong>Request</strong></div>
                                     <table id="Req" class="table table-striped" style="width:100%">
                                         <br>
@@ -176,6 +163,7 @@ include 'HTML/org.html'
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-md-5" style="padding:10px">
                             <div class="card text-bg-white mb-3" style="max-width: 100%; height:411px">
                                 <div class="card-header"><strong>Overview</strong></div>
@@ -189,106 +177,105 @@ include 'HTML/org.html'
                     </div>
                 </div>
 
-
                 <div id="form2" style="display: none;">
                     <h2 class="form-title">Request</h2>
-                    <h3 id="date-time">Date</h3>
-                    <script>
-                        function updateDateTime() {
-                            const dateTimeElement = document.getElementById("date-time");
-                            const currentDate = new Date();
-                            const dateOptions = {
-                                weekday: 'long',
-                                year: 'numeric',
-                                month: 'long',
-                                day: 'numeric'
-                            };
-                            const timeOptions = {
-                                hour: '2-digit',
-                                minute: '2-digit',
-                                second: '2-digit'
-                            };
+                    <div class="req-container">
+                        <h3 id="date-time">Date</h3>
 
-                            const formattedDate = currentDate.toLocaleDateString(undefined, dateOptions);
-                            const formattedTime = currentDate.toLocaleTimeString(undefined, timeOptions);
+                        <script>
+                            function updateDateTime() {
+                                const dateTimeElement = document.getElementById("date-time");
+                                const currentDate = new Date();
+                                const dateOptions = {
+                                    weekday: 'long',
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric'
+                                };
+                                const timeOptions = {
+                                    hour: '2-digit',
+                                    minute: '2-digit',
+                                    second: '2-digit'
+                                };
 
-                            dateTimeElement.innerHTML = `${formattedDate} <span style="float: right">${formattedTime}</span>`;
-                        }
+                                const formattedDate = currentDate.toLocaleDateString(undefined, dateOptions);
+                                const formattedTime = currentDate.toLocaleTimeString(undefined, timeOptions);
 
-                        // Call the function to update the date and time initially
-                        updateDateTime();
-
-                        // Update the date and time every second (1000 milliseconds)
-                        setInterval(updateDateTime, 1000);
-                    </script>
-
-                    <div class="horizontal-line" style="width:100%"></div>
-                    <table id="Req2" class="table table-striped" style="width:100%">
-                        <br>
-                        <thead>
-                            <tr>
-                                <th>Req ID</th>
-                                <th>Status</th>
-                                <th>Date Approved</th>
-                                <th>Deadline</th>
-                                <th>Organization ID</th>
-                                <th>Office ID</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            include 'config.php';
-                            while ($rowReq = mysqli_fetch_assoc($resultReq)) {
-                                echo "<tr>";
-                                echo "<td>{$rowReq['reqID']}</td>";
-                                echo "<td>{$rowReq['reqStatus']}</td>";
-                                echo "<td>{$rowReq['statusDate']}</td>";
-                                echo "<td>{$rowReq['reqDeadline']}</td>";
-                                echo "<td>{$rowReq['orgID']}</td>";
-                                echo "<td>{$rowReq['officeID']}</td>";
-                                echo "</tr>";
+                                dateTimeElement.innerHTML = `<span style="font-size: 20px;">${formattedDate} <span style="float: right">${formattedTime}</span></span>`;
                             }
-                            ?>
-                        </tbody>
-                    </table>
+                            updateDateTime();
+                            setInterval(updateDateTime, 1000);
+                        </script>
+
+                        <div class="horizontal-line" style="width:100%"></div>
+                        <table id="Req2" class="table table-striped" style="width:100%">
+                            <br>
+                            <thead>
+                                <tr>
+                                    <th>Req ID</th>
+                                    <th>Status</th>
+                                    <th>Date Approved</th>
+                                    <th>Deadline</th>
+                                    <th>Organization ID</th>
+                                    <th>Office ID</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                include 'config.php';
+                                while ($rowReq = mysqli_fetch_assoc($resultReq)) {
+                                    echo "<tr>";
+                                    echo "<td>{$rowReq['reqID']}</td>";
+                                    echo "<td>{$rowReq['reqStatus']}</td>";
+                                    echo "<td>{$rowReq['statusDate']}</td>";
+                                    echo "<td>{$rowReq['reqDeadline']}</td>";
+                                    echo "<td>{$rowReq['orgID']}</td>";
+                                    echo "<td>{$rowReq['officeID']}</td>";
+                                    echo "</tr>";
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+
                 </div>
 
-
-
                 <div id="form3" style="display: none;">
-                    <h2 style="font-family:'Poppins'; margin:10px 10px 10px 10px"><strong>Archive</strong></h2>
-                    <table id="Arch" class="table table-striped" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>Request ID</th>
-                                <th>Submission Date</th>
-                                <th>Status</th>
-                                <th>Request Deadline</th>
-                                <th>userID</th>
+                    <h2 class="form-title"><strong>Archive</strong></h2>
+                    <div class="req-container">
+                        <table id="Arch" class="table table-striped" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Request ID</th>
+                                    <th>Submission Date</th>
+                                    <th>Status</th>
+                                    <th>Request Deadline</th>
+                                    <th>userID</th>
 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            include 'config.php';
-                            while ($rowArch = mysqli_fetch_assoc($resultArch)) {
-                                echo "<tr>";
-                                echo "<td>{$rowArch['reqID']}</td>";
-                                echo "<td>{$rowArch['statusDate']}</td>";
-                                echo "<td>{$rowArch['reqStatus']}</td>";
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                include 'config.php';
+                                while ($rowArch = mysqli_fetch_assoc($resultArch)) {
+                                    echo "<tr>";
+                                    echo "<td>{$rowArch['reqID']}</td>";
+                                    echo "<td>{$rowArch['statusDate']}</td>";
+                                    echo "<td>{$rowArch['reqStatus']}</td>";
 
-                                echo "<td>{$rowArch['reqDeadline']}</td>";
-                                echo "<td>{$rowArch['orgID']}</td>";
+                                    echo "<td>{$rowArch['reqDeadline']}</td>";
+                                    echo "<td>{$rowArch['orgID']}</td>";
 
-                                echo "</tr>";
-                            }
-                            ?>
-                        </tbody>
-                    </table>
+                                    echo "</tr>";
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <div id="form4" style="display: none;">
-                    <h2 style="font-family:'Poppins'; margin:10px 10px 10px 10px"><strong>Account</strong></h2>
+                    <h2 class="form-title"><strong>Account</strong></h2>
                     <div class="acc-container">
                         <p><strong>Account Information</strong></p>
                         <div class="form-group">
@@ -373,7 +360,6 @@ include 'HTML/org.html'
         link.addEventListener('click', handleLinkClick);
     });
 
-    new DataTable('#Req');
     new DataTable('#Req2');
     new DataTable('#Arch');
 
@@ -393,28 +379,28 @@ include 'HTML/org.html'
     var form3 = document.getElementById("form3");
     var form4 = document.getElementById("form4");
 
-    button1.addEventListener("click", function() {
+    button1.addEventListener("click", function () {
         form1.style.display = "block";
         form2.style.display = "none";
         form3.style.display = "none";
         form4.style.display = "none";
     });
 
-    button2.addEventListener("click", function() {
+    button2.addEventListener("click", function () {
         form1.style.display = "none";
         form2.style.display = "block";
         form3.style.display = "none";
         form4.style.display = "none";
     });
 
-    button3.addEventListener("click", function() {
+    button3.addEventListener("click", function () {
         form1.style.display = "none";
         form2.style.display = "none";
         form3.style.display = "block";
         form4.style.display = "none";
     });
 
-    button4.addEventListener("click", function() {
+    button4.addEventListener("click", function () {
         form1.style.display = "none";
         form2.style.display = "none";
         form3.style.display = "none";
@@ -431,7 +417,7 @@ include 'HTML/org.html'
 
     var activeButton = null;
 
-    showForm1Button.addEventListener('click', function() {
+    showForm1Button.addEventListener('click', function () {
         if (activeButton !== showForm1Button) {
             if (activeButton) {
                 activeButton.classList.remove('clicked');
@@ -441,7 +427,7 @@ include 'HTML/org.html'
         }
     });
 
-    showForm2Button.addEventListener('click', function() {
+    showForm2Button.addEventListener('click', function () {
         if (activeButton !== showForm2Button) {
             if (activeButton) {
                 activeButton.classList.remove('clicked');
@@ -451,7 +437,7 @@ include 'HTML/org.html'
         }
     });
 
-    showForm3Button.addEventListener('click', function() {
+    showForm3Button.addEventListener('click', function () {
         if (activeButton !== showForm3Button) {
             if (activeButton) {
                 activeButton.classList.remove('clicked');
@@ -461,7 +447,7 @@ include 'HTML/org.html'
         }
     });
 
-    showForm4Button.addEventListener('click', function() {
+    showForm4Button.addEventListener('click', function () {
         if (activeButton !== showForm4Button) {
             if (activeButton) {
                 activeButton.classList.remove('clicked');

@@ -23,7 +23,7 @@
   font-size: 10px;
 }
 #uploadLetter {
-  font-size: 15px;
+  font-size: 13px;
   text-decoration: none;
   color: #fff;
   margin-right: 30px;
@@ -133,3 +133,17 @@
   margin: 20px 0;
 }
 
+.db-table {
+  max-width: 100%;
+  height: 115px;
+  margin-top: 40px;
+}
+.req-container{
+  background-color: white;
+  padding: 15px;
+  border-radius: 5px;
+}
+#date-time{
+  border-bottom: 1px solid black;
+  padding-bottom: 10px;
+}
