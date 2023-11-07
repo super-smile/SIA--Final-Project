@@ -54,45 +54,58 @@ if (isset($_SESSION['userName'])) {
             </div>
         </div>
 
-        <div class="wrapper" style="display: flex;">
-        <div class="sidebar" style="background-color: #a21a1e; width: 250px; padding: 20px;">
-        <center><img src="cics.jpg" alt="sideLogo" width="180" height="180" class="img-fluid" style="border-radius: 50%;"></center>
-            <?php
-            if (isset($_SESSION['userName'])) {
-                $userName = $_SESSION['userName'];
-                echo '<center><br><div class="welcome-message">Welcome Back,</div> ';
-                echo '<center> <div class="user-name">' .  $userName . '</div>';
-            }
-            ?>
+        <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 p-0" style="background:#a21a1e; color: white;">
+                <div class="image-container p-1">
+                    <img src="logoo.png" alt="Logo" class="img-fluid">
+                </div>
+                <div class="subtitle">
 
-            <br>
-            <button type="button" class="btn" id="showForm1" style="color: white;">
-                <i class="fas fa-chart-line"></i> Dashboard
-            </button><br>
+                    <?php
+                    if (isset($_SESSION['userName'])) {
+                        $userName = $_SESSION['userName'];
+                        echo "<span class = welcom ><center>Welcome Back,</span><br><p><b> $userName!</b></p>";
+                    }
+                    ?>
 
-            <button type="button" class="btn" id="showForm2" style="color: white;">
-                <i class="fas fa-users"></i> Organizations
-            </button><br>
+                </div>
 
-            <button type="button" class="btn" id="showForm3" style="color: white;">
-                <i class="fas fa-file"></i> Requests
-            </button><br>
+                <ul class="nav flex-column ">
+                    <li class="nav-item">
+                        <a class="nav-link text text-left  active-link" id="showForm1">
+                            <i class="fas fa-chart-line"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text text-left " id="showForm2">
+                            <i class="fas fa-users"></i> Organizations
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text text-left" id="showForm3">
+                            <i class="fas fa-tasks"></i> Requests
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text text-left" id="showForm4">
+                            <i class="fas fa-calendar"></i> Archive
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text text-left" id="showForm5">
+                            <i class="fas fa-calendar"></i> Account
+                        </a>
+                    </li>
+                    <br><br><br><br><br><br><br><br>
+                    <li class="nav-item">
+                        <a class="nav-link text text-left" href="login.php">
+                            <i class="fas fa-sign-out-alt"></i><u style="margin-left:2px">Logout</u>
+                        </a>
+                    </li>
+                </ul>
+            </div>
 
-            <button type="button" class="btn" id="showForm4" style="color: white;">
-                <i class="fas fa-archive"></i> Archive
-            </button><br>
-
-            <button type="button" class="btn" id="showForm5" style="color: white;">
-                <i class="fas fa-user"></i> Account
-            </button><br><br><br><br><br><br><br><br>
-
-            <button class="logout" onclick="location.href='login.php'" style="background: none; border: none; padding: 0; text-decoration: underline; cursor: pointer; color: white;">
-                <i class="fas fa-sign-out-alt"></i>  Logout
-            </button>
-
-        </div>
-  
- 
 
         <!-- Content Area -->
         <div class="content" style="flex: 1; padding: 20px;">
