@@ -2,11 +2,48 @@
 * {
   font-family: "Poppins", sans-serif;
 }
+
+/* kinopya ko lang to kay oshu, hindi ko talaga maano ang css TT */
 .container-fluid {
   width: 100%;
   height: 94vh;
 }
 
+.header {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  color: black;
+}
+
+.notification-bell {
+  border-radius: 100%;
+  overflow: hidden;
+  background-color: black;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header img {
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.header-text {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+.container-form {
+  background-color: white;
+  padding: 10px;
+}
+.form-group {
+  margin-bottom: 10px;
+}
 .db-container {
   background-color: white;
   border-radius: 5px;
@@ -33,19 +70,18 @@
   padding: 0 5px !important;
   color: white;
 }
-.welcom {
-  font-size: 12px;
-}
-.form-title {
-  font-size: 25px;
-  font-weight: bold;
-}
+
 .acc-container {
   background-color: white;
   padding: 20px 40px;
   border-radius: 5px;
 }
 
+.label-input {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
 .label-input label {
   flex-basis: 40%;
@@ -65,4 +101,10 @@
   max-width: 100%;
   height: 115px;
   margin-top: 40px;
+}
+
+.req-container{
+  background-color: white;
+  padding: 15px;
+  border-radius: 5px;
 }

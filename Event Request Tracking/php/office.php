@@ -47,11 +47,12 @@ if (isset($_SESSION['userName'])) {
                         <span style="font-size: 12px;">Office of the Student Organizations</span>
                     </div>
                 </div>
-                <div class="notification-bell" style="margin-right: 10px; border-radius: 50%; overflow: hidden; background-color: black;">
-                    <i class="fas fa-bell" style="color: white; padding: 10px;"></i>
-                </div>
+            </div>
+            <div class="notification-bell" style="margin-left: 10px; border-radius: 50%; overflow: hidden; background-color: black;">
+                <i class="fas fa-bell" style="color: white; padding: 10px;"></i>
             </div>
         </div>
+
 
         <div class="container-fluid">
         <div class="row">
@@ -95,7 +96,7 @@ if (isset($_SESSION['userName'])) {
                             <i class="fas fa-calendar"></i> Account
                         </a>
                     </li>
-                    <br><br><br><br><br><br><br><br>
+                    <br><br><br><br><br><br><br>
                     <li class="nav-item">
                         <a class="nav-link text text-left" href="login.php">
                             <i class="fas fa-sign-out-alt"></i><u style="margin-left:2px">Logout</u>
@@ -105,23 +106,57 @@ if (isset($_SESSION['userName'])) {
             </div>
 
 
+
         <!-- Content Area -->
-        <div class="content" style="flex: 1; padding: 20px;">
+    <div class="content" style="flex: 1; padding: 20px;">
 
         <form id="form1" style="display: block;">
             <h2>Dashboard</h2>
+            <div class="row">
+                <div class="col-md-8 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <form id="formReq">
+                                <h2>Requests</h2>
+                                <!-- req -->
+                            </form>
+                        </div>
+                    </div>
+                </div>
 
-            <!-- Requests  -->
-            <div class="card mb-4">
-                <div class="card-body">
-                    <form id="formReq">
-                        <h2>Requests</h2>
-                        <!-- req -->
-                    </form>
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <form id="formorganizations">
+                                <h2>Number of Requests</h2>
+                                <?php
+                                include 'config.php';
+                                $orgQuery = "SELECT COUNT(reqhist.reqID) AS NumberofRequests
+                                            FROM tbl_account AS acc
+                                            LEFT JOIN tbl_reqhistory AS reqhist ON acc.userID = reqhist.orgID
+                                            GROUP BY acc.userID";
+
+                                $orgResult = mysqli_query($conn, $orgQuery);
+                                    //engk pa ito
+                                    while ($rowOrg = mysqli_fetch_assoc($orgResult)) {
+                                        echo '<td>' . $rowOrg['NumberofRequests'] . '</td>';
+                                    }  
+                                ?>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <form id="formoverview">
+                                <h2>Overview</h2>
+                                <!-- pie chart here -->
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </form>
-
 
             <form id="form2" style="display: none;">
                 <h2>Organizations</h2>
@@ -157,8 +192,8 @@ if (isset($_SESSION['userName'])) {
             </form>
 
             
-    <form id="form3">
-        <h2>Requests</h2>
+        <form id="form3">
+            <h2>Requests</h2>
             <table class="bordered stripe" id="dataTable" style="width:100%">
                 <thead>
                     <tr>
@@ -179,42 +214,42 @@ if (isset($_SESSION['userName'])) {
                         echo "<td>{$rowArch['officeID']}</td>";
                         echo "<td>{$rowArch['reqStatus']}</td>";
                         echo "<td>
-                                <button class='btn btn-primary approve-btn' data-id='{$rowArch['reqID']}'>Approve</button>
-                                <button class='btn btn-danger decline-btn' data-id='{$rowArch['reqID']}'>Decline</button>
+                            <button class='btn btn-primary approve-btn' data-id='{$rowArch['reqID']}'>Approve</button>
+                            <button class='btn btn-danger decline-btn' data-id='{$rowArch['reqID']}'>Decline</button>
                             </td>";
                         echo "</tr>";
                     }
                     ?>
                 </tbody>
             </table>
-    </form>
+        </form>
     
-    <form id="form4" style="display: none;">
-    <h2>Archive</h2>  
-    <table class="bordered stripe" id="dataTableArchive" style="width:100%">
-        <thead>
-            <tr>
-                <!--<th>Reference Number</th>-->
-                <th>Request ID</th>
-                <th>Approval Date</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-            <tbody>
-                <?php
-                include 'config.php';
-                while ($rowArch = mysqli_fetch_assoc($resultArch)) {
-                    echo "<tr>";
-                    // refnum
-                    echo "<td>{$rowArch['reqID']}</td>";
-                    echo "<td>{$rowArch['statusDate']}</td>";
-                    echo "<td>{$rowArch['reqStatus']}</td>";
-                    echo "</tr>";
-                }
-                ?>
-            </tbody>
-        </table>
-    </form>
+        <form id="form4" style="display: none;">
+            <h2>Archive</h2>  
+            <table class="bordered stripe" id="dataTableArchive" style="width:100%">
+                <thead>
+                    <tr>
+                        <!--<th>Reference Number</th>-->
+                        <th>Request ID</th>
+                        <th>Approval Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    include 'config.php';
+                    while ($rowArch = mysqli_fetch_assoc($resultArch)) {
+                        echo "<tr>";
+                            // refnum
+                        echo "<td>{$rowArch['reqID']}</td>";
+                        echo "<td>{$rowArch['statusDate']}</td>";
+                        echo "<td>{$rowArch['reqStatus']}</td>";
+                        echo "</tr>";
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </form>
 
         <form id="form5" style="display: none;"> 
         <h2 class="form-title">Account</h2>
@@ -223,10 +258,10 @@ if (isset($_SESSION['userName'])) {
                 <div class="acc-container">
                     <p><strong>Personal Information</strong></p>
                 <div class="form-group">
-                <div class="label-input">
-                    <label for="userNameDisplay">Organization Name:</label>
-                    <span id="userNameDisplay" class="form-control"></span>
-                </div>
+                    <div class="label-input">
+                        <label for="userNameDisplay">Organization Name:</label>
+                        <span id="userNameDisplay" class="form-control"></span>
+                    </div>
                 </div>
                 <div class="form-group">
                     <div class="label-input">
@@ -245,7 +280,7 @@ if (isset($_SESSION['userName'])) {
                         Organization for assistance.</p>
                     <span class="sub-email">Email: studentorganization.lipa@g.batstate-u.edu.ph</span>
                 </div>
-        </div>
+            </div>
 
     <script>
         $(document).ready(function() {
