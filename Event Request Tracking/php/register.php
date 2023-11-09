@@ -94,16 +94,6 @@ if (isset($_POST['submit'])) {
                             placeholder="Enter your password" required>
                     </div>
                 </div>
-                <div class="form-group">
-                    <div class="label-input">
-                        <label for="userType">Select User Type:</label>
-                        <select id="userType" name="userType" class="form-control">
-                            <option value="Organization">Organization</option>
-                            <option value="OSO">OSO</option>
-                            <option value="Office">Office</option>
-                        </select>
-                    </div>
-                </div>
                 <button class="pushable" type="submit" name="submit" value="Register">
                     <span class="shadow"></span>
                     <span class="edge"></span>

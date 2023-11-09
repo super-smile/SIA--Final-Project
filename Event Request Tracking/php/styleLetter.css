@@ -184,6 +184,9 @@ body {
 	font-weight: 600;
 	line-height: 25.86px;
 	word-wrap: break-word;
+	text-align: center;
+	padding: 8px;
+	text-decoration: none;
 }
 
 .submit-button {
@@ -224,7 +227,6 @@ body {
 	margin-top: 20px;
 	display: flex;
 	justify-content: center;
-	align-items: ;
 	position: absolute;
 	bottom: 5px;
 	width: 100%;

@@ -137,7 +137,7 @@ include 'HTML/oso.html'
                                     </div>
                                 </div>
                                 <div class="db-container" style="height:430px">
-                                <div class="card-header"><strong>Dashboard</strong></div>
+                                    <div class="card-header"><strong>Dashboard</strong></div>
                                     <table id="" class="table table-striped" style="width:100%">
                                         <thead>
                                             <tr>
@@ -188,84 +188,86 @@ include 'HTML/oso.html'
 
                     <div id="form2" style="display: none;">
                         <h2 class="form-title">Organizations</h2>
-
-                        <table id="Requests" class="table table-striped text-center" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th class="text-center">Organizations Name</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                include 'config.php';
-                                while ($row = mysqli_fetch_assoc($result)) {
-                                    echo "<tr>";
-                                    echo "<td>{$row['userName']}</td>";
-                                    echo "</tr>";
-                                }
-                                ?>
-                            </tbody>
-                        </table>
+                        <div class="tbl-container">
+                            <table id="Requests" class="table table-striped text-center" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Organizations Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    include 'config.php';
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        echo "<tr>";
+                                        echo "<td>{$row['userName']}</td>";
+                                        echo "</tr>";
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-
 
                     <div id="form3" style="display: none;">
                         <h2 class="form-title">Requests</h2>
-
-
-                        <table id="example" class="table table-striped" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th class="text-center">ID</th>
-                                    <th class="text-center">Status</th>
-                                    <th class="text-center">Date</th>
-                                    <th class="text-center">Deadline</th>
-                                    <th class="text-center">User ID</th>
-                                    <th class="text-center">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-center">
-                                <?php
-                                include 'config.php';
-                                while ($rowReq2 = mysqli_fetch_assoc($resultReq2)) {
-                                    echo "<tr>";
-                                    echo "<td>{$rowReq2['histID']}</td>";
-                                    echo "<td>{$rowReq2['reqStatus']}</td>";
-                                    echo "<td>{$rowReq2['statusDate']}</td>";
-                                    echo "<td>{$rowReq2['reqDeadline']}</td>";
-                                    echo "<td>{$rowReq2['orgID']}</td>";
-                                    echo '<td><button class="btn btn-primary">Update</button> <button class="btn btn-danger">Delete</button></td>';
-                                    echo "</tr>";
-                                }
-                                ?>
-                            </tbody>
-                        </table>
+                        <div class="tbl-container">
+                            <table id="example" class="table table-striped" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">ID</th>
+                                        <th class="text-center">Status</th>
+                                        <th class="text-center">Date</th>
+                                        <th class="text-center">Deadline</th>
+                                        <th class="text-center">User ID</th>
+                                        <th class="text-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center">
+                                    <?php
+                                    include 'config.php';
+                                    while ($rowReq2 = mysqli_fetch_assoc($resultReq2)) {
+                                        echo "<tr>";
+                                        echo "<td>{$rowReq2['histID']}</td>";
+                                        echo "<td>{$rowReq2['reqStatus']}</td>";
+                                        echo "<td>{$rowReq2['statusDate']}</td>";
+                                        echo "<td>{$rowReq2['reqDeadline']}</td>";
+                                        echo "<td>{$rowReq2['orgID']}</td>";
+                                        echo '<td><button class="btn btn-primary">Update</button> <button class="btn btn-danger">Delete</button></td>';
+                                        echo "</tr>";
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
                     <div id="form4" style="display: none">
                         <h2 class="form-title">All Events</h2>
-                        <table id="AllEvents" class="table table-striped" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th class="text-center">Request ID</th>
-                                    <th class="text-center">Event Name</th>
-                                    <th class="text-center">Event Date</th>
-                                </tr>
+                        <div class="tbl-container">
+                            <table id="AllEvents" class="table table-striped" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Request ID</th>
+                                        <th class="text-center">Event Name</th>
+                                        <th class="text-center">Event Date</th>
+                                    </tr>
 
-                            </thead>
-                            <tbody class="text-center">
-                                <?php
-                                include 'config.php';
-                                while ($rowEvents = mysqli_fetch_assoc($resultEvents)) {
-                                    echo "<tr>";
-                                    echo "<td>{$rowEvents['reqID']}</td>";
-                                    echo "<td>{$rowEvents['reqEventName']}</td>";
-                                    echo "<td>{$rowEvents['reqEventDate']}</td>";
-                                    echo "</tr>";
-                                }
-                                ?>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody class="text-center">
+                                    <?php
+                                    include 'config.php';
+                                    while ($rowEvents = mysqli_fetch_assoc($resultEvents)) {
+                                        echo "<tr>";
+                                        echo "<td>{$rowEvents['reqID']}</td>";
+                                        echo "<td>{$rowEvents['reqEventName']}</td>";
+                                        echo "<td>{$rowEvents['reqEventDate']}</td>";
+                                        echo "</tr>";
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
                     <div id="form5" style="display: none;">
@@ -275,7 +277,7 @@ include 'HTML/oso.html'
 
                     <div id="form6" style="display: none;">
                         <h2 class="form-title">Account</h2>
-                        <div class="acc-container">
+                        <div class="tbl-container">
                             <p><strong>Personal Information</strong></p>
                             <div class="form-group">
                                 <div class="label-input">
