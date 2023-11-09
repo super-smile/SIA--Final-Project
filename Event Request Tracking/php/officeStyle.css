@@ -16,6 +16,11 @@
   color: black;
 }
 
+.nav-link{
+  cursor: pointer;
+}
+
+
 .notification-bell {
   border-radius: 100%;
   overflow: hidden;

@@ -4,7 +4,7 @@ session_start();
 include 'config.php';
 //Account Information
 if (isset($_SESSION['userName'])) {
-    $userName = $_SESSION['userName']; 
+    $userName = $_SESSION['userName'];
 
     $query = "SELECT userName, userDept, userEmail FROM tbl_account WHERE userName = ?";
     $stmt = mysqli_prepare($conn, $query);
@@ -12,31 +12,32 @@ if (isset($_SESSION['userName'])) {
     mysqli_stmt_execute($stmt);
     mysqli_stmt_bind_result($stmt, $dbUserName, $userDept, $userEmail);
     mysqli_stmt_fetch($stmt);
-    
+
     $userType = $_SESSION['userType'];
     $userID = $_SESSION['userID'];
 } else {
     header('location: login.php');
 }
 
-    include 'config.php';
+include 'config.php';
 
-    $userID = $_SESSION['userID'];
+$userID = $_SESSION['userID'];
 
-    $query = "SELECT * FROM tbl_reqhistory WHERE reqStatus = 'Pending'";
-    $stmt = mysqli_prepare($conn, $query);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
+$query = "SELECT * FROM tbl_reqhistory WHERE reqStatus = 'Pending'";
+$stmt = mysqli_prepare($conn, $query);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
 
-    $queryArch = "SELECT * FROM tbl_reqhistory WHERE reqStatus = 'Approved'";
-    $stmtArch = mysqli_prepare($conn, $queryArch);
-    mysqli_stmt_execute($stmtArch);
-    $resultArch = mysqli_stmt_get_result($stmtArch);
-    include 'HTML/office.html'
-?>
+$queryArch = "SELECT * FROM tbl_reqhistory WHERE reqStatus = 'Approved'";
+$stmtArch = mysqli_prepare($conn, $queryArch);
+mysqli_stmt_execute($stmtArch);
+$resultArch = mysqli_stmt_get_result($stmtArch);
+include 'HTML/office.html'
+    ?>
 
 </head>
-<body style="background:#F3F3F3;"> 
+
+<body style="background:#F3F3F3;">
     <div class="container-fluid" style=" margin:0; padding: 0; display: flex; flex-direction: column;">
         <div class="header">
             <div style="display: flex; align-items: center; justify-content: space-between;">
@@ -48,305 +49,324 @@ if (isset($_SESSION['userName'])) {
                     </div>
                 </div>
             </div>
-            <div class="notification-bell" style="margin-left: 10px; border-radius: 50%; overflow: hidden; background-color: black;">
+            <div class="notification-bell"
+                style="margin-left: 10px; border-radius: 50%; overflow: hidden; background-color: black;">
                 <i class="fas fa-bell" style="color: white; padding: 10px;"></i>
             </div>
         </div>
 
 
         <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-2 p-0" style="background:#a21a1e; color: white;">
-                <div class="image-container p-1">
-                    <img src="logoo.png" alt="Logo" class="img-fluid">
-                </div>
-                <div class="subtitle">
-
-                    <?php
-                    if (isset($_SESSION['userName'])) {
-                        $userName = $_SESSION['userName'];
-                        echo "<span class = welcom ><center>Welcome Back,</span><br><p><b> $userName!</b></p>";
-                    }
-                    ?>
-                </div>
-
-                <ul class="nav flex-column ">
-                    <li class="nav-item">
-                        <a class="nav-link text text-left  active-link" id="showForm1">
-                            <i class="fas fa-chart-line"></i> Dashboard
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text text-left " id="showForm2">
-                            <i class="fas fa-users"></i> Organizations
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text text-left" id="showForm3">
-                            <i class="fas fa-tasks"></i> Requests
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text text-left" id="showForm4">
-                            <i class="fas fa-calendar"></i> Archive
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text text-left" id="showForm5">
-                            <i class="fas fa-calendar"></i> Account
-                        </a>
-                    </li>
-                    <br><br><br><br><br><br><br>
-                    <li class="nav-item">
-                        <a class="nav-link text text-left" href="login.php">
-                            <i class="fas fa-sign-out-alt"></i><u style="margin-left:2px">Logout</u>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-
-
-        <!-- Content Area -->
-    <div class="content" style="flex: 1; padding: 20px;">
-
-        <form id="form1" style="display: block;">
-            <h2>Dashboard</h2>
             <div class="row">
-                <div class="col-md-8 mb-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <form id="formReq">
-                                <h2>Requests</h2>
-                                <!-- req -->
-                            </form>
-                        </div>
+                <div class="col-md-2 p-0" style="background:#a21a1e; color: white;">
+                    <div class="image-container p-1">
+                        <img src="logoo.png" alt="Logo" class="img-fluid">
                     </div>
+                    <div class="subtitle">
+
+                        <?php
+                        if (isset($_SESSION['userName'])) {
+                            $userName = $_SESSION['userName'];
+                            echo "<span class = welcom ><center>Welcome Back,</span><br><p><b> $userName!</b></p>";
+                        }
+                        ?>
+                    </div>
+
+                    <ul class="nav flex-column ">
+                        <li class="nav-item">
+                            <a class="nav-link text text-left  active-link" id="showForm1">
+                                <i class="fas fa-chart-line"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text text-left " id="showForm2">
+                                <i class="fas fa-users"></i> Organizations
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text text-left" id="showForm3">
+                                <i class="fas fa-tasks"></i> Requests
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text text-left" id="showForm4">
+                                <i class="fas fa-calendar"></i> Archive
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text text-left" id="showForm5">
+                                <i class="fas fa-calendar"></i> Account
+                            </a>
+                        </li>
+                        <br><br><br><br><br><br><br>
+                        <li class="nav-item">
+                            <a class="nav-link text text-left" href="login.php">
+                                <i class="fas fa-sign-out-alt"></i><u style="margin-left:2px">Logout</u>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
 
-                <div class="col-md-4">
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <form id="formorganizations">
-                                <h2>Number of Requests</h2>
-                                <?php
-                                include 'config.php';
-                                $orgQuery = "SELECT COUNT(reqhist.reqID) AS NumberofRequests
+
+
+                <!-- Content Area -->
+                <div class="content" style="flex: 1; padding: 20px;">
+
+                    <form id="form1" style="display: block;">
+                        <h2>Dashboard</h2>
+                        <div class="row">
+                            <div class="col-md-8 mb-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <form id="formReq">
+                                            <h2>Requests</h2>
+                                            <!-- req -->
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="card mb-4">
+                                    <div class="card-body">
+                                        <form id="formorganizations">
+                                            <h2>Number of Requests</h2>
+                                            <?php
+                                            include 'config.php';
+                                            $orgQuery = "SELECT COUNT(reqhist.reqID) AS NumberofRequests
                                             FROM tbl_account AS acc
                                             LEFT JOIN tbl_reqhistory AS reqhist ON acc.userID = reqhist.orgID
                                             GROUP BY acc.userID";
 
-                                $orgResult = mysqli_query($conn, $orgQuery);
-                                    //engk pa ito
-                                    while ($rowOrg = mysqli_fetch_assoc($orgResult)) {
-                                        echo '<td>' . $rowOrg['NumberofRequests'] . '</td>';
-                                    }  
-                                ?>
-                            </form>
+                                            $orgResult = mysqli_query($conn, $orgQuery);
+                                            //engk pa ito
+                                            while ($rowOrg = mysqli_fetch_assoc($orgResult)) {
+                                                echo '<td>' . $rowOrg['NumberofRequests'] . '</td>';
+                                            }
+                                            ?>
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <div class="card">
+                                    <div class="card-body">
+                                        <form id="formoverview">
+                                            <h2>Overview</h2>
+                                            <!-- pie chart here -->
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    </form>
 
-                    <div class="card">
-                        <div class="card-body">
-                            <form id="formoverview">
-                                <h2>Overview</h2>
-                                <!-- pie chart here -->
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
+                    <form id="form2" style="display: none;">
+                        <h2>Organizations</h2>
+                        <?php
+                        include 'config.php';
 
-            <form id="form2" style="display: none;">
-                <h2>Organizations</h2>
-                <?php
-                include 'config.php';
-
-                $orgQuery = "SELECT acc.userName, acc.userDept, COUNT(reqhist.reqID) AS numActivities
+                        $orgQuery = "SELECT acc.userName, acc.userDept, COUNT(reqhist.reqID) AS numActivities
                             FROM tbl_account AS acc
                             LEFT JOIN tbl_reqhistory AS reqhist ON acc.userID = reqhist.orgID
                             GROUP BY acc.userID";
 
-                $orgResult = mysqli_query($conn, $orgQuery);
-                    echo '<table border="0" id="orgTable" class="display">';
-                    echo '<thead>';
-                    echo '<tr>';
-                    echo '<th>Organization Name</th>';
-                    echo '<th>Department</th>';
-                    echo '<th>Number of Activities</th>';
-                    echo '</tr>';
-                    echo '</thead>';
-                    echo '<tbody>';
-
-                    while ($rowOrg = mysqli_fetch_assoc($orgResult)) {
+                        $orgResult = mysqli_query($conn, $orgQuery);
+                        echo '<table border="0" id="orgTable" class="display">';
+                        echo '<thead>';
                         echo '<tr>';
-                        echo '<td>' . $rowOrg['userName'] . '</td>';
-                        echo '<td>' . $rowOrg['userDept'] . '</td>';
-                        echo '<td>' . $rowOrg['numActivities'] . '</td>';
+                        echo '<th>Organization Name</th>';
+                        echo '<th>Department</th>';
+                        echo '<th>Number of Activities</th>';
                         echo '</tr>';
-                    }
-                    echo '</tbody>';
-                    echo '</table>';
-                ?>
-            </form>
+                        echo '</thead>';
+                        echo '<tbody>';
 
-            
-        <form id="form3">
-            <h2>Requests</h2>
-            <table class="bordered stripe" id="dataTable" style="width:100%">
-                <thead>
-                    <tr>
-                        <th>Request ID</th>
-                        <th>Submission Date</th>
-                        <th>Current Office</th>
-                        <th>Request Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    include 'config.php';
-                    while ($rowArch = mysqli_fetch_assoc($result)) {
-                        echo "<tr>";
-                        echo "<td>{$rowArch['reqID']}</td>";
-                        echo "<td>{$rowArch['statusDate']}</td>";
-                        echo "<td>{$rowArch['officeID']}</td>";
-                        echo "<td>{$rowArch['reqStatus']}</td>";
-                        echo "<td>
+                        while ($rowOrg = mysqli_fetch_assoc($orgResult)) {
+                            echo '<tr>';
+                            echo '<td>' . $rowOrg['userName'] . '</td>';
+                            echo '<td>' . $rowOrg['userDept'] . '</td>';
+                            echo '<td>' . $rowOrg['numActivities'] . '</td>';
+                            echo '</tr>';
+                        }
+                        echo '</tbody>';
+                        echo '</table>';
+                        ?>
+                    </form>
+
+
+                    <form id="form3">
+                        <h2>Requests</h2>
+                        <table class="bordered stripe" id="dataTable" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Request ID</th>
+                                    <th>Submission Date</th>
+                                    <th>Current Office</th>
+                                    <th>Request Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                include 'config.php';
+                                while ($rowArch = mysqli_fetch_assoc($result)) {
+                                    echo "<tr>";
+                                    echo "<td>{$rowArch['reqID']}</td>";
+                                    echo "<td>{$rowArch['statusDate']}</td>";
+                                    echo "<td>{$rowArch['officeID']}</td>";
+                                    echo "<td>{$rowArch['reqStatus']}</td>";
+                                    echo "<td>
                             <button class='btn btn-primary approve-btn' data-id='{$rowArch['reqID']}'>Approve</button>
                             <button class='btn btn-danger decline-btn' data-id='{$rowArch['reqID']}'>Decline</button>
                             </td>";
-                        echo "</tr>";
-                    }
-                    ?>
-                </tbody>
-            </table>
-        </form>
-    
-        <form id="form4" style="display: none;">
-            <h2>Archive</h2>  
-            <table class="bordered stripe" id="dataTableArchive" style="width:100%">
-                <thead>
-                    <tr>
-                        <!--<th>Reference Number</th>-->
-                        <th>Request ID</th>
-                        <th>Approval Date</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    include 'config.php';
-                    while ($rowArch = mysqli_fetch_assoc($resultArch)) {
-                        echo "<tr>";
-                            // refnum
-                        echo "<td>{$rowArch['reqID']}</td>";
-                        echo "<td>{$rowArch['statusDate']}</td>";
-                        echo "<td>{$rowArch['reqStatus']}</td>";
-                        echo "</tr>";
-                    }
-                    ?>
-                </tbody>
-            </table>
-        </form>
+                                    echo "</tr>";
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                    </form>
 
-        <form id="form5" style="display: none;"> 
-        <h2 class="form-title">Account</h2>
-            <div class="container mt-5 bg-white">
-        
-                <div class="acc-container">
-                    <p><strong>Personal Information</strong></p>
-                <div class="form-group">
-                    <div class="label-input">
-                        <label for="userNameDisplay">Organization Name:</label>
-                        <span id="userNameDisplay" class="form-control"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="label-input">
-                        <label for="userDeptDisplay">Department Name:</label>
-                        <span id="userDeptDisplay" class="form-control"></span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="label-input">
-                        <label for="userEmailDisplay">Email Address:</label>
-                        <span id="userEmailDisplay" class="form-control"></span>
-                    </div>
-                </div>
-                <div class="sub-container">
-                    <p class="sub-title">If you find that the provided information is incorrect, please reach out to the Office of Student
-                        Organization for assistance.</p>
-                    <span class="sub-email">Email: studentorganization.lipa@g.batstate-u.edu.ph</span>
-                </div>
-            </div>
+                    <form id="form4" style="display: none;">
+                        <h2>Archive</h2>
+                        <table class="bordered stripe" id="dataTableArchive" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <!--<th>Reference Number</th>-->
+                                    <th>Request ID</th>
+                                    <th>Approval Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                include 'config.php';
+                                while ($rowArch = mysqli_fetch_assoc($resultArch)) {
+                                    echo "<tr>";
+                                    // refnum
+                                    echo "<td>{$rowArch['reqID']}</td>";
+                                    echo "<td>{$rowArch['statusDate']}</td>";
+                                    echo "<td>{$rowArch['reqStatus']}</td>";
+                                    echo "</tr>";
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                    </form>
 
-    <script>
-        $(document).ready(function() {
-            $('#dataTable').DataTable();
-            $('#dataTableArchive').DataTable();
-            $('#orgTable').DataTable(); 
-            $('#dataTablereq').DataTable();
-        });
-       
-        function updateAccountInformation(userName, userDept, userEmail) {
-            document.getElementById('userNameDisplay').textContent = userName;
-            document.getElementById('userDeptDisplay').textContent = userDept;
-            document.getElementById('userEmailDisplay').textContent = userEmail;
-        }
+                    <form id="form5" style="display: none;">
+                        <h2 class="form-title">Account</h2>
+                        <div class="container mt-5 bg-white">
 
-        var button1 = document.getElementById("showForm1");
-        var button2 = document.getElementById("showForm2");
-        var button3 = document.getElementById("showForm3");
-        var button4 = document.getElementById("showForm4");
-        var button5 = document.getElementById("showForm5");
-        
-        var form1 = document.getElementById("form1");
-        var form2 = document.getElementById("form2");
-        var form3 = document.getElementById("form3");
-        var form4 = document.getElementById("form4");
-        var form5 = document.getElementById("form5");
-        
-        button1.addEventListener("click", function () {
-            form1.style.display = "block";
-            form2.style.display = "none";
-            form3.style.display = "none";
-            form4.style.display = "none";
-            form5.style.display = "none";
-        });
+                            <div class="acc-container">
+                                <p><strong>Personal Information</strong></p>
+                                <div class="form-group">
+                                    <div class="label-input">
+                                        <label for="userNameDisplay">Organization Name:</label>
+                                        <span id="userNameDisplay" class="form-control"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="label-input">
+                                        <label for="userDeptDisplay">Department Name:</label>
+                                        <span id="userDeptDisplay" class="form-control"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="label-input">
+                                        <label for="userEmailDisplay">Email Address:</label>
+                                        <span id="userEmailDisplay" class="form-control"></span>
+                                    </div>
+                                </div>
+                                <div class="sub-container">
+                                    <p class="sub-title">If you find that the provided information is incorrect, please
+                                        reach out to the Office of Student
+                                        Organization for assistance.</p>
+                                    <span class="sub-email">Email: studentorganization.lipa@g.batstate-u.edu.ph</span>
+                                </div>
+                            </div>
 
-        button2.addEventListener("click", function () {
-            form1.style.display = "none";
-            form2.style.display = "block";
-            form3.style.display = "none";
-            form4.style.display = "none";
-            form5.style.display = "none";
-        });
+                            <script>
+                                const navLinks = document.querySelectorAll('.nav-link');
 
-        button3.addEventListener("click", function () {
-            form1.style.display = "none";
-            form2.style.display = "none";
-            form3.style.display = "block";
-            form4.style.display = "none";
-            form5.style.display = "none";
-        });
+                                // Function to handle link clicks
+                                function handleLinkClick(event) {
+                                    // Remove the "active-link" class from all links
+                                    navLinks.forEach(link => link.classList.remove('active-link'));
 
-        button4.addEventListener("click", function () {
-            form1.style.display = "none";
-            form2.style.display = "none";
-            form3.style.display = "none";
-            form4.style.display = "block";
-            form5.style.display = "none";
-        });
-        button5.addEventListener("click", function () {
-            form1.style.display = "none";
-            form2.style.display = "none";
-            form3.style.display = "none";
-            form4.style.display = "none";
-            form5.style.display = "block";
-            updateAccountInformation("<?php echo $dbUserName; ?>", "<?php echo $userDept; ?>", "<?php echo $userEmail; ?>");
-        });
-    </script>
+                                    // Add the "active-link" class to the clicked link
+                                    event.target.classList.add('active-link');
+                                }
+
+                                // Add a click event listener to each navigation link
+                                navLinks.forEach(link => {
+                                    link.addEventListener('click', handleLinkClick);
+                                });
+
+                                $(document).ready(function () {
+                                    $('#dataTable').DataTable();
+                                    $('#dataTableArchive').DataTable();
+                                    $('#orgTable').DataTable();
+                                    $('#dataTablereq').DataTable();
+                                });
+
+                                function updateAccountInformation(userName, userDept, userEmail) {
+                                    document.getElementById('userNameDisplay').textContent = userName;
+                                    document.getElementById('userDeptDisplay').textContent = userDept;
+                                    document.getElementById('userEmailDisplay').textContent = userEmail;
+                                }
+
+                                var button1 = document.getElementById("showForm1");
+                                var button2 = document.getElementById("showForm2");
+                                var button3 = document.getElementById("showForm3");
+                                var button4 = document.getElementById("showForm4");
+                                var button5 = document.getElementById("showForm5");
+
+                                var form1 = document.getElementById("form1");
+                                var form2 = document.getElementById("form2");
+                                var form3 = document.getElementById("form3");
+                                var form4 = document.getElementById("form4");
+                                var form5 = document.getElementById("form5");
+
+                                button1.addEventListener("click", function () {
+                                    form1.style.display = "block";
+                                    form2.style.display = "none";
+                                    form3.style.display = "none";
+                                    form4.style.display = "none";
+                                    form5.style.display = "none";
+                                });
+
+                                button2.addEventListener("click", function () {
+                                    form1.style.display = "none";
+                                    form2.style.display = "block";
+                                    form3.style.display = "none";
+                                    form4.style.display = "none";
+                                    form5.style.display = "none";
+                                });
+
+                                button3.addEventListener("click", function () {
+                                    form1.style.display = "none";
+                                    form2.style.display = "none";
+                                    form3.style.display = "block";
+                                    form4.style.display = "none";
+                                    form5.style.display = "none";
+                                });
+
+                                button4.addEventListener("click", function () {
+                                    form1.style.display = "none";
+                                    form2.style.display = "none";
+                                    form3.style.display = "none";
+                                    form4.style.display = "block";
+                                    form5.style.display = "none";
+                                });
+                                button5.addEventListener("click", function () {
+                                    form1.style.display = "none";
+                                    form2.style.display = "none";
+                                    form3.style.display = "none";
+                                    form4.style.display = "none";
+                                    form5.style.display = "block";
+                                    updateAccountInformation("<?php echo $dbUserName; ?>", "<?php echo $userDept; ?>", "<?php echo $userEmail; ?>");
+                                });
+                            </script>
 </body>
+
 </html>
