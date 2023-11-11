@@ -4,13 +4,13 @@ session_start();
 include 'config.php';
 //Account Information
 if (isset($_SESSION['userName'])) {
-    $userName = $_SESSION['userName'];
+    $CurrentUser = $_SESSION['userName'];
 
-    $query = "SELECT userName, userDept, userEmail FROM tbl_account WHERE userName = ?";
+    $query = "SELECT userName, userDept, userEmail, userImg FROM tbl_account WHERE userName = ?";
     $stmt = mysqli_prepare($conn, $query);
-    mysqli_stmt_bind_param($stmt, "s", $userName);
+    mysqli_stmt_bind_param($stmt, "s", $CurrentUser);
     mysqli_stmt_execute($stmt);
-    mysqli_stmt_bind_result($stmt, $dbUserName, $userDept, $userEmail);
+    mysqli_stmt_bind_result($stmt, $dbUserName, $CuserDept, $CuserEmail, $userImg);
     mysqli_stmt_fetch($stmt);
 
     $userType = $_SESSION['userType'];
@@ -80,7 +80,10 @@ require 'HTML/org.html'
             <div class="col-md-2 p-0" style="background:#a21a1e; color: white;">
                 <div class="sidebar">
                     <div class="image-container p-1">
-                        <img src="Tech-IS.png" alt="Logo" class="img-fluid">
+                    <?php
+                        // Use the userImg field to set the image source dynamically
+                        echo '<img src="' . $userImg . '" alt="Logo" class="img-fluid">';
+                        ?>
                     </div>
                     <div class="subtitle">
 
@@ -409,7 +412,7 @@ require 'HTML/org.html'
         form3.style.display = "none";
         form4.style.display = "block";
 
-        updateAccountInformation("<?php echo $userName; ?>", "<?php echo $userDept; ?>", "<?php echo $userEmail; ?>");
+        updateAccountInformation("<?php echo $userName; ?>", "<?php echo $CuserDept; ?>", "<?php echo $CuserEmail; ?>");
     });
 
 

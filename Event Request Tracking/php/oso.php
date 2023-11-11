@@ -4,13 +4,13 @@ session_start();
 include 'config.php';
 //Account Information
 if (isset($_SESSION['userName'])) {
-    $userName = $_SESSION['userName'];
+    $CurrentUser = $_SESSION['userName'];
 
-    $query = "SELECT userName, userDept, userEmail FROM tbl_account WHERE userName = ?";
+    $query = "SELECT userName, userDept, userEmail, userImg FROM tbl_account WHERE userName = ?";
     $stmt = mysqli_prepare($conn, $query);
-    mysqli_stmt_bind_param($stmt, "s", $userName);
+    mysqli_stmt_bind_param($stmt, "s", $CurrentUser);
     mysqli_stmt_execute($stmt);
-    mysqli_stmt_bind_result($stmt, $dbUserName, $userDept, $userEmail);
+    mysqli_stmt_bind_result($stmt, $dbUserName, $CuserDept, $CuserEmail, $userImg);
     mysqli_stmt_fetch($stmt);
 
     $userType = $_SESSION['userType'];
@@ -24,7 +24,7 @@ include 'config.php';
 
 $userID = $_SESSION['userID'];
 
-$query = "SELECT userName FROM tbl_account";
+$query = "SELECT userName FROM tbl_account WHERE userType = 'Organization'";
 $stmt = mysqli_prepare($conn, $query);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
@@ -43,6 +43,16 @@ $queryEvents = "SELECT * FROM tbl_requests";
 $stmtEvents = mysqli_prepare($conn, $queryEvents);
 mysqli_stmt_execute($stmtEvents);
 $resultEvents = mysqli_stmt_get_result($stmtEvents);
+
+$queryImg = "SELECT userImg FROM tbl_account WHERE userName = ?";
+$stmtImg = mysqli_prepare($conn, $queryImg);
+mysqli_stmt_bind_param($stmtImg, "s", $CurrentUser);
+mysqli_stmt_execute($stmtImg);
+mysqli_stmt_bind_result($stmtImg, $userImg);
+mysqli_stmt_fetch($stmtImg);
+
+// Convert the binary image data to base64
+$userImgBase64 = base64_encode($userImg);
 
 include 'HTML/oso.html'
     ?>
@@ -71,7 +81,18 @@ include 'HTML/oso.html'
             <div class="col-md-2 p-0">
                 <div id="sidebar">
                     <div class="image-container p-1">
-                        <img src="JPCS.png" alt="Logo" class="img-fluid">
+                        <?php
+                        if (isset($_SESSION['userName'])) {
+                            $userName = $_SESSION['userName'];
+                            $accImgPath = 'data:image/png;base64,' . $userImgBase64;
+
+                            if (!empty($userImgBase64)) {
+                                echo '<img src="' . $accImgPath . '" alt="Profile Image" class="img-fluid">';
+                            } else {
+                                echo '<img src="default_profile_image.png" alt="Default Image" class="img-fluid">';
+                            }
+                        }
+                        ?>
                     </div>
                     <div class="subtitle">
                         <?php
@@ -436,7 +457,7 @@ include 'HTML/oso.html'
         form5.style.display = "none";
         form6.style.display = "block";
 
-        updateAccountInformation("<?php echo $dbUserName; ?>", "<?php echo $userDept; ?>", "<?php echo $userEmail; ?>");
+        updateAccountInformation("<?php echo $dbUserName; ?>", "<?php echo $CuserDept; ?>", "<?php echo $CuserEmail; ?>");
     });
 </script>
 

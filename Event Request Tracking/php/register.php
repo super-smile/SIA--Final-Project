@@ -2,7 +2,7 @@
 include 'config.php';
 
 // Initialize the $error array
-$error = [];
+$errors = [];
 
 if (isset($_POST['submit'])) {
     $userName = $_POST['userName'];
@@ -10,28 +10,37 @@ if (isset($_POST['submit'])) {
     $userEmail = $_POST['userEmail'];
     $userPass = $_POST['userPass'];
     $cuserPass = $_POST['cuserPass'];
-    $userType = $_POST['userType'];
+    $userType = "Organization";
 
     // Check if passwords match
     if ($userPass !== $cuserPass) {
-        $error[] = 'Passwords do not match';
+        $errors[] = 'Passwords do not match';
     } else {
-        // Use prepared statements to prevent SQL injection
-        $select = "SELECT * FROM tbl_account WHERE userEmail = ?";
-        $stmt = mysqli_prepare($conn, $select);
-        mysqli_stmt_bind_param($stmt, "s", $userEmail);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
+        // Check if an image is selected
+        if (!empty($_FILES['userImage']['name'])) {
+            // Get the contents of the image file
+            $imagePath = $_FILES['userImage']['tmp_name'];
+            $imageData = file_get_contents($imagePath);
 
-        if (mysqli_num_rows($result) > 0) {
-            $error[] = 'User already exists!';
-        } else {
-            // Use prepared statement for inserting data
-            $insert = "INSERT INTO tbl_account(userName, userDept, userEmail, userPass, userType) VALUES(?, ?, ?, ?, ?)";
-            $stmt = mysqli_prepare($conn, $insert);
-            mysqli_stmt_bind_param($stmt, "sssss", $userName, $userDept, $userEmail, $userPass, $userType);
+            // Use prepared statements to prevent SQL injection
+            $select = "SELECT * FROM tbl_account WHERE userEmail = ?";
+            $stmt = mysqli_prepare($conn, $select);
+            mysqli_stmt_bind_param($stmt, "s", $userEmail);
             mysqli_stmt_execute($stmt);
-            header('location: oso.php');
+            $result = mysqli_stmt_get_result($stmt);
+
+            if (mysqli_num_rows($result) > 0) {
+                $errors[] = 'User already exists!';
+            } else {
+                // Use prepared statement for inserting data
+                $insert = "INSERT INTO tbl_account(userName, userDept, userEmail, userPass, userType, userImg) VALUES(?, ?, ?, ?, ?, ?)";
+                $stmt = mysqli_prepare($conn, $insert);
+                mysqli_stmt_bind_param($stmt, "sssssb", $userName, $userDept, $userEmail, $userPass, $userType, $imageData);
+                mysqli_stmt_send_long_data($stmt, 5, $imageData); // Bind the image data
+                mysqli_stmt_execute($stmt);
+            }
+        } else {
+            $errors[] = 'Please select an image.';
         }
     }
 }
@@ -83,7 +92,7 @@ if (isset($_POST['submit'])) {
                 <div class="form-group">
                     <div class="label-input">
                         <label for="userEmail">Email Address:</label>
-                        <input type="text" id="userEmail" name "userEmail" class="form-control"
+                        <input type="text" id="userEmail" name="userEmail" class="form-control"
                             placeholder="Enter your Email" required>
                     </div>
                 </div>
@@ -92,6 +101,13 @@ if (isset($_POST['submit'])) {
                         <label for="userPass">Password:</label>
                         <input type="password" id="userPass" name="userPass" class="form-control"
                             placeholder="Enter your password" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="label-input">
+                        <label for="userPass">Confirm Password:</label>
+                        <input type="password" id="cuserPass" name="cuserPass" class="form-control"
+                            placeholder="Confirm password" required>
                     </div>
                 </div>
                 <button class="pushable" type="submit" name="submit" value="Register">
