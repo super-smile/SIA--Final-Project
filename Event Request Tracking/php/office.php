@@ -21,29 +21,32 @@ if (isset($_SESSION['userName'])) {
 
 include 'config.php';
 
+//Requests
 $userID = $_SESSION['userID'];
 $query = "";
-if ($userID == 1){
+if ($userID == 1) {
     $query = "SELECT * FROM tbl_requests WHERE currentOffice = 'Program Chair'";
-}elseif ($userID == 2){
+} elseif ($userID == 2) {
     $query = "SELECT * FROM tbl_requests WHERE currentOffice = 'Dean'";
-}elseif ($userID == 3){
+} elseif ($userID == 3) {
     $query = "SELECT * FROM tbl_requests WHERE currentOffice = 'OSO Head'";
-}elseif ($userID == 4){
+} elseif ($userID == 4) {
     $query = "SELECT * FROM tbl_requests WHERE currentOffice = 'OVCAA'";
-}elseif ($userID == 5){
+} elseif ($userID == 5) {
     $query = "SELECT * FROM tbl_requests WHERE currentOffice = 'Chancellor'";
 }
 $stmt = mysqli_prepare($conn, $query);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 
+//Archive
 $queryArch = "SELECT * FROM tbl_reqhistory WHERE reqStatus = 'Approved'";
 $stmtArch = mysqli_prepare($conn, $queryArch);
 mysqli_stmt_execute($stmtArch);
 $resultArch = mysqli_stmt_get_result($stmtArch);
 include 'HTML/office.html';
 
+//Account Photo
 $queryImg = "SELECT userImg FROM tbl_account WHERE userName = ?";
 $stmtImg = mysqli_prepare($conn, $queryImg);
 mysqli_stmt_bind_param($stmtImg, "s", $CurrentUser);
@@ -57,7 +60,7 @@ $userImgBase64 = base64_encode($userImg);
 
 </head>
 
-<body style="background:#F3F3F3;">
+<body>
     <div class="header d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center">
             <img src="logoo.png" alt="Logo" width="45" style="padding: 5px;" class="img-fluid">
@@ -144,7 +147,6 @@ $userImgBase64 = base64_encode($userImg);
             </div>
 
 
-
             <!-- Content Area -->
             <div class="content" style="flex: 1; padding: 20px;">
 
@@ -198,96 +200,103 @@ $userImgBase64 = base64_encode($userImg);
 
                 <div id="form2" style="display: none;">
                     <h2 class="form-title">Organizations</h2>
-                    <?php
-                    include 'config.php';
+                    <div class="tbl-container">
+                        <?php
+                        include 'config.php';
 
-                    $orgQuery = "SELECT acc.userName, acc.userDept, COUNT(reqhist.reqID) AS numActivities
-                            FROM tbl_account AS acc
-                            LEFT JOIN tbl_reqhistory AS reqhist ON acc.userID = reqhist.orgID
-                            GROUP BY acc.userID";
+                        $orgQuery = "SELECT acc.userName, acc.userDept, COUNT(req.reqID) AS numActivities
+                        FROM tbl_account AS acc
+                        LEFT JOIN tbl_requests AS req ON acc.userID = req.userID
+                        WHERE acc.userType = 'organization'
+                        GROUP BY acc.userID";
 
-                    $orgResult = mysqli_query($conn, $orgQuery);
-                    echo '<table border="0" id="orgTable" class="display">';
-                    echo '<thead>';
-                    echo '<tr>';
-                    echo '<th>Organization Name</th>';
-                    echo '<th>Department</th>';
-                    echo '<th>Number of Activities</th>';
-                    echo '</tr>';
-                    echo '</thead>';
-                    echo '<tbody>';
-
-                    while ($rowOrg = mysqli_fetch_assoc($orgResult)) {
+                        $orgResult = mysqli_query($conn, $orgQuery);
+                        echo '<table border="0" id="orgTable" class="display">';
+                        echo '<thead>';
                         echo '<tr>';
-                        echo '<td>' . $rowOrg['userName'] . '</td>';
-                        echo '<td>' . $rowOrg['userDept'] . '</td>';
-                        echo '<td>' . $rowOrg['numActivities'] . '</td>';
+                        echo '<th>Organization Name</th>';
+                        echo '<th>Department</th>';
+                        echo '<th>Number of Activities</th>';
                         echo '</tr>';
-                    }
-                    echo '</tbody>';
-                    echo '</table>';
-                    ?>
-                </div>
+                        echo '</thead>';
+                        echo '<tbody>';
 
+                        while ($rowOrg = mysqli_fetch_assoc($orgResult)) {
+                            echo '<tr>';
+                            echo '<td>' . $rowOrg['userName'] . '</td>';
+                            echo '<td>' . $rowOrg['userDept'] . '</td>';
+                            echo '<td>' . $rowOrg['numActivities'] . '</td>';
+                            echo '</tr>';
+                        }
+                        echo '</tbody>';
+                        echo '</table>';
+                        ?>
+
+                    </div>
+                </div>
 
                 <div id="form3">
                     <h2 class="form-title">Requests</h2>
-                    <table class="bordered stripe" id="dataTable" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>Request ID</th>
-                                <th>Event Name</th>
-                                <th>Letter</th>
-                                <th>Event Date</th>
-                                <th>Request Sender</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            while ($rowArch = mysqli_fetch_assoc($result)) {
-                                echo "<tr>";
-                                echo "<td>{$rowArch['reqID']}</td>";
-                                echo "<td>{$rowArch['reqEventName']}</td>";
-                                echo "<td><a href='view_pdf.php?reqID={$rowArch['reqID']}' target='_blank'>View Letter</a></td>";
-                                echo "<td>{$rowArch['reqEventDate']}</td>";
-                                echo "<td>{$rowArch['userID']}</td>";
-                                echo "</tr>";
-                            }
-                            ?>
-                        </tbody>
-                    </table>
+                    <div class="tbl-container">
+                        <table class="bordered stripe" id="dataTable" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Request ID</th>
+                                    <th>Event Name</th>
+                                    <th>Letter</th>
+                                    <th>Event Date</th>
+                                    <th>Request Sender</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                while ($rowArch = mysqli_fetch_assoc($result)) {
+                                    echo "<tr>";
+                                    echo "<td>{$rowArch['reqID']}</td>";
+                                    echo "<td>{$rowArch['reqEventName']}</td>";
+                                    echo "<td><a href='view_pdf.php?reqID={$rowArch['reqID']}' target='_blank'>View Letter</a></td>";
+                                    echo "<td>{$rowArch['reqEventDate']}</td>";
+                                    echo "<td>{$rowArch['userID']}</td>";
+                                    echo "</tr>";
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <div id="form4" style="display: none;">
                     <h2 class="form-title">Archive</h2>
-                    <table class="bordered stripe" id="dataTableArchive" style="width:100%">
-                        <thead>
-                            <tr>
-                                <!--<th>Reference Number</th>-->
-                                <th>Request ID</th>
-                                <th>Approval Date</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            include 'config.php';
-                            while ($rowArch = mysqli_fetch_assoc($resultArch)) {
-                                echo "<tr>";
-                                // refnum
-                                echo "<td>{$rowArch['reqID']}</td>";
-                                echo "<td>{$rowArch['statusDate']}</td>";
-                                echo "<td>{$rowArch['reqStatus']}</td>";
-                                echo "</tr>";
-                            }
-                            ?>
-                        </tbody>
-                    </table>
+                    <div class="tbl-container">
+                        <table class="bordered stripe" id="dataTableArchive" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <!--<th>Reference Number</th>-->
+                                    <th>Request ID</th>
+                                    <th>Approval Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                include 'config.php';
+                                while ($rowArch = mysqli_fetch_assoc($resultArch)) {
+                                    echo "<tr>";
+                                    // refnum
+                                    echo "<td>{$rowArch['reqID']}</td>";
+                                    echo "<td>{$rowArch['statusDate']}</td>";
+                                    echo "<td>{$rowArch['reqStatus']}</td>";
+                                    echo "</tr>";
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <div id="form5" style="display: none;">
                     <h2 class="form-title">Account</h2>
-                    <div class="container mt-5 bg-white">
+                    <div class="tbl-container">
 
                         <div class="acc-container">
                             <p><strong>Personal Information</strong></p>

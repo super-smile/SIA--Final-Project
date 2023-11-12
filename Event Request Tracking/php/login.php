@@ -18,17 +18,14 @@ if (isset($_POST['login'])) {
         $_SESSION['userID'] = $row['userID'];
         $_SESSION['userType'] = $row['userType'];
 
-        $userType = $_SESSION['userType']; //hindi ko muna pakelman to 
+        $userType = $_SESSION['userType'];
         if ($userType == 'OSO') {
-            header('location: oso.php'); //nagano lang ako ng login for Admin
+            header('location: oso.php');
         } elseif ($userType == 'Office') {
             header('location: office.php');
         } else {
             header('location: org.php');
         }
-
-
-
     } else {
         $error[] = 'Incorrect email or password';
     }
@@ -62,10 +59,11 @@ if (isset($_POST['login'])) {
                 <div class="container text-center mx-auto"
                     style="padding-top: 30px; padding-right: 100px; padding-left: 100px;">
                     <div class="mx-auto" style="font-family: 'Poppins'; font-size: 41.953px; font: weight 700px;">
-                        <strong>LOGIN</strong></div>
+                        <strong>LOGIN</strong>
+                    </div>
                     <div class="border border-dark w-80"></div>
                     <br>Please login to access your account</br>
-                    <p>
+                    <p class="error-msg">
                         <?php
                         if (isset($error)) {
                             foreach ($error as $errorMsg) {
@@ -102,5 +100,4 @@ if (isset($_POST['login'])) {
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
 </body>
-
 </html>

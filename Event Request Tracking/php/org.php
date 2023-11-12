@@ -235,30 +235,30 @@ require 'HTML/org.html'
                         <table id="Req2" class="table table-striped" style="width:100%">
                             <br>
                             <thead>
-                                            <tr>
-                                                <th>Request ID</th>
-                                                <th>Event Name</th>
-                                                <th>Letter</th>
-                                                <th>Event Date</th>
-                                                <th>Deadline</th>
-                                                <th>Current Office</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php
-                                            include 'config.php';
-                                            while ($rowReq = mysqli_fetch_assoc($resultReq)) {
-                                                echo "<tr>";
-                                                echo "<td>{$rowReq['reqID']}</td>";
-                                                echo "<td>{$rowReq['reqEventName']}</td>";
-                                                echo "<td><a href='view_pdf.php?reqID={$rowReq['reqID']}' target='_blank'>View Letter</a></td>";
-                                                echo "<td>{$rowReq['reqEventDate']}</td>";
-                                                echo "<td>{$rowReq['reqDeadline']}</td>";
-                                                echo "<td>{$rowReq['currentOffice']}</td>";
-                                                echo "</tr>";
-                                            }
-                                            ?>
-                                        </tbody>
+                                <tr>
+                                    <th>Request ID</th>
+                                    <th>Event Name</th>
+                                    <th>Letter</th>
+                                    <th>Event Date</th>
+                                    <th>Deadline</th>
+                                    <th>Current Office</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                include 'config.php';
+                                while ($rowReq = mysqli_fetch_assoc($resultReq)) {
+                                    echo "<tr>";
+                                    echo "<td>{$rowReq['reqID']}</td>";
+                                    echo "<td>{$rowReq['reqEventName']}</td>";
+                                    echo "<td><a href='view_pdf.php?reqID={$rowReq['reqID']}' target='_blank'>View Letter</a></td>";
+                                    echo "<td>{$rowReq['reqEventDate']}</td>";
+                                    echo "<td>{$rowReq['reqDeadline']}</td>";
+                                    echo "<td>{$rowReq['currentOffice']}</td>";
+                                    echo "</tr>";
+                                }
+                                ?>
+                            </tbody>
                         </table>
                     </div>
 

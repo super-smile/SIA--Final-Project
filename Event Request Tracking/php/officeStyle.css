@@ -2,13 +2,20 @@
 * {
   font-family: "Poppins", sans-serif;
 }
-
+body {
+  background-color: #ededed;
+}
 /* kinopya ko lang to kay oshu, hindi ko talaga maano ang css TT */
 .container-fluid {
   width: 100%;
   height: 94vh;
 }
-
+.tbl-container {
+  background-color: white;
+  padding: 20px 40px;
+  border-radius: 5px;
+  margin: 20px;
+}
 .header {
   align-items: center;
   background-color: #a21a1e;
@@ -27,7 +34,7 @@
   height: 94vh;
   box-shadow: 1px 0 4px rgba(0, 0, 0, 0.2);
 }
-.nav-link{
+.nav-link {
   cursor: pointer;
 }
 
@@ -140,7 +147,7 @@
   margin-top: 40px;
 }
 
-.req-container{
+.req-container {
   background-color: white;
   padding: 15px;
   border-radius: 5px;
