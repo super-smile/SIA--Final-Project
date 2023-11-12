@@ -116,7 +116,7 @@ include 'HTML/oso.html'
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text text-left" id="showForm3">
-                                <i class="fas fa-file"></i> Requests
+                                <i class="fas fa-tasks"></i> Requests
                             </a>
                         </li>
                         <li class="nav-item">
@@ -144,7 +144,7 @@ include 'HTML/oso.html'
                 </div>
             </div>
 
-            <div class="col-md-10 p-4 bg-body-secondary" style="height:94vh">
+            <div class="content" style="flex: 1; padding: 20px;">
                 <div id="main-content">
                     <div id="form1" style="display: block;">
                         <h2 class="form-title">Dashboard</h2>

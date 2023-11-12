@@ -15,9 +15,16 @@
   color: white;
   display: flex;
 }
+.form-title {
+  font-size: 25px;
+  font-weight: bold;
+}
 #sidebar {
   padding: 0;
-  background-color: #ffffff;
+  background-color: white;
+  color: #a21a1e;
+  padding-top: 20px;
+  height: 94vh;
 }
 .nav-link{
   cursor: pointer;
@@ -25,7 +32,7 @@
 
 .image-container {
   margin: auto;
-  margin-top: 20px;
+  margin-top: 0;
   width: 180px;
   height: 180px;
   border: 5px solid #a21a1e;
@@ -84,7 +91,7 @@
   font-weight: bold;
 }
 .text {
-  color: white;
+  color: #a21a1e;
   cursor: pointer !important;
   padding-left: 50px;
 }
