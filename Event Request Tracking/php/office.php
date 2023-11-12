@@ -4,13 +4,13 @@ session_start();
 include 'config.php';
 //Account Information
 if (isset($_SESSION['userName'])) {
-    $userName = $_SESSION['userName'];
+    $CurrentUser = $_SESSION['userName'];
 
     $query = "SELECT userName, userDept, userEmail FROM tbl_account WHERE userName = ?";
     $stmt = mysqli_prepare($conn, $query);
-    mysqli_stmt_bind_param($stmt, "s", $userName);
+    mysqli_stmt_bind_param($stmt, "s", $CurrentUser);
     mysqli_stmt_execute($stmt);
-    mysqli_stmt_bind_result($stmt, $dbUserName, $userDept, $userEmail);
+    mysqli_stmt_bind_result($stmt, $dbUserName, $CuserDept, $CuserEmail);
     mysqli_stmt_fetch($stmt);
 
     $userType = $_SESSION['userType'];
@@ -23,7 +23,7 @@ include 'config.php';
 
 $userID = $_SESSION['userID'];
 
-$query = "SELECT * FROM tbl_reqhistory WHERE reqStatus = 'Pending'";
+$query = "SELECT * FROM tbl_requests";
 $stmt = mysqli_prepare($conn, $query);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
@@ -32,79 +32,105 @@ $queryArch = "SELECT * FROM tbl_reqhistory WHERE reqStatus = 'Approved'";
 $stmtArch = mysqli_prepare($conn, $queryArch);
 mysqli_stmt_execute($stmtArch);
 $resultArch = mysqli_stmt_get_result($stmtArch);
-include 'HTML/office.html'
-    ?>
+include 'HTML/office.html';
+
+$queryImg = "SELECT userImg FROM tbl_account WHERE userName = ?";
+$stmtImg = mysqli_prepare($conn, $queryImg);
+mysqli_stmt_bind_param($stmtImg, "s", $CurrentUser);
+mysqli_stmt_execute($stmtImg);
+mysqli_stmt_bind_result($stmtImg, $userImg);
+mysqli_stmt_fetch($stmtImg);
+
+// Convert the binary image data to base64
+$userImgBase64 = base64_encode($userImg);
+?>
 
 </head>
 
 <body style="background:#F3F3F3;">
     <div class="container-fluid" style=" margin:0; padding: 0; display: flex; flex-direction: column;">
-        <div class="header">
-            <div style="display: flex; align-items: center; justify-content: space-between;">
-                <div style="display: flex; align-items: center;">
-                    <img src="logoo.png" alt="Logo" width="50" height="50" style="padding: 5px;" class="img-fluid">
-                    <div class="header-text" style="margin-left: 10px;">
-                        <p style="font-size: 15px; font-weight: bold; margin: 0;">Event Tracking System</p>
-                        <span style="font-size: 12px;">Office of the Student Organizations</span>
-                    </div>
+        <div class="header d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+                <img src="logoo.png" alt="Logo" width="45" style="padding: 5px;" class="img-fluid">
+                <div class="header-text">
+                    <p style="font-size: 11px; font-weight: 800; margin: 0;">Event Tracking System</p>
+                    <span style="font-size: 9px;">Office of the Student Organizations</span>
+
+                    <?php
+                    if ($userType == 'Organization') {
+                        echo '<a href="letter.php" class="upload-button" id="uploadLetter">Upload a letter</a>';
+                    }
+                    ?>
+
                 </div>
             </div>
-            <div class="notification-bell"
-                style="margin-left: 10px; border-radius: 50%; overflow: hidden; background-color: black;">
-                <i class="fas fa-bell" style="color: white; padding: 10px;"></i>
+            <div class="notification-icon position-relative" style="margin-right: 20px">
+                <div class="notification-bell">
+                    <i class="fas fa-bell" style="color: white; font-size: 17px;"></i>
+                </div>
             </div>
         </div>
-
-
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-2 p-0" style="background:#a21a1e; color: white;">
-                    <div class="image-container p-1">
-                        <img src="logoo.png" alt="Logo" class="img-fluid">
-                    </div>
-                    <div class="subtitle">
+                    <div id="sidebar">
+                        <div class="image-container p-1">
+                            <?php
+                            if (isset($_SESSION['userName'])) {
+                                $userName = $_SESSION['userName'];
+                                $accImgPath = 'data:image/png;base64,' . $userImgBase64;
 
-                        <?php
-                        if (isset($_SESSION['userName'])) {
-                            $userName = $_SESSION['userName'];
-                            echo "<span class = welcom ><center>Welcome Back,</span><br><p><b> $userName!</b></p>";
-                        }
-                        ?>
-                    </div>
+                                if (!empty($userImgBase64)) {
+                                    echo '<img src="' . $accImgPath . '" alt="Profile Image" class="img-fluid">';
+                                } else {
+                                    echo '<img src="default_profile_image.png" alt="Default Image" class="img-fluid">';
+                                }
+                            }
+                            ?>
+                        </div>
+                        <div class="subtitle">
+                            <?php
+                            if (isset($_SESSION['userName'])) {
+                                $userName = $_SESSION['userName'];
+                                echo "<span class = welcom >Welcome Back,</span><br><p><b> $userName!</b></p>";
+                            }
+                            ?>
+                        </div>
 
-                    <ul class="nav flex-column ">
-                        <li class="nav-item">
-                            <a class="nav-link text text-left  active-link" id="showForm1">
-                                <i class="fas fa-chart-line"></i> Dashboard
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text text-left " id="showForm2">
-                                <i class="fas fa-users"></i> Organizations
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text text-left" id="showForm3">
-                                <i class="fas fa-tasks"></i> Requests
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text text-left" id="showForm4">
-                                <i class="fas fa-calendar"></i> Archive
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text text-left" id="showForm5">
-                                <i class="fas fa-calendar"></i> Account
-                            </a>
-                        </li>
-                        <br><br><br><br><br><br><br>
-                        <li class="nav-item">
-                            <a class="nav-link text text-left" href="login.php">
-                                <i class="fas fa-sign-out-alt"></i><u style="margin-left:2px">Logout</u>
-                            </a>
-                        </li>
-                    </ul>
+                        <ul class="nav flex-column ">
+                            <li class="nav-item">
+                                <a class="nav-link text text-left  active-link" id="showForm1">
+                                    <i class="fas fa-chart-line"></i> Dashboard
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text text-left " id="showForm2">
+                                    <i class="fas fa-users"></i> Organizations
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text text-left" id="showForm3">
+                                    <i class="fas fa-tasks"></i> Requests
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text text-left" id="showForm4">
+                                    <i class="fas fa-calendar"></i> Archive
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text text-left" id="showForm5">
+                                    <i class="fas fa-user"></i> Account
+                                </a>
+                            </li>
+                            <br><br><br><br><br><br><br>
+                            <li class="nav-item">
+                                <a class="nav-link text text-left" href="login.php">
+                                    <i class="fas fa-sign-out-alt"></i><u style="margin-left:2px">Logout</u>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
 
 
@@ -112,7 +138,7 @@ include 'HTML/office.html'
                 <!-- Content Area -->
                 <div class="content" style="flex: 1; padding: 20px;">
 
-                    <form id="form1" style="display: block;">
+                    <div id="form1" style="display: block;">
                         <h2>Dashboard</h2>
                         <div class="row">
                             <div class="col-md-8 mb-4">
@@ -158,9 +184,9 @@ include 'HTML/office.html'
                                 </div>
                             </div>
                         </div>
-                    </form>
+                    </div>
 
-                    <form id="form2" style="display: none;">
+                    <div id="form2" style="display: none;">
                         <h2>Organizations</h2>
                         <?php
                         include 'config.php';
@@ -191,42 +217,36 @@ include 'HTML/office.html'
                         echo '</tbody>';
                         echo '</table>';
                         ?>
-                    </form>
+                    </div>
 
 
-                    <form id="form3">
+                    <div id="form3">
                         <h2>Requests</h2>
                         <table class="bordered stripe" id="dataTable" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>Request ID</th>
-                                    <th>Submission Date</th>
-                                    <th>Current Office</th>
-                                    <th>Request Status</th>
-                                    <th>Actions</th>
+                                    <th>Event Name</th>
+                                    <th>Letter</th>
+                                    <th>Event Date</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
-                                include 'config.php';
                                 while ($rowArch = mysqli_fetch_assoc($result)) {
                                     echo "<tr>";
                                     echo "<td>{$rowArch['reqID']}</td>";
-                                    echo "<td>{$rowArch['statusDate']}</td>";
-                                    echo "<td>{$rowArch['officeID']}</td>";
-                                    echo "<td>{$rowArch['reqStatus']}</td>";
-                                    echo "<td>
-                            <button class='btn btn-primary approve-btn' data-id='{$rowArch['reqID']}'>Approve</button>
-                            <button class='btn btn-danger decline-btn' data-id='{$rowArch['reqID']}'>Decline</button>
-                            </td>";
+                                    echo "<td>{$rowArch['reqEventName']}</td>";
+                                    echo "<td><a href='view_pdf.php?reqID={$rowArch['reqID']}' target='_blank'>View Letter</a></td>";
+                                    echo "<td>{$rowArch['reqEventDate']}</td>";
                                     echo "</tr>";
                                 }
                                 ?>
                             </tbody>
                         </table>
-                    </form>
+                    </div>
 
-                    <form id="form4" style="display: none;">
+                    <div id="form4" style="display: none;">
                         <h2>Archive</h2>
                         <table class="bordered stripe" id="dataTableArchive" style="width:100%">
                             <thead>
@@ -251,9 +271,9 @@ include 'HTML/office.html'
                                 ?>
                             </tbody>
                         </table>
-                    </form>
+                    </div>
 
-                    <form id="form5" style="display: none;">
+                    <div id="form5" style="display: none;">
                         <h2 class="form-title">Account</h2>
                         <div class="container mt-5 bg-white">
 
@@ -364,7 +384,7 @@ include 'HTML/office.html'
                                     form3.style.display = "none";
                                     form4.style.display = "none";
                                     form5.style.display = "block";
-                                    updateAccountInformation("<?php echo $dbUserName; ?>", "<?php echo $userDept; ?>", "<?php echo $userEmail; ?>");
+                                    updateAccountInformation("<?php echo $dbUserName; ?>", "<?php echo $CuserDept; ?>", "<?php echo $CuserEmail; ?>");
                                 });
                             </script>
 </body>

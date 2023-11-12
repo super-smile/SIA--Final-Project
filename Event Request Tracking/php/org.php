@@ -43,6 +43,15 @@ $stmtArch = mysqli_prepare($conn, $queryArch);
 mysqli_stmt_bind_param($stmtArch, "s", $userID);
 mysqli_stmt_execute($stmtArch);
 $resultArch = mysqli_stmt_get_result($stmtArch);
+$queryImg = "SELECT userImg FROM tbl_account WHERE userName = ?";
+$stmtImg = mysqli_prepare($conn, $queryImg);
+mysqli_stmt_bind_param($stmtImg, "s", $CurrentUser);
+mysqli_stmt_execute($stmtImg);
+mysqli_stmt_bind_result($stmtImg, $userImg);
+mysqli_stmt_fetch($stmtImg);
+
+// Convert the binary image data to base64
+$userImgBase64 = base64_encode($userImg);
 
 require 'HTML/org.html'
 
@@ -79,10 +88,18 @@ require 'HTML/org.html'
         <div class="row">
             <div class="col-md-2 p-0" style="background:#a21a1e; color: white;">
                 <div class="sidebar">
-                    <div class="image-container p-1">
-                    <?php
-                        // Use the userImg field to set the image source dynamically
-                        echo '<img src="' . $userImg . '" alt="Logo" class="img-fluid">';
+                    <div class="image-container p-1 img-fluid">
+                        <?php
+                        if (isset($_SESSION['userName'])) {
+                            $userName = $_SESSION['userName'];
+                            $accImgPath = 'data:image/png;base64,' . $userImgBase64;
+
+                            if (!empty($userImgBase64)) {
+                                echo '<img src="' . $accImgPath . '" alt="Profile Image" class="img-fluid">';
+                            } else {
+                                echo '<img src="default_profile_image.png" alt="Default Image" class="img-fluid">';
+                            }
+                        }
                         ?>
                     </div>
                     <div class="subtitle">
