@@ -24,7 +24,7 @@ include 'config.php';
 
 $userID = $_SESSION['userID'];
 
-$query = "SELECT userName FROM tbl_account WHERE userType = 'Organization'";
+$query = "SELECT userName FROM tbl_account WHERE userType = 'organization'";
 $stmt = mysqli_prepare($conn, $query);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
@@ -153,8 +153,7 @@ include 'HTML/oso.html'
                                 <div class="card text-bg-white mb-3" style="max-width:100%; height:115px">
                                     <div class="card-header"><strong>Welcome!</strong></div>
                                     <div class="card-body">
-                                        <p class="card-text">Some quick example text to build on the card title and make
-                                            up the bulk of the card's content.</p>
+                                        <p class="card-text">Good day</p>
                                     </div>
                                 </div>
                                 <div class="db-container" style="height:430px">
@@ -190,9 +189,7 @@ include 'HTML/oso.html'
                                 <div class="card text-bg-white mb-3" style="max-width: 100%; height:115px">
                                     <div class="card-header"><strong>Organizations</strong></div>
                                     <div class="card-body">
-                                        <p class="card-text">Some quick example text to build on the card title and make
-                                            up
-                                            the bulk of the card's content.</p>
+                                        <p class="card-text">Good day</p>
                                     </div>
                                 </div>
                                 <div class="card text-bg-white mb-3" style="max-width: 100%; height:411px">

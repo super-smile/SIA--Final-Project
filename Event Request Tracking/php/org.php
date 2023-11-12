@@ -24,14 +24,14 @@ $userID = $_SESSION['userID'];
 $orgID = $_SESSION['userID'];
 
 //Dashboard
-$query = "SELECT * FROM tbl_reqhistory WHERE orgID = ? and reqStatus = 'Pending'";
+$query = "SELECT * FROM tbl_requests WHERE userID = ? and currentOffice !='Chancellor'";
 $stmt = mysqli_prepare($conn, $query);
 mysqli_stmt_bind_param($stmt, "s", $userID);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 
 //Request
-$queryReq = "SELECT * FROM tbl_reqhistory WHERE orgID = ? and reqStatus = 'Pending'";
+$queryReq = "SELECT * FROM tbl_requests WHERE userID = ? and currentOffice !='Chancellor'";
 $stmtReq = mysqli_prepare($conn, $queryReq);
 mysqli_stmt_bind_param($stmtReq, "s", $userID);
 mysqli_stmt_execute($stmtReq);
@@ -43,6 +43,8 @@ $stmtArch = mysqli_prepare($conn, $queryArch);
 mysqli_stmt_bind_param($stmtArch, "s", $userID);
 mysqli_stmt_execute($stmtArch);
 $resultArch = mysqli_stmt_get_result($stmtArch);
+
+//Account Photo
 $queryImg = "SELECT userImg FROM tbl_account WHERE userName = ?";
 $stmtImg = mysqli_prepare($conn, $queryImg);
 mysqli_stmt_bind_param($stmtImg, "s", $CurrentUser);
@@ -64,9 +66,8 @@ require 'HTML/org.html'
             <div class="header-text">
                 <p style="font-size: 11px; font-weight: 800; margin: 0;">Event Tracking System</p>
                 <span style="font-size: 9px;">Office of the Student Organizations</span>
-
                 <?php
-                if ($userType == 'Organization') {
+                if ($userType == 'organization') {
                     echo '<a href="letter.php" class="upload-button" id="uploadLetter">Upload a letter</a>';
                 }
                 ?>
@@ -134,7 +135,7 @@ require 'HTML/org.html'
                                 <i class="fas fa-calendar"></i> Account
                             </a>
                         </li>
-                        <br><br><br><br><br><br><br><br><br><br>
+                        <br><br><br><br><br><br><br><br>
                         <li class="nav-item">
                             <a class="nav-link text text-left" href="login.php">
                                 <i class="fas fa-sign-out-alt"></i><u style="margin-left:2px">Logout</u>
@@ -145,7 +146,7 @@ require 'HTML/org.html'
             </div>
 
 
-            <div class="col-md-10 p-4 bg-body-secondary">
+            <div class="content" style="flex: 1; padding: 20px;">
                 <div id="form1" style="display: block;">
                     <h2 class="form-title">Dashboard</h2>
                     <div class="row">
@@ -161,12 +162,12 @@ require 'HTML/org.html'
                                         <br>
                                         <thead>
                                             <tr>
-                                                <th>Req ID</th>
-                                                <th>Status</th>
-                                                <th>Date Approved</th>
+                                                <th>Request ID</th>
+                                                <th>Event Name</th>
+                                                <th>Letter</th>
+                                                <th>Event Date</th>
                                                 <th>Deadline</th>
-                                                <th>Organization ID</th>
-                                                <th>Office ID</th>
+                                                <th>Current Office</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -175,11 +176,11 @@ require 'HTML/org.html'
                                             while ($row = mysqli_fetch_assoc($result)) {
                                                 echo "<tr>";
                                                 echo "<td>{$row['reqID']}</td>";
-                                                echo "<td>{$row['reqStatus']}</td>";
-                                                echo "<td>{$row['statusDate']}</td>";
+                                                echo "<td>{$row['reqEventName']}</td>";
+                                                echo "<td><a href='view_pdf.php?reqID={$row['reqID']}' target='_blank'>View Letter</a></td>";
+                                                echo "<td>{$row['reqEventDate']}</td>";
                                                 echo "<td>{$row['reqDeadline']}</td>";
-                                                echo "<td>{$row['orgID']}</td>";
-                                                echo "<td>{$row['officeID']}</td>";
+                                                echo "<td>{$row['currentOffice']}</td>";
                                                 echo "</tr>";
                                             }
                                             ?>
@@ -234,30 +235,30 @@ require 'HTML/org.html'
                         <table id="Req2" class="table table-striped" style="width:100%">
                             <br>
                             <thead>
-                                <tr>
-                                    <th>Req ID</th>
-                                    <th>Status</th>
-                                    <th>Date Approved</th>
-                                    <th>Deadline</th>
-                                    <th>Organization ID</th>
-                                    <th>Office ID</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                include 'config.php';
-                                while ($rowReq = mysqli_fetch_assoc($resultReq)) {
-                                    echo "<tr>";
-                                    echo "<td>{$rowReq['reqID']}</td>";
-                                    echo "<td>{$rowReq['reqStatus']}</td>";
-                                    echo "<td>{$rowReq['statusDate']}</td>";
-                                    echo "<td>{$rowReq['reqDeadline']}</td>";
-                                    echo "<td>{$rowReq['orgID']}</td>";
-                                    echo "<td>{$rowReq['officeID']}</td>";
-                                    echo "</tr>";
-                                }
-                                ?>
-                            </tbody>
+                                            <tr>
+                                                <th>Request ID</th>
+                                                <th>Event Name</th>
+                                                <th>Letter</th>
+                                                <th>Event Date</th>
+                                                <th>Deadline</th>
+                                                <th>Current Office</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            include 'config.php';
+                                            while ($rowReq = mysqli_fetch_assoc($resultReq)) {
+                                                echo "<tr>";
+                                                echo "<td>{$rowReq['reqID']}</td>";
+                                                echo "<td>{$rowReq['reqEventName']}</td>";
+                                                echo "<td><a href='view_pdf.php?reqID={$rowReq['reqID']}' target='_blank'>View Letter</a></td>";
+                                                echo "<td>{$rowReq['reqEventDate']}</td>";
+                                                echo "<td>{$rowReq['reqDeadline']}</td>";
+                                                echo "<td>{$rowReq['currentOffice']}</td>";
+                                                echo "</tr>";
+                                            }
+                                            ?>
+                                        </tbody>
                         </table>
                     </div>
 

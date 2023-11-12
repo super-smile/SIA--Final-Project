@@ -22,8 +22,18 @@ if (isset($_SESSION['userName'])) {
 include 'config.php';
 
 $userID = $_SESSION['userID'];
-
-$query = "SELECT * FROM tbl_requests";
+$query = "";
+if ($userID == 1){
+    $query = "SELECT * FROM tbl_requests WHERE currentOffice = 'Program Chair'";
+}elseif ($userID == 2){
+    $query = "SELECT * FROM tbl_requests WHERE currentOffice = 'Dean'";
+}elseif ($userID == 3){
+    $query = "SELECT * FROM tbl_requests WHERE currentOffice = 'OSO Head'";
+}elseif ($userID == 4){
+    $query = "SELECT * FROM tbl_requests WHERE currentOffice = 'OVCAA'";
+}elseif ($userID == 5){
+    $query = "SELECT * FROM tbl_requests WHERE currentOffice = 'Chancellor'";
+}
 $stmt = mysqli_prepare($conn, $query);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
@@ -56,7 +66,7 @@ $userImgBase64 = base64_encode($userImg);
                 <span style="font-size: 9px;">Office of the Student Organizations</span>
 
                 <?php
-                if ($userType == 'Organization') {
+                if ($userType == 'organization') {
                     echo '<a href="letter.php" class="upload-button" id="uploadLetter">Upload a letter</a>';
                 }
                 ?>
@@ -229,6 +239,7 @@ $userImgBase64 = base64_encode($userImg);
                                 <th>Event Name</th>
                                 <th>Letter</th>
                                 <th>Event Date</th>
+                                <th>Request Sender</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -239,6 +250,7 @@ $userImgBase64 = base64_encode($userImg);
                                 echo "<td>{$rowArch['reqEventName']}</td>";
                                 echo "<td><a href='view_pdf.php?reqID={$rowArch['reqID']}' target='_blank'>View Letter</a></td>";
                                 echo "<td>{$rowArch['reqEventDate']}</td>";
+                                echo "<td>{$rowArch['userID']}</td>";
                                 echo "</tr>";
                             }
                             ?>
