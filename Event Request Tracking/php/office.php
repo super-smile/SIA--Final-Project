@@ -187,7 +187,7 @@ $userImgBase64 = base64_encode($userImg);
                 </div>
 
                 <div id="form2" style="display: none;">
-                    <h2>Organizations</h2>
+                    <h2 class="form-title">Organizations</h2>
                     <?php
                     include 'config.php';
 
@@ -221,7 +221,7 @@ $userImgBase64 = base64_encode($userImg);
 
 
                 <div id="form3">
-                    <h2>Requests</h2>
+                    <h2 class="form-title">Requests</h2>
                     <table class="bordered stripe" id="dataTable" style="width:100%">
                         <thead>
                             <tr>
@@ -247,7 +247,7 @@ $userImgBase64 = base64_encode($userImg);
                 </div>
 
                 <div id="form4" style="display: none;">
-                    <h2>Archive</h2>
+                    <h2 class="form-title">Archive</h2>
                     <table class="bordered stripe" id="dataTableArchive" style="width:100%">
                         <thead>
                             <tr>
