@@ -57,7 +57,7 @@ $userImgBase64 = base64_encode($userImg);
 
 require 'HTML/org.html'
 
-?>
+    ?>
 
 <body>
     <div class="header d-flex justify-content-between align-items-center">
@@ -132,7 +132,7 @@ require 'HTML/org.html'
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text text-left" id="showForm4">
-                                <i class="fas fa-calendar"></i> Account
+                                <i class="fas fa-user"></i> Account
                             </a>
                         </li>
                         <br><br><br><br><br><br><br><br>
@@ -512,28 +512,28 @@ require 'HTML/org.html'
     var form3 = document.getElementById("form3");
     var form4 = document.getElementById("form4");
 
-    button1.addEventListener("click", function() {
+    button1.addEventListener("click", function () {
         form1.style.display = "block";
         form2.style.display = "none";
         form3.style.display = "none";
         form4.style.display = "none";
     });
 
-    button2.addEventListener("click", function() {
+    button2.addEventListener("click", function () {
         form1.style.display = "none";
         form2.style.display = "block";
         form3.style.display = "none";
         form4.style.display = "none";
     });
 
-    button3.addEventListener("click", function() {
+    button3.addEventListener("click", function () {
         form1.style.display = "none";
         form2.style.display = "none";
         form3.style.display = "block";
         form4.style.display = "none";
     });
 
-    button4.addEventListener("click", function() {
+    button4.addEventListener("click", function () {
         form1.style.display = "none";
         form2.style.display = "none";
         form3.style.display = "none";
@@ -550,7 +550,7 @@ require 'HTML/org.html'
 
     var activeButton = null;
 
-    showForm1Button.addEventListener('click', function() {
+    showForm1Button.addEventListener('click', function () {
         if (activeButton !== showForm1Button) {
             if (activeButton) {
                 activeButton.classList.remove('clicked');
@@ -560,7 +560,7 @@ require 'HTML/org.html'
         }
     });
 
-    showForm2Button.addEventListener('click', function() {
+    showForm2Button.addEventListener('click', function () {
         if (activeButton !== showForm2Button) {
             if (activeButton) {
                 activeButton.classList.remove('clicked');
@@ -570,7 +570,7 @@ require 'HTML/org.html'
         }
     });
 
-    showForm3Button.addEventListener('click', function() {
+    showForm3Button.addEventListener('click', function () {
         if (activeButton !== showForm3Button) {
             if (activeButton) {
                 activeButton.classList.remove('clicked');
@@ -580,7 +580,7 @@ require 'HTML/org.html'
         }
     });
 
-    showForm4Button.addEventListener('click', function() {
+    showForm4Button.addEventListener('click', function () {
         if (activeButton !== showForm4Button) {
             if (activeButton) {
                 activeButton.classList.remove('clicked');
