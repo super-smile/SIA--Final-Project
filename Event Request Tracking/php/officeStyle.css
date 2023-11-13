@@ -97,6 +97,7 @@ body {
   color: white !important;
   background-color: #a21a1e;
   font-weight: bold;
+  transform: translateY(-2px);
 }
 .text {
   color: #a21a1e;

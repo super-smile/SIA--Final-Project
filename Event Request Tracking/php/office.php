@@ -67,7 +67,6 @@ mysqli_stmt_execute($stmtImg);
 mysqli_stmt_bind_result($stmtImg, $userImg);
 mysqli_stmt_fetch($stmtImg);
 
-// Convert the binary image data to base64
 $userImgBase64 = base64_encode($userImg);
 ?>
 
@@ -184,13 +183,12 @@ $userImgBase64 = base64_encode($userImg);
                                         <h2>Number of Requests</h2>
                                         <?php
                                         include 'config.php';
-                                        $orgQuery = "SELECT COUNT(reqhist.reqID) AS NumberofRequests
-                                            FROM tbl_account AS acc
-                                            LEFT JOIN tbl_reqhistory AS reqhist ON acc.userID = reqhist.orgID
-                                            GROUP BY acc.userID";
+                                        $orgQuery = "SELECT COUNT(req.reqID) AS NumberofRequests
+                                            FROM tbl_requests AS req
+                                            WHERE currentOffice = '$userID'";
 
                                         $orgResult = mysqli_query($conn, $orgQuery);
-                                        //engk pa ito
+
                                         while ($rowOrg = mysqli_fetch_assoc($orgResult)) {
                                             echo '<td>' . $rowOrg['NumberofRequests'] . '</td>';
                                         }
@@ -248,29 +246,30 @@ $userImgBase64 = base64_encode($userImg);
                     </div>
                 </div>
 
-                <div id="form3">
+                <div id="form3"style="display: none;">
                     <h2 class="form-title">Requests</h2>
-                    <table class="bordered stripe" id="dataTable" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>Request ID</th>
-                                <th>Event Name</th>
-                                <th>Letter</th>
-                                <th>Event Date</th>
-                                <th>Request Sender</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            while ($rowArch = mysqli_fetch_assoc($result)) {
-                                echo "<tr>";
-                                echo "<td>{$rowArch['reqID']}</td>";
-                                echo "<td>{$rowArch['reqEventName']}</td>";
-                                echo "<td><a href='view_pdf.php?reqID={$rowArch['reqID']}' target='_blank'>View Letter</a></td>";
-                                echo "<td>{$rowArch['reqEventDate']}</td>";
-                                echo "<td>{$rowArch['userID']}</td>";
-                                echo "<td>
+                    <div class="tbl-container">
+                        <table class="bordered stripe" id="dataTable" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Request ID</th>
+                                    <th>Event Name</th>
+                                    <th>Letter</th>
+                                    <th>Event Date</th>
+                                    <th>Request Sender</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                while ($rowArch = mysqli_fetch_assoc($result)) {
+                                    echo "<tr>";
+                                    echo "<td>{$rowArch['reqID']}</td>";
+                                    echo "<td>{$rowArch['reqEventName']}</td>";
+                                    echo "<td><a href='view_pdf.php?reqID={$rowArch['reqID']}' target='_blank'>View Letter</a></td>";
+                                    echo "<td>{$rowArch['reqEventDate']}</td>";
+                                    echo "<td>{$rowArch['userID']}</td>";
+                                    echo "<td>
                         <form method='post'>
                             <input type='hidden' name='reqID' value='{$rowArch['reqID']}'>
                             <input type='hidden' name='userID' value='{$rowArch['userID']}'>
@@ -278,11 +277,12 @@ $userImgBase64 = base64_encode($userImg);
                             <button type='submit' name='decline'>Decline</button>
                         </form>
                       </td>";
-                                echo "</tr>";
-                            }
-                            ?>
-                        </tbody>
-                    </table>
+                                    echo "</tr>";
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <?php
                 function approveRequest($conn, $reqID, $orgID)
