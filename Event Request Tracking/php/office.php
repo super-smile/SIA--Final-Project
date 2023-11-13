@@ -22,18 +22,31 @@ if (isset($_SESSION['userName'])) {
 include 'config.php';
 
 //Requests
+// Check if the form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST["approve"])) {
+        // Handle the approve button click
+        $reqID = $_POST["reqID"];
+        $orgID = $_POST["userID"];
+        approveRequest($conn, $reqID, $orgID);
+    } elseif (isset($_POST["decline"])) {
+        // Handle the decline button click
+        // Implement decline logic if needed
+    }
+}
+
 $userID = $_SESSION['userID'];
 $query = "";
 if ($userID == 1) {
-    $query = "SELECT * FROM tbl_requests WHERE currentOffice = 'Program Chair'";
+    $query = "SELECT * FROM tbl_requests WHERE currentOffice = '1'";
 } elseif ($userID == 2) {
-    $query = "SELECT * FROM tbl_requests WHERE currentOffice = 'Dean'";
+    $query = "SELECT * FROM tbl_requests WHERE currentOffice = '2'";
 } elseif ($userID == 3) {
-    $query = "SELECT * FROM tbl_requests WHERE currentOffice = 'OSO Head'";
+    $query = "SELECT * FROM tbl_requests WHERE currentOffice = '3'";
 } elseif ($userID == 4) {
-    $query = "SELECT * FROM tbl_requests WHERE currentOffice = 'OVCAA'";
+    $query = "SELECT * FROM tbl_requests WHERE currentOffice = '4'";
 } elseif ($userID == 5) {
-    $query = "SELECT * FROM tbl_requests WHERE currentOffice = 'Chancellor'";
+    $query = "SELECT * FROM tbl_requests WHERE currentOffice = '5'";
 }
 $stmt = mysqli_prepare($conn, $query);
 mysqli_stmt_execute($stmt);
@@ -237,33 +250,68 @@ $userImgBase64 = base64_encode($userImg);
 
                 <div id="form3">
                     <h2 class="form-title">Requests</h2>
-                    <div class="tbl-container">
-                        <table class="bordered stripe" id="dataTable" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>Request ID</th>
-                                    <th>Event Name</th>
-                                    <th>Letter</th>
-                                    <th>Event Date</th>
-                                    <th>Request Sender</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                while ($rowArch = mysqli_fetch_assoc($result)) {
-                                    echo "<tr>";
-                                    echo "<td>{$rowArch['reqID']}</td>";
-                                    echo "<td>{$rowArch['reqEventName']}</td>";
-                                    echo "<td><a href='view_pdf.php?reqID={$rowArch['reqID']}' target='_blank'>View Letter</a></td>";
-                                    echo "<td>{$rowArch['reqEventDate']}</td>";
-                                    echo "<td>{$rowArch['userID']}</td>";
-                                    echo "</tr>";
-                                }
-                                ?>
-                            </tbody>
-                        </table>
-                    </div>
+                    <table class="bordered stripe" id="dataTable" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Request ID</th>
+                                <th>Event Name</th>
+                                <th>Letter</th>
+                                <th>Event Date</th>
+                                <th>Request Sender</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            while ($rowArch = mysqli_fetch_assoc($result)) {
+                                echo "<tr>";
+                                echo "<td>{$rowArch['reqID']}</td>";
+                                echo "<td>{$rowArch['reqEventName']}</td>";
+                                echo "<td><a href='view_pdf.php?reqID={$rowArch['reqID']}' target='_blank'>View Letter</a></td>";
+                                echo "<td>{$rowArch['reqEventDate']}</td>";
+                                echo "<td>{$rowArch['userID']}</td>";
+                                echo "<td>
+                        <form method='post'>
+                            <input type='hidden' name='reqID' value='{$rowArch['reqID']}'>
+                            <input type='hidden' name='userID' value='{$rowArch['userID']}'>
+                            <button type='submit' name='approve'>Approve</button>
+                            <button type='submit' name='decline'>Decline</button>
+                        </form>
+                      </td>";
+                                echo "</tr>";
+                            }
+                            ?>
+                        </tbody>
+                    </table>
                 </div>
+                <?php
+                function approveRequest($conn, $reqID, $orgID)
+                {
+                    // Get the current userID
+                    $userID = $_SESSION['userID'];
+
+                    // Increment the userID by 1
+                    $newUserID = $userID + 1;
+
+                    // Update tbl_requests
+                    $updateQuery = "UPDATE tbl_requests SET currentOffice = '{$newUserID}' WHERE reqID = '{$reqID}'";
+                    mysqli_query($conn, $updateQuery);
+
+                    // Insert into tbl_reqhistory
+                    $insertQuery = "INSERT INTO tbl_reqhistory (reqStatus, statusDate, orgID, reqID) VALUES (?, NOW(), ?, ?)";
+
+                    // Use prepared statement to prevent SQL injection
+                    $stmt = mysqli_prepare($conn, $insertQuery);
+                    $status = 'Approved';
+                    mysqli_stmt_bind_param($stmt, 'sii', $status, $orgID, $reqID);
+                    mysqli_stmt_execute($stmt);
+
+                    // Close the prepared statement
+                    mysqli_stmt_close($stmt);
+                }
+
+
+                ?>
 
                 <div id="form4" style="display: none;">
                     <h2 class="form-title">Archive</h2>
