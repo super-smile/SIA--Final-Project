@@ -57,7 +57,7 @@ $userImgBase64 = base64_encode($userImg);
 
 require 'HTML/org.html'
 
-    ?>
+?>
 
 <body>
     <div class="header d-flex justify-content-between align-items-center">
@@ -191,14 +191,123 @@ require 'HTML/org.html'
                         </div>
 
                         <div class="col-md-5" style="padding:10px">
-                            <div class="card text-bg-white mb-3" style="max-width: 100%; height:411px">
-                                <div class="card-header"><strong>Overview</strong></div>
+                            <div class="card text-bg-white mb-3" style="max-width: 100%; height:115px">
+                                <div class="card-header"><strong>Time</strong></div>
                                 <div class="card-body">
-                                    <div class="overview" style="height:411px">
-                                        <div id="piechart" style="width: 100%;"></div>
-                                    </div>
+                                    <span id="time" style="float: right"></span>
                                 </div>
                             </div>
+
+                            <script>
+                                function updateTime() {
+                                    const timeElement = document.getElementById("time");
+                                    const timeOptions = {
+                                        hour: '2-digit',
+                                        minute: '2-digit',
+                                        second: '2-digit'
+                                    };
+                                    const currentTime = new Date().toLocaleTimeString(undefined, timeOptions);
+                                    timeElement.innerHTML = currentTime;
+                                }
+
+                                updateTime();
+                                setInterval(updateTime, 1000);
+                            </script>
+
+
+                            <div class="card text-bg-white mb-3" style="max-width: 100%; height: auto;">
+                                <div class="card-header">
+                                    <strong id="monthYear"></strong>
+                                    <button onclick="prevMonth()">&#10094;</button>
+                                    <button onclick="nextMonth()">&#10095;</button>
+                                </div>
+                                <div class="card-body">
+                                    <div id="calendar"></div>
+                                </div>
+                            </div>
+
+                            <style>
+                                table {
+                                    border-collapse: collapse;
+                                    width: 100%;
+                                }
+
+                                th,
+                                td {
+                                    text-align: center;
+                                    padding: 8px;
+                                    border: 1px solid #ddd;
+                                }
+
+                                th {
+                                    background-color: #f0f0f0;
+                                }
+
+                                td.today {
+                                    background-color: #e6e6e6;
+                                }
+                            </style>
+
+                            <script>
+                                let currentDate = new Date();
+
+                                function generateCalendar() {
+                                    const daysInMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
+                                    const firstDayIndex = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay();
+
+                                    const calendarElement = document.getElementById('calendar');
+                                    let calendarHTML = '<table>';
+
+                                    // Month and year display
+                                    document.getElementById('monthYear').innerText = `${currentDate.toLocaleString('default', { month: 'long' })} ${currentDate.getFullYear()}`;
+
+                                    // Create the header row
+                                    calendarHTML += '<tr>';
+                                    calendarHTML += '<th>Sun</th>';
+                                    calendarHTML += '<th>Mon</th>';
+                                    calendarHTML += '<th>Tue</th>';
+                                    calendarHTML += '<th>Wed</th>';
+                                    calendarHTML += '<th>Thu</th>';
+                                    calendarHTML += '<th>Fri</th>';
+                                    calendarHTML += '<th>Sat</th>';
+                                    calendarHTML += '</tr>';
+
+                                    let day = 1;
+
+                                    // Create the days of the month
+                                    for (let i = 0; i < 6; i++) {
+                                        calendarHTML += '<tr>';
+                                        for (let j = 0; j < 7; j++) {
+                                            if (i === 0 && j < firstDayIndex) {
+                                                calendarHTML += '<td></td>';
+                                            } else if (day > daysInMonth) {
+                                                break;
+                                            } else {
+                                                const isToday = (day === new Date().getDate() && currentDate.getMonth() === new Date().getMonth() && currentDate.getFullYear() === new Date().getFullYear()) ? 'today' : '';
+                                                calendarHTML += `<td class="${isToday}">${day}</td>`;
+                                                day++;
+                                            }
+                                        }
+                                        calendarHTML += '</tr>';
+                                    }
+
+                                    calendarHTML += '</table>';
+                                    calendarElement.innerHTML = calendarHTML;
+                                }
+
+                                function prevMonth() {
+                                    currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1);
+                                    generateCalendar();
+                                }
+
+                                function nextMonth() {
+                                    currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
+                                    generateCalendar();
+                                }
+
+                                generateCalendar();
+                            </script>
+
                         </div>
                     </div>
                 </div>
@@ -403,28 +512,28 @@ require 'HTML/org.html'
     var form3 = document.getElementById("form3");
     var form4 = document.getElementById("form4");
 
-    button1.addEventListener("click", function () {
+    button1.addEventListener("click", function() {
         form1.style.display = "block";
         form2.style.display = "none";
         form3.style.display = "none";
         form4.style.display = "none";
     });
 
-    button2.addEventListener("click", function () {
+    button2.addEventListener("click", function() {
         form1.style.display = "none";
         form2.style.display = "block";
         form3.style.display = "none";
         form4.style.display = "none";
     });
 
-    button3.addEventListener("click", function () {
+    button3.addEventListener("click", function() {
         form1.style.display = "none";
         form2.style.display = "none";
         form3.style.display = "block";
         form4.style.display = "none";
     });
 
-    button4.addEventListener("click", function () {
+    button4.addEventListener("click", function() {
         form1.style.display = "none";
         form2.style.display = "none";
         form3.style.display = "none";
@@ -441,7 +550,7 @@ require 'HTML/org.html'
 
     var activeButton = null;
 
-    showForm1Button.addEventListener('click', function () {
+    showForm1Button.addEventListener('click', function() {
         if (activeButton !== showForm1Button) {
             if (activeButton) {
                 activeButton.classList.remove('clicked');
@@ -451,7 +560,7 @@ require 'HTML/org.html'
         }
     });
 
-    showForm2Button.addEventListener('click', function () {
+    showForm2Button.addEventListener('click', function() {
         if (activeButton !== showForm2Button) {
             if (activeButton) {
                 activeButton.classList.remove('clicked');
@@ -461,7 +570,7 @@ require 'HTML/org.html'
         }
     });
 
-    showForm3Button.addEventListener('click', function () {
+    showForm3Button.addEventListener('click', function() {
         if (activeButton !== showForm3Button) {
             if (activeButton) {
                 activeButton.classList.remove('clicked');
@@ -471,7 +580,7 @@ require 'HTML/org.html'
         }
     });
 
-    showForm4Button.addEventListener('click', function () {
+    showForm4Button.addEventListener('click', function() {
         if (activeButton !== showForm4Button) {
             if (activeButton) {
                 activeButton.classList.remove('clicked');
