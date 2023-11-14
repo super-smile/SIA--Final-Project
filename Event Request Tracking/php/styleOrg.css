@@ -113,7 +113,7 @@ body{
 .sidebar{
   padding: 0;
   padding-top: 20px;
-  height: 94.2vh;
+  height: 100%;
   box-shadow: 1px 0 4px rgba(0, 0, 0, 0.2);
 }
 .active-link {
