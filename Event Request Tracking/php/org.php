@@ -24,14 +24,14 @@ $userID = $_SESSION['userID'];
 $orgID = $_SESSION['userID'];
 
 //Dashboard
-$query = "SELECT * FROM tbl_reqhistory WHERE orgID = ? and reqStatus = 'Pending'";
+$query = "SELECT * FROM tbl_requests WHERE userID = ? and currentOffice !='Chancellor'";
 $stmt = mysqli_prepare($conn, $query);
 mysqli_stmt_bind_param($stmt, "s", $userID);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 
 //Request
-$queryReq = "SELECT * FROM tbl_reqhistory WHERE orgID = ? and reqStatus = 'Pending'";
+$queryReq = "SELECT * FROM tbl_requests WHERE userID = ? and currentOffice !='Chancellor'";
 $stmtReq = mysqli_prepare($conn, $queryReq);
 mysqli_stmt_bind_param($stmtReq, "s", $userID);
 mysqli_stmt_execute($stmtReq);
@@ -43,6 +43,8 @@ $stmtArch = mysqli_prepare($conn, $queryArch);
 mysqli_stmt_bind_param($stmtArch, "s", $userID);
 mysqli_stmt_execute($stmtArch);
 $resultArch = mysqli_stmt_get_result($stmtArch);
+
+//Account Photo
 $queryImg = "SELECT userImg FROM tbl_account WHERE userName = ?";
 $stmtImg = mysqli_prepare($conn, $queryImg);
 mysqli_stmt_bind_param($stmtImg, "s", $CurrentUser);
@@ -64,9 +66,8 @@ require 'HTML/org.html'
             <div class="header-text">
                 <p style="font-size: 11px; font-weight: 800; margin: 0;">Event Tracking System</p>
                 <span style="font-size: 9px;">Office of the Student Organizations</span>
-
                 <?php
-                if ($userType == 'Organization') {
+                if ($userType == 'organization') {
                     echo '<a href="letter.php" class="upload-button" id="uploadLetter">Upload a letter</a>';
                 }
                 ?>
@@ -131,10 +132,10 @@ require 'HTML/org.html'
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text text-left" id="showForm4">
-                                <i class="fas fa-calendar"></i> Account
+                                <i class="fas fa-user"></i> Account
                             </a>
                         </li>
-                        <br><br><br><br><br><br><br><br><br><br>
+                        <br><br><br><br><br><br><br><br>
                         <li class="nav-item">
                             <a class="nav-link text text-left" href="login.php">
                                 <i class="fas fa-sign-out-alt"></i><u style="margin-left:2px">Logout</u>
@@ -145,7 +146,7 @@ require 'HTML/org.html'
             </div>
 
 
-            <div class="col-md-10 p-4 bg-body-secondary">
+            <div class="content" style="flex: 1; padding: 20px;">
                 <div id="form1" style="display: block;">
                     <h2 class="form-title">Dashboard</h2>
                     <div class="row">
@@ -161,12 +162,12 @@ require 'HTML/org.html'
                                         <br>
                                         <thead>
                                             <tr>
-                                                <th>Req ID</th>
-                                                <th>Status</th>
-                                                <th>Date Approved</th>
+                                                <th>Request ID</th>
+                                                <th>Event Name</th>
+                                                <th>Letter</th>
+                                                <th>Event Date</th>
                                                 <th>Deadline</th>
-                                                <th>Organization ID</th>
-                                                <th>Office ID</th>
+                                                <th>Current Office</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -175,11 +176,11 @@ require 'HTML/org.html'
                                             while ($row = mysqli_fetch_assoc($result)) {
                                                 echo "<tr>";
                                                 echo "<td>{$row['reqID']}</td>";
-                                                echo "<td>{$row['reqStatus']}</td>";
-                                                echo "<td>{$row['statusDate']}</td>";
+                                                echo "<td>{$row['reqEventName']}</td>";
+                                                echo "<td><a href='view_pdf.php?reqID={$row['reqID']}' target='_blank'>View Letter</a></td>";
+                                                echo "<td>{$row['reqEventDate']}</td>";
                                                 echo "<td>{$row['reqDeadline']}</td>";
-                                                echo "<td>{$row['orgID']}</td>";
-                                                echo "<td>{$row['officeID']}</td>";
+                                                echo "<td>{$row['currentOffice']}</td>";
                                                 echo "</tr>";
                                             }
                                             ?>
@@ -190,14 +191,123 @@ require 'HTML/org.html'
                         </div>
 
                         <div class="col-md-5" style="padding:10px">
-                            <div class="card text-bg-white mb-3" style="max-width: 100%; height:411px">
-                                <div class="card-header"><strong>Overview</strong></div>
+                            <div class="card text-bg-white mb-3" style="max-width: 100%; height:115px">
+                                <div class="card-header"><strong>Time</strong></div>
                                 <div class="card-body">
-                                    <div class="overview" style="height:411px">
-                                        <div id="piechart" style="width: 100%;"></div>
-                                    </div>
+                                    <span id="time" style="float: right"></span>
                                 </div>
                             </div>
+
+                            <script>
+                                function updateTime() {
+                                    const timeElement = document.getElementById("time");
+                                    const timeOptions = {
+                                        hour: '2-digit',
+                                        minute: '2-digit',
+                                        second: '2-digit'
+                                    };
+                                    const currentTime = new Date().toLocaleTimeString(undefined, timeOptions);
+                                    timeElement.innerHTML = currentTime;
+                                }
+
+                                updateTime();
+                                setInterval(updateTime, 1000);
+                            </script>
+
+
+                            <div class="card text-bg-white mb-3" style="max-width: 100%; height: auto;">
+                                <div class="card-header">
+                                    <strong id="monthYear"></strong>
+                                    <button onclick="prevMonth()">&#10094;</button>
+                                    <button onclick="nextMonth()">&#10095;</button>
+                                </div>
+                                <div class="card-body">
+                                    <div id="calendar"></div>
+                                </div>
+                            </div>
+
+                            <style>
+                                table {
+                                    border-collapse: collapse;
+                                    width: 100%;
+                                }
+
+                                th,
+                                td {
+                                    text-align: center;
+                                    padding: 8px;
+                                    border: 1px solid #ddd;
+                                }
+
+                                th {
+                                    background-color: #f0f0f0;
+                                }
+
+                                td.today {
+                                    background-color: #e6e6e6;
+                                }
+                            </style>
+
+                            <script>
+                                let currentDate = new Date();
+
+                                function generateCalendar() {
+                                    const daysInMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
+                                    const firstDayIndex = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay();
+
+                                    const calendarElement = document.getElementById('calendar');
+                                    let calendarHTML = '<table>';
+
+                                    // Month and year display
+                                    document.getElementById('monthYear').innerText = `${currentDate.toLocaleString('default', { month: 'long' })} ${currentDate.getFullYear()}`;
+
+                                    // Create the header row
+                                    calendarHTML += '<tr>';
+                                    calendarHTML += '<th>Sun</th>';
+                                    calendarHTML += '<th>Mon</th>';
+                                    calendarHTML += '<th>Tue</th>';
+                                    calendarHTML += '<th>Wed</th>';
+                                    calendarHTML += '<th>Thu</th>';
+                                    calendarHTML += '<th>Fri</th>';
+                                    calendarHTML += '<th>Sat</th>';
+                                    calendarHTML += '</tr>';
+
+                                    let day = 1;
+
+                                    // Create the days of the month
+                                    for (let i = 0; i < 6; i++) {
+                                        calendarHTML += '<tr>';
+                                        for (let j = 0; j < 7; j++) {
+                                            if (i === 0 && j < firstDayIndex) {
+                                                calendarHTML += '<td></td>';
+                                            } else if (day > daysInMonth) {
+                                                break;
+                                            } else {
+                                                const isToday = (day === new Date().getDate() && currentDate.getMonth() === new Date().getMonth() && currentDate.getFullYear() === new Date().getFullYear()) ? 'today' : '';
+                                                calendarHTML += `<td class="${isToday}">${day}</td>`;
+                                                day++;
+                                            }
+                                        }
+                                        calendarHTML += '</tr>';
+                                    }
+
+                                    calendarHTML += '</table>';
+                                    calendarElement.innerHTML = calendarHTML;
+                                }
+
+                                function prevMonth() {
+                                    currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1);
+                                    generateCalendar();
+                                }
+
+                                function nextMonth() {
+                                    currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
+                                    generateCalendar();
+                                }
+
+                                generateCalendar();
+                            </script>
+
                         </div>
                     </div>
                 </div>
@@ -235,12 +345,12 @@ require 'HTML/org.html'
                             <br>
                             <thead>
                                 <tr>
-                                    <th>Req ID</th>
-                                    <th>Status</th>
-                                    <th>Date Approved</th>
+                                    <th>Request ID</th>
+                                    <th>Event Name</th>
+                                    <th>Letter</th>
+                                    <th>Event Date</th>
                                     <th>Deadline</th>
-                                    <th>Organization ID</th>
-                                    <th>Office ID</th>
+                                    <th>Current Office</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -249,11 +359,11 @@ require 'HTML/org.html'
                                 while ($rowReq = mysqli_fetch_assoc($resultReq)) {
                                     echo "<tr>";
                                     echo "<td>{$rowReq['reqID']}</td>";
-                                    echo "<td>{$rowReq['reqStatus']}</td>";
-                                    echo "<td>{$rowReq['statusDate']}</td>";
+                                    echo "<td>{$rowReq['reqEventName']}</td>";
+                                    echo "<td><a href='view_pdf.php?reqID={$rowReq['reqID']}' target='_blank'>View Letter</a></td>";
+                                    echo "<td>{$rowReq['reqEventDate']}</td>";
                                     echo "<td>{$rowReq['reqDeadline']}</td>";
-                                    echo "<td>{$rowReq['orgID']}</td>";
-                                    echo "<td>{$rowReq['officeID']}</td>";
+                                    echo "<td>{$rowReq['currentOffice']}</td>";
                                     echo "</tr>";
                                 }
                                 ?>
@@ -300,62 +410,22 @@ require 'HTML/org.html'
                 <div id="form4" style="display: none;">
                     <h2 class="form-title"><strong>Account</strong></h2>
                     <div class="acc-container">
-                    <p><strong>Account Information</strong></p>
-                        <div class="user-image-container">
-                            <?php
-                                if (!empty($userImgBase64)) {
-                                    echo '<img src="' . $accImgPath . '" alt="Profile Image" class="user-img">';
-                                } else {
-                                    echo '<img src="default_profile_image.png" alt="Default Image" class="user-img">';
-                                }
-                            ?>
-                        </div>
-                        <div class="account-photo-label">Account Photo</div><br>
-
-                        <style>
-                            .user-image-container {
-                            text-align: center;
-                            margin: auto;
-                            margin-top: 0;
-                            margin-bottom: 20px;
-                            width: 230px;
-                            height: 230px;
-                            border: 5px solid #a21a1e;
-                            border-radius: 50%;
-                            overflow: hidden;
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
-                            padding: 0;
-                            object-fit: cover;
-            
-                                }
-
-                            .user-img {
-                            border-radius: 50%;
-                            width: 200px; /* Adjust the size as needed */
-                            height: 200px; /* Adjust the size as needed */
-                            object-fit: cover;
-                                }
-                            .account-photo-label {
-                            text-align: center;
-                                }
-                        </style>
+                        <p><strong>Account Information</strong></p>
                         <div class="form-group">
                             <div class="label-input">
-                                <label for="userNameDisplay"><strong>Organization Name:</strong></label>
+                                <label for="userNameDisplay">Organization Name:</label>
                                 <span id="userNameDisplay" class="form-control"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="label-input">
-                                <label for="userDeptDisplay"><strong>Department Name:</strong></label>
+                                <label for="userDeptDisplay">Department Name:</label>
                                 <span id="userDeptDisplay" class="form-control"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="label-input">
-                                <label for="userEmailDisplay"><strong>Email Address:</strong></label>
+                                <label for="userEmailDisplay">Email Address:</label>
                                 <span id="userEmailDisplay" class="form-control"></span>
                             </div>
                         </div>
