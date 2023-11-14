@@ -24,7 +24,7 @@ include 'config.php';
 
 $userID = $_SESSION['userID'];
 
-$query = "SELECT userName FROM tbl_account WHERE userType = 'Organization'";
+$query = "SELECT userName FROM tbl_account WHERE userType = 'organization'";
 $stmt = mysqli_prepare($conn, $query);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
@@ -153,8 +153,7 @@ include 'HTML/oso.html'
                                 <div class="card text-bg-white mb-3" style="max-width:100%; height:115px">
                                     <div class="card-header"><strong>Welcome!</strong></div>
                                     <div class="card-body">
-                                        <p class="card-text">Some quick example text to build on the card title and make
-                                            up the bulk of the card's content.</p>
+                                        <p class="card-text">Good day</p>
                                     </div>
                                 </div>
                                 <div class="db-container" style="height:430px">
@@ -190,9 +189,7 @@ include 'HTML/oso.html'
                                 <div class="card text-bg-white mb-3" style="max-width: 100%; height:115px">
                                     <div class="card-header"><strong>Organizations</strong></div>
                                     <div class="card-body">
-                                        <p class="card-text">Some quick example text to build on the card title and make
-                                            up
-                                            the bulk of the card's content.</p>
+                                        <p class="card-text">Good day</p>
                                     </div>
                                 </div>
                                 <div class="card text-bg-white mb-3" style="max-width: 100%; height:411px">
@@ -299,62 +296,22 @@ include 'HTML/oso.html'
                     <div id="form6" style="display: none;">
                         <h2 class="form-title">Account</h2>
                         <div class="tbl-container">
-                        <p><strong>Personal Information</strong></p>
-                            <div class="user-image-container">
-                                <?php
-                                if (!empty($userImgBase64)) {
-                                    echo '<img src="' . $accImgPath . '" alt="Profile Image" class="user-img">';
-                                } else {
-                                    echo '<img src="default_profile_image.png" alt="Default Image" class="user-img">';
-                                }
-                                ?>
-                            </div>
-                            <div class="account-photo-label">Account Photo</div><br>
-
-                             <style>
-                                .user-image-container {
-                                    text-align: center;
-                                    margin: auto;
-                                    margin-top: 0;
-                                    margin-bottom: 20px;
-                                    width: 230px;
-                                    height: 230px;
-                                    border: 5px solid #a21a1e;
-                                    border-radius: 50%;
-                                    overflow: hidden;
-                                    display: flex;
-                                    justify-content: center;
-                                    align-items: center;
-                                    padding: 0;
-                                    object-fit: cover;
-                                    
-                                }
-                                .user-img {
-                                    border-radius: 50%;
-                                    width: 200px; 
-                                    height: 200px; 
-                                    object-fit: cover;
-                                }
-                                .account-photo-label {
-                                    text-align: center;
-                                }
-
-                            </style>
+                            <p><strong>Personal Information</strong></p>
                             <div class="form-group">
                                 <div class="label-input">
-                                    <label for="userNameDisplay"><strong>Organization Name:</strong></label>
+                                    <label for="userNameDisplay">Organization Name:</label>
                                     <span id="userNameDisplay" class="form-control"></span>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="label-input">
-                                    <label for="userDeptDisplay"><strong>Department Name:</strong></label>
+                                    <label for="userDeptDisplay">Department Name:</label>
                                     <span id="userDeptDisplay" class="form-control"></span>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="label-input">
-                                    <label for="userEmailDisplay"><strong>Email Address:</strong></label>
+                                    <label for="userEmailDisplay">Email Address:</label>
                                     <span id="userEmailDisplay" class="form-control"></span>
                                 </div>
                             </div>
