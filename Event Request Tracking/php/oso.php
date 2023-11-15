@@ -296,7 +296,46 @@ include 'HTML/oso.html'
                     <div id="form6" style="display: none;">
                         <h2 class="form-title">Account</h2>
                         <div class="tbl-container">
-                            <p><strong>Personal Information</strong></p>
+                        <p><strong>Personal Information</strong></p>
+                            <div class="user-image-container">
+                                <?php
+                                if (!empty($userImgBase64)) {
+                                    echo '<img src="' . $accImgPath . '" alt="Profile Image" class="user-img">';
+                                } else {
+                                    echo '<img src="default_profile_image.png" alt="Default Image" class="user-img">';
+                                }
+                                ?>
+                            </div>
+                            <div class="account-photo-label">Account Photo</div><br>
+
+                             <style>
+                                .user-image-container {
+                                    text-align: center;
+                                    margin: auto;
+                                    margin-top: 0;
+                                    margin-bottom: 20px;
+                                    width: 230px;
+                                    height: 230px;
+                                    border: 5px solid #a21a1e;
+                                    border-radius: 50%;
+                                    overflow: hidden;
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    padding: 0;
+                                    object-fit: cover;
+                                    
+                                }
+                                .user-img {
+                                    border-radius: 50%;
+                                    width: 200px; 
+                                    height: 200px; 
+                                    object-fit: cover;
+                                }
+                                .account-photo-label {
+                                    text-align: center;
+                                }
+                                </style>
                             <div class="form-group">
                                 <div class="label-input">
                                     <label for="userNameDisplay">Organization Name:</label>
