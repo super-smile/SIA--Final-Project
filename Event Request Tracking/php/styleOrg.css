@@ -6,20 +6,20 @@
   width: 100%;
   height: 94vh;
 }
-body{
-  background:#F3F3F3;
+body {
+  background: #f3f3f3;
 }
 .header {
   display: flex;
   align-items: center;
   background-color: white;
   color: black;
+  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.2);
 }
 .notification-icon {
   color: white;
   width: 30px;
   padding: 0;
-
 }
 .notif {
   font-size: 10px;
@@ -58,7 +58,7 @@ body{
   justify-content: center;
   cursor: pointer;
 }
-.notification-bell:hover{
+.notification-bell:hover {
   background-color: #a21a1e;
 }
 .image-container {
@@ -110,11 +110,18 @@ body{
   margin-bottom: 20px;
   padding: 10px;
 }
-.sidebar{
+.sidebar {
   padding: 0;
   padding-top: 20px;
   height: 100%;
   box-shadow: 1px 0 4px rgba(0, 0, 0, 0.2);
+  background: rgb(2, 0, 36);
+  background: linear-gradient(
+    90deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(111, 0, 0, 1) 0%,
+    rgba(184, 20, 20, 1) 78%
+  );
 }
 .active-link {
   color: #a21a1e !important;
@@ -147,6 +154,7 @@ body{
   background-color: white;
   padding: 20px 40px;
   border-radius: 5px;
+  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.2);
 }
 
 .label-input {
@@ -154,7 +162,9 @@ body{
   justify-content: space-between;
   align-items: center;
 }
-
+.card {
+  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.2);
+}
 .label-input label {
   flex-basis: 40%;
   text-align: left;
@@ -179,6 +189,7 @@ body{
   background-color: white;
   padding: 15px;
   border-radius: 5px;
+  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.2);
 }
 .date-time {
   border-bottom: 1px solid black;

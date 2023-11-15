@@ -146,7 +146,7 @@ require 'HTML/org.html'
             </div>
 
 
-            <div class="content" style="flex: 1; padding: 20px;">
+            <div class="content container-fluid" style="flex: 1; padding: 20px;">
                 <div id="form1" style="display: block;">
                     <h2 class="form-title">Dashboard</h2>
                     <div class="row">
@@ -191,7 +191,7 @@ require 'HTML/org.html'
                         </div>
 
                         <div class="col-md-5" style="padding:10px">
-                            <div class="card text-bg-white mb-3" style="max-width: 100%; height:115px">
+                            <div class="card text-bg-white mb-3" style="max-width: 100%; height:115px;">
                                 <div class="card-header"><strong>Time</strong></div>
                                 <div class="card-body">
                                     <span id="time" style="float: right"></span>

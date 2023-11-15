@@ -15,12 +15,21 @@ body {
   padding: 20px 40px;
   border-radius: 5px;
   margin: 20px;
+  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.2);
 }
 .header {
   align-items: center;
-  background-color: #a21a1e;
+  background: rgb(2, 0, 36);
+  background: linear-gradient(
+    90deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(111, 0, 0, 1) 0%,
+    rgba(184, 20, 20, 1) 78%
+  );  
   color: white;
   display: flex;
+  border-bottom-right-radius: 20px;
+  box-shadow: 1px 0 4px rgba(0, 0, 0, 0.2);
 }
 .form-title {
   font-size: 25px;
@@ -100,9 +109,6 @@ body {
   background-color: #a21a1e;
   font-weight: bold;
   transform: translateY(-2px);
-  border-top-left-radius: 20px;
-  border-bottom-left-radius: 20px;
-  margin-left:10px ;
 }
 .text {
   color: #a21a1e;
