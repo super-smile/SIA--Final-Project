@@ -16,18 +16,20 @@
 <body onload="uploadPDF()">
     <div class="container">
 
-        <form id="upload-letter">
+        <form id="upload-letter" method="POST" action="upload.php" enctype="multipart/form-data">
+
+
             <p class="title">Upload Letter</p>
             <p class="subtitle">Please complete the event information.</p>
 
             <div class="input-event-name">
-                <label for="event-name">Event Name:</label>
-                <input type="text" name="event-name" id="event-name" required />
+                <label for="eventName">Event Name:</label>
+                <input type="text" name="eventName" id="eventName" required />
             </div>
 
             <div class="input-event-date">
-                <label for="event-date">Event Date:</label>
-                <input type="date" name="event-date" id="event-date" required />
+                <label for="eventDate">Event Date:</label>
+                <input type="date" name="eventDate" id="eventDate" required />
             </div>
 
             <div class="subcontainer">
@@ -50,9 +52,8 @@
             <p class="text1">Selsect a file from the computer or drag and drop here.</p>
             <p class="text2">For the best results, please submit a PDF file.</p>
 
-            <input type="file" id="pdfFile" name="pdfFile" accept=".pdf, .jpg, .png" style="display: none; visibility: visible;">
+            <input type="file" id="pdfFile" name="pdfFile" accept=".pdf" style="display: none; visibility: visible;">
             <input type="button" value="Browse File" class="browse-file-button" onclick="uploadPDF()">
-    
             <script>
                 function uploadPDF() {
                     document.getElementById("pdfFile").click();
@@ -71,13 +72,12 @@
 
             <input type="submit" value="Cancel" class="cancel-button">
 
-            <a href="#" class="submit-button" id="submit-button">
-                Submit
-            </a>
-            <script>
-                document.querySelector("#submit-button").addEventListener("click", function(e) {
-                    e.preventDefault(); // Prevent the default link behavior
+            <input type="submit" value="Submit" class="submit-button">
 
+
+            <script>
+                document.querySelector(".submit-button").addEventListener("click", function(e) {
+                    e.preventDefault();
                     Swal.fire({
                         title: 'Submission Confirm',
                         html: "Are you certain you want to submit this? The information you've entered <strong>cannot be altered or reversed once</strong> it's been submitted.",
@@ -86,10 +86,15 @@
                         cancelButtonText: 'Cancel',
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            window.location.href = "submission.html";
+                            document.getElementById("upload-letter").submit();
+                            Swal.fire({
+                                title: 'Submission Successful',
+                                text: 'Thank you for submitting your form!',
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+                            });
                         }
                     });
-
                 });
             </script>
 
