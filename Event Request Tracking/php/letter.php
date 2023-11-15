@@ -13,7 +13,7 @@
     <title>Upload Event Letter</title>
 </head>
 
-<body onload="uploadPDF()">
+<body>
     <div class="container">
 
         <form id="upload-letter" method="POST" action="upload.php" enctype="multipart/form-data">
