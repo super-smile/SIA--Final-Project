@@ -169,7 +169,7 @@ $userImgBase64 = base64_encode($userImg);
                             <div class="card">
                                 <div class="card-body">
                                     <form id="formReq">
-                                        <h2>ABNOY</h2>
+                                        <h2>Requests</h2>
                                         <!-- req -->
                                     </form>
                                 </div>
