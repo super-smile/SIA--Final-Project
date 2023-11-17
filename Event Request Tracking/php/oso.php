@@ -29,6 +29,11 @@ $stmt = mysqli_prepare($conn, $query);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 
+$queryAcc = "SELECT * FROM tbl_account WHERE userType != 'OSO'";
+$stmtAcc = mysqli_prepare($conn, $queryAcc);
+mysqli_stmt_execute($stmtAcc);
+$resultAcc = mysqli_stmt_get_result($stmtAcc);
+
 $queryReq = "SELECT * FROM tbl_reqhistory";
 $stmtReq = mysqli_prepare($conn, $queryReq);
 mysqli_stmt_execute($stmtReq);
@@ -44,6 +49,7 @@ $stmtEvents = mysqli_prepare($conn, $queryEvents);
 mysqli_stmt_execute($stmtEvents);
 $resultEvents = mysqli_stmt_get_result($stmtEvents);
 
+
 $queryImg = "SELECT userImg FROM tbl_account WHERE userName = ?";
 $stmtImg = mysqli_prepare($conn, $queryImg);
 mysqli_stmt_bind_param($stmtImg, "s", $CurrentUser);
@@ -55,7 +61,7 @@ mysqli_stmt_fetch($stmtImg);
 $userImgBase64 = base64_encode($userImg);
 
 include 'HTML/oso.html'
-    ?>
+?>
 
 <body>
     <div class="header d-flex justify-content-between align-items-center">
@@ -131,7 +137,7 @@ include 'HTML/oso.html'
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text text-left" id="showForm6">
-                                <i class="fas fa-user"></i> Account
+                                <i class="fas fa-user"></i> Accounts
                             </a>
                         </li><br><br><br><br><br>
                         <li class="nav-item">
@@ -294,33 +300,45 @@ include 'HTML/oso.html'
                     </div>
 
                     <div id="form6" style="display: none;">
-                        <h2 class="form-title">Account</h2>
+                        <h2 class="form-title">Accounts</h2>
                         <div class="tbl-container">
-                            <p><strong>Personal Information</strong></p>
-                            <div class="form-group">
-                                <div class="label-input">
-                                    <label for="userNameDisplay">Organization Name:</label>
-                                    <span id="userNameDisplay" class="form-control"></span>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="label-input">
-                                    <label for="userDeptDisplay">Department Name:</label>
-                                    <span id="userDeptDisplay" class="form-control"></span>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="label-input">
-                                    <label for="userEmailDisplay">Email Address:</label>
-                                    <span id="userEmailDisplay" class="form-control"></span>
-                                </div>
-                            </div>
-                            <div class="sub-container">
-                                <p class="sub-title">If you find that the provided information is incorrect, please
-                                    reach out to the
-                                    Lipa Office for assistance.</p>
-                                <span class="sub-email">Email: ict.lipa@g.batstate-u.edu.ph</span>
-                            </div>
+                            <p><strong>Organizations Information</strong></p>
+                            <table id="Account" class="table table-striped text-center" style="width:100%;">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Organizations Name</th>
+                                        <th class="text-center">Department</th>
+                                        <th class="text-center">Email</th>
+                                        <th class="text-center">Password</th>
+                                        <th class="text-center">Edit</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    include 'config.php';
+                                    while ($row = mysqli_fetch_assoc($resultAcc)) {
+                                        echo "<tr>";
+                                        echo "<td>{$row['userName']}</td>";
+                                        echo "<td>{$row['userDept']}</td>";
+                                        echo "<td>{$row['userEmail']}</td>";
+                                        echo "<td>";
+                                        $password = $row['userPass'];
+                                        $maskedPassword = str_repeat('•', 8);
+                                        echo $maskedPassword;
+                                        echo "</td>";
+
+                                        // Add an Edit button with a form and a hidden input for user ID
+                                        echo "<td>";
+                                        echo "<form action='edit_account' method='post'>"; // <-- Corrected action attribute
+                                        echo "<input type='hidden' name='userID' value='{$row['userID']}'>";
+                                        echo "<button type='submit'>Edit</button>";
+                                        echo "</form>";
+                                        echo "</td>";
+                                    }
+                                    ?>
+                                </tbody>
+
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -332,7 +350,9 @@ include 'HTML/oso.html'
 </body>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
-    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.load('current', {
+        'packages': ['corechart']
+    });
     google.charts.setOnLoadCallback(drawChart);
 
     function drawChart() {
@@ -361,6 +381,9 @@ include 'HTML/oso.html'
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+
+
 <script>
     const navLinks = document.querySelectorAll('.nav-link');
 
@@ -379,8 +402,44 @@ include 'HTML/oso.html'
     });
 
     new DataTable('#example');
+    new DataTable('#Account');
     new DataTable('#Requests');
     new DataTable('#AllEvents');
+
+    $(document).ready(function() {
+        // Define global DataTable options
+        var globalOptions = {
+            "lengthMenu": [
+                [5, 10, 25, 50, -1],
+                [5, 10, 25, 50, "All"]
+            ],
+            // Add any other global DataTable options you might need
+        };
+
+        // Initialize DataTable for #example
+        if ($.fn.dataTable.isDataTable('#example')) {
+            $('#example').DataTable().destroy();
+        }
+        $('#example').DataTable(globalOptions);
+
+        // Initialize DataTable for #Account
+        if ($.fn.dataTable.isDataTable('#Account')) {
+            $('#Account').DataTable().destroy();
+        }
+        $('#Account').DataTable(globalOptions);
+
+        // Initialize DataTable for #Requests
+        if ($.fn.dataTable.isDataTable('#Requests')) {
+            $('#Requests').DataTable().destroy();
+        }
+        $('#Requests').DataTable(globalOptions);
+
+        // Initialize DataTable for #AllEvents
+        if ($.fn.dataTable.isDataTable('#AllEvents')) {
+            $('#AllEvents').DataTable().destroy();
+        }
+        $('#AllEvents').DataTable(globalOptions);
+    });
 
     function updateAccountInformation(userName, userDept, userEmail) {
         document.getElementById('userNameDisplay').textContent = userName;
@@ -401,7 +460,7 @@ include 'HTML/oso.html'
     var form5 = document.getElementById("form5");
     var form6 = document.getElementById("form6");
 
-    button1.addEventListener("click", function () {
+    button1.addEventListener("click", function() {
         form1.style.display = "block";
         form2.style.display = "none";
         form3.style.display = "none";
@@ -410,7 +469,7 @@ include 'HTML/oso.html'
         form6.style.display = "none"
     });
 
-    button2.addEventListener("click", function () {
+    button2.addEventListener("click", function() {
         form1.style.display = "none";
         form2.style.display = "block";
         form3.style.display = "none";
@@ -419,7 +478,7 @@ include 'HTML/oso.html'
         form6.style.display = "none";
     });
 
-    button3.addEventListener("click", function () {
+    button3.addEventListener("click", function() {
         form1.style.display = "none";
         form2.style.display = "none";
         form3.style.display = "block";
@@ -428,7 +487,7 @@ include 'HTML/oso.html'
         form6.style.display = "none";
     });
 
-    button4.addEventListener("click", function () {
+    button4.addEventListener("click", function() {
         form1.style.display = "none";
         form2.style.display = "none";
         form3.style.display = "none";
@@ -437,7 +496,7 @@ include 'HTML/oso.html'
         form6.style.display = "none";
     });
 
-    button5.addEventListener("click", function () {
+    button5.addEventListener("click", function() {
         form1.style.display = "none";
         form2.style.display = "none";
         form3.style.display = "none";
@@ -446,7 +505,7 @@ include 'HTML/oso.html'
         form6.style.display = "none";
     });
 
-    button6.addEventListener("click", function () {
+    button6.addEventListener("click", function() {
         form1.style.display = "none";
         form2.style.display = "none";
         form3.style.display = "none";

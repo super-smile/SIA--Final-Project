@@ -38,7 +38,7 @@ mysqli_stmt_execute($stmtReq);
 $resultReq = mysqli_stmt_get_result($stmtReq);
 
 //Archive
-$queryArch = "SELECT * FROM tbl_reqhistory WHERE orgID = ? AND (reqStatus = 'Approved' OR reqStatus = 'Declined')";
+$queryArch = "SELECT * FROM tbl_reqhistory WHERE officeID = ? AND (reqStatus = 'Approved' OR reqStatus = 'Declined')";
 $stmtArch = mysqli_prepare($conn, $queryArch);
 mysqli_stmt_bind_param($stmtArch, "s", $userID);
 mysqli_stmt_execute($stmtArch);
@@ -57,7 +57,7 @@ $userImgBase64 = base64_encode($userImg);
 
 require 'HTML/org.html'
 
-    ?>
+?>
 
 <body>
     <div class="header d-flex justify-content-between align-items-center">
@@ -380,8 +380,8 @@ require 'HTML/org.html'
                             <thead>
                                 <tr>
                                     <th>Request ID</th>
-                                    <th>Submission Date</th>
-                                    <th>Status</th>
+                                    <th>Letter</th>
+                                    <th>Event Date</th>
                                     <th>Request Deadline</th>
                                     <th>userID</th>
 
@@ -393,12 +393,9 @@ require 'HTML/org.html'
                                 while ($rowArch = mysqli_fetch_assoc($resultArch)) {
                                     echo "<tr>";
                                     echo "<td>{$rowArch['reqID']}</td>";
-                                    echo "<td>{$rowArch['statusDate']}</td>";
-                                    echo "<td>{$rowArch['reqStatus']}</td>";
-
-                                    echo "<td>{$rowArch['reqDeadline']}</td>";
-                                    echo "<td>{$rowArch['orgID']}</td>";
-
+                                    echo "<td><a href='view_pdf.php?reqID={$rowReq['reqID']}' target='_blank'>View Letter</a></td>";
+                                    echo "<td>{$rowArch['reqEventDate']}</td>";
+                                    echo "<td>{$rowArch['userID']}</td>";
                                     echo "</tr>";
                                 }
                                 ?>
@@ -411,6 +408,49 @@ require 'HTML/org.html'
                     <h2 class="form-title"><strong>Account</strong></h2>
                     <div class="acc-container">
                         <p><strong>Account Information</strong></p>
+                        <div class="user-image-container">
+                            <?php
+                            if (!empty($userImgBase64)) {
+                                echo '<img src="' . $accImgPath . '" alt="Profile Image" class="user-img">';
+                            } else {
+                                echo '<img src="default_profile_image.png" alt="Default Image" class="user-img">';
+                            }
+                            ?>
+                        </div>
+                        <div class="account-photo-label">Account Photo</div><br>
+
+                        <style>
+                            .user-image-container {
+                                text-align: center;
+                                margin: auto;
+                                margin-top: 0;
+                                margin-bottom: 20px;
+                                width: 230px;
+                                height: 230px;
+                                border: 5px solid #a21a1e;
+                                border-radius: 50%;
+                                overflow: hidden;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                padding: 0;
+                                object-fit: cover;
+
+                            }
+
+                            .user-img {
+                                border-radius: 50%;
+                                width: 200px;
+                                /* Adjust the size as needed */
+                                height: 200px;
+                                /* Adjust the size as needed */
+                                object-fit: cover;
+                            }
+
+                            .account-photo-label {
+                                text-align: center;
+                            }
+                        </style>
                         <div class="form-group">
                             <div class="label-input">
                                 <label for="userNameDisplay">Organization Name:</label>
@@ -512,28 +552,28 @@ require 'HTML/org.html'
     var form3 = document.getElementById("form3");
     var form4 = document.getElementById("form4");
 
-    button1.addEventListener("click", function () {
+    button1.addEventListener("click", function() {
         form1.style.display = "block";
         form2.style.display = "none";
         form3.style.display = "none";
         form4.style.display = "none";
     });
 
-    button2.addEventListener("click", function () {
+    button2.addEventListener("click", function() {
         form1.style.display = "none";
         form2.style.display = "block";
         form3.style.display = "none";
         form4.style.display = "none";
     });
 
-    button3.addEventListener("click", function () {
+    button3.addEventListener("click", function() {
         form1.style.display = "none";
         form2.style.display = "none";
         form3.style.display = "block";
         form4.style.display = "none";
     });
 
-    button4.addEventListener("click", function () {
+    button4.addEventListener("click", function() {
         form1.style.display = "none";
         form2.style.display = "none";
         form3.style.display = "none";
@@ -550,7 +590,7 @@ require 'HTML/org.html'
 
     var activeButton = null;
 
-    showForm1Button.addEventListener('click', function () {
+    showForm1Button.addEventListener('click', function() {
         if (activeButton !== showForm1Button) {
             if (activeButton) {
                 activeButton.classList.remove('clicked');
@@ -560,7 +600,7 @@ require 'HTML/org.html'
         }
     });
 
-    showForm2Button.addEventListener('click', function () {
+    showForm2Button.addEventListener('click', function() {
         if (activeButton !== showForm2Button) {
             if (activeButton) {
                 activeButton.classList.remove('clicked');
@@ -570,7 +610,7 @@ require 'HTML/org.html'
         }
     });
 
-    showForm3Button.addEventListener('click', function () {
+    showForm3Button.addEventListener('click', function() {
         if (activeButton !== showForm3Button) {
             if (activeButton) {
                 activeButton.classList.remove('clicked');
@@ -580,7 +620,7 @@ require 'HTML/org.html'
         }
     });
 
-    showForm4Button.addEventListener('click', function () {
+    showForm4Button.addEventListener('click', function() {
         if (activeButton !== showForm4Button) {
             if (activeButton) {
                 activeButton.classList.remove('clicked');

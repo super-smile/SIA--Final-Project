@@ -20,7 +20,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("sssss", $reqEventName, $fileContent, $reqEventDate, $userID, $reqDeadline);
 
     if ($stmt->execute()) {
-        echo "File uploaded and data inserted successfully.";
+        $successMessage = "File uploaded and data inserted successfully.";
+        echo "<script>alert('$successMessage'); window.location.replace('org.php');</script>";
     } else {
         echo "Error inserting data into the database.";
     }
