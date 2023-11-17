@@ -156,9 +156,9 @@ require 'HTML/org.html'
                                 <div class="card-body">
                                     <p class="card-text">Welcome to Event Tracking System by Group 7</p>
                                 </div>
-                                <div class="db-table card text-bg-white mb-5">
-                                    <div class="card-header"><strong>Request</strong></div>
-                                    <table id="Req" class="table table-striped" style="width:100%">
+                                <div class="db-table text-bg-white mb-5">
+                                    <div class="tbl-container"><strong>Request</strong></div>
+                                    <table class="table table-striped data-page-length=7" style="width:100%; font-size:12px;">
                                         <br>
                                         <thead>
                                             <tr>
@@ -194,7 +194,7 @@ require 'HTML/org.html'
                             <div class="card text-bg-white mb-3" style="max-width: 100%; height:115px;">
                                 <div class="card-header"><strong>Time</strong></div>
                                 <div class="card-body">
-                                    <span id="time" style="float: right"></span>
+                                    <span id="time" style="float: center; font-size: 30px"></span>
                                 </div>
                             </div>
 
@@ -217,8 +217,9 @@ require 'HTML/org.html'
 
                             <div class="card text-bg-white mb-3" style="max-width: 100%; height: auto;">
                                 <div class="card-header">
-                                    <strong id="monthYear"></strong>
+
                                     <button onclick="prevMonth()">&#10094;</button>
+                                    <strong id="monthYear"></strong>
                                     <button onclick="nextMonth()">&#10095;</button>
                                 </div>
                                 <div class="card-body">
@@ -481,35 +482,7 @@ require 'HTML/org.html'
         </div>
     </div>
 </body>
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<script type="text/javascript">
-    google.charts.load('current', {
-        'packages': ['corechart']
-    });
-    google.charts.setOnLoadCallback(drawChart);
 
-    function drawChart() {
-        <?php
-        include('config.php');
-
-        $queryPie = "SELECT reqStatus, COUNT(reqStatus) as count FROM tbl_reqhistory WHERE orgID = '$orgID' GROUP BY reqStatus";
-        $resultPie = mysqli_query($conn, $queryPie);
-
-        $chartData = [['Status', 'Count']];
-        while ($rowPie = mysqli_fetch_assoc($resultPie)) {
-            $chartData[] = [$rowPie['reqStatus'], (int) $rowPie['count']];
-        }
-        ?>
-        var data = google.visualization.arrayToDataTable(<?php echo json_encode($chartData); ?>);
-
-        var options = {
-            title: 'Event Approval Overview'
-        };
-
-        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-        chart.draw(data, options);
-    }
-</script>
 
 
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
@@ -535,6 +508,42 @@ require 'HTML/org.html'
 
     new DataTable('#Req2');
     new DataTable('#Arch');
+    new DataTable('#ReqTable');
+
+    $(document).ready(function() {
+        // Define global DataTable options
+        var globalOptions = {
+            "lengthMenu": [
+                [5, 10, 25, 50, -1],
+                [5, 10, 25, 50, "All"]
+            ],
+            // Add any other global DataTable options you might need
+        };
+
+        // Helper function to initialize DataTable with optional destroy
+        function initializeDataTable(selector, options = {}) {
+            if ($.fn.dataTable.isDataTable(selector)) {
+                $(selector).DataTable().destroy();
+            }
+            $(selector).DataTable(options);
+        }
+
+        // Initialize DataTables with the helper function
+        initializeDataTable('#Req2', globalOptions);
+        initializeDataTable('#Arch', globalOptions);
+        initializeDataTable('#AllEvents', globalOptions);
+
+        // Initialize #ReqTable with custom options
+        initializeDataTable('#ReqTable', {
+            "lengthMenu": [
+                [5, 10, 25, 50, -1],
+                [5, 10, 25, 50, "All"]
+            ],
+            "pageLength": 6
+        });
+    });
+
+
 
 
     function updateAccountInformation(userName, userDept, userEmail) {
