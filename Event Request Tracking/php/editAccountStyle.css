@@ -1,0 +1,173 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+* {
+	padding: 0;
+	margin: 0;
+	font-family: Poppins, sans-serif;
+	box-sizing: border-box;
+}
+
+body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100vw;
+	padding-top: 20px;
+}
+
+.title {
+	position: absolute;
+	left: 34px;
+	top: 32px;
+	font-size: 32px;
+	font-weight: 600;
+	line-height: 31.72px;
+	word-wrap: break-word;
+}
+
+.container {
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	width: 685px;
+	height: 450px;
+	background: rgb(255, 255, 255);
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+	border-radius: 9px;
+	overflow: hidden;
+	border: 1px solid black;
+}
+
+.home-icon {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	font-size: 20px;
+}
+
+.default-orgName label {
+	position: absolute;
+	left: 34px;
+	top: 100px;
+	font-size: 19.03px;
+	font-weight: 400;
+	line-height: 18.86px;
+	word-wrap: break-word;
+}
+
+.default-orgName input {
+	position: absolute;
+	width: 400px;
+	height: 33px;
+	left: 250px;
+	top: 95px;
+	padding-left: 10px;
+	border: 1px solid black;
+	border-radius: 5px;
+}
+
+.default-dept label {
+	position: absolute;
+	left: 34px;
+	top: 150px;
+	font-size: 19.03px;
+	font-weight: 400;
+	line-height: 18.86px;
+	word-wrap: break-word;
+}
+
+.default-dept input {
+	position: absolute;
+	width: 400px;
+	height: 33px;
+	left: 250px;
+	top: 145px;
+	padding-left: 10px;
+	border: 1px solid black;
+	border-radius: 5px;
+}
+
+.default-email label {
+	position: absolute;
+	left: 34px;
+	top: 200px;
+	font-size: 19.03px;
+	font-weight: 400;
+	line-height: 18.86px;
+	word-wrap: break-word;
+}
+
+.default-email input {
+	position: absolute;
+	width: 400px;
+	height: 33px;
+	left: 250px;
+	top: 195px;
+	padding-left: 10px;
+	border: 1px solid black;
+	border-radius: 5px;
+}
+
+.input-pass label {
+	position: absolute;
+	left: 34px;
+	top: 250px;
+	font-size: 19.03px;
+	font-weight: 400;
+	line-height: 18.86px;
+	word-wrap: break-word;
+}
+
+.input-pass input {
+	position: absolute;
+	width: 400px;
+	height: 33px;
+	left: 250px;
+	top: 245px;
+	padding-left: 10px;
+	border: 1px solid black;
+	border-radius: 5px;
+}
+
+.input-retypePass label {
+	position: absolute;
+	left: 34px;
+	top: 300px;
+	font-size: 19.03px;
+	font-weight: 400;
+	line-height: 18.86px;
+	word-wrap: break-word;
+}
+
+.input-retypePass input {
+	position: absolute;
+	width: 400px;
+	height: 33px;
+	left: 250px;
+	top: 295px;
+	padding-left: 10px;
+	border: 1px solid black;
+	border-radius: 5px;
+}
+
+.update-button {
+	width: 160px;
+	height: 45px;
+	left: 460px;
+	top: 360px;
+	position: absolute;
+	background-color: #0084ff;
+	border: none;
+	border-radius: 11px;
+	cursor: pointer;
+	color: white;
+	font-weight: 600;
+	display: flex;
+	align-items: center;
+	text-decoration: none;
+	justify-content: center;
+	text-align: center;
+	font-family: Poppins;
+	font-size: 19.026px;
+	line-height: 25.857px;
+}

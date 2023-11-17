@@ -52,41 +52,102 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <head>
     <meta charset="UTF-8">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" type="text/css" href="editAccountStyle.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
     <title>Edit Account</title>
 </head>
 
 <body>
-    <h2>Edit Account</h2>
-    <form action="edit_account" method="post">
-        <!-- Include hidden input for user ID -->
-        <input type="hidden" name="userID" value="<?php echo $userID; ?>">
+    <div class="container">
 
-        <!-- Display current user information in the form fields -->
-        <label for="userName">Organizations Name:</label>
-        <input type="text" name="userName" value="<?php echo $userName; ?>" required>
-        <br>
 
-        <label for="userDept">Department:</label>
-        <input type="text" name="userDept" value="<?php echo $userDept; ?>" required>
-        <br>
+        <a href="oso.php">
+            <div class="home-icon">
+                <i class='bx bx-home'></i>
+            </div>
+        </a>
 
-        <label for="userEmail">Email:</label>
-        <input type="email" name="userEmail" value="<?php echo $userEmail; ?>" required>
-        <br>
 
-        <label for="userPass">Password:</label>
-        <input type="password" name="userPass" required>
-        <br>
+        <p class="title">Edit Account </p>
+        <form action="edit_account" method="post">
+            <!-- Include hidden input for user ID -->
+            <input type="hidden" name="userID" value="<?php echo $userID; ?>">
 
-        <label for="retypeUserPass">Retype Password:</label>
-        <input type="password" name="retypeUserPass" required>
-        <br>
+            <div class="default-orgName">
+                <label for=" userName">Organizations Name:</label>
+                <input type="text" name="userName" value="<?php echo $userName; ?>" required>
+                <br>
+            </div>
 
-        <!-- Add other fields as needed -->
+            <div class="default-dept">
+                <label for="userDept">Department:</label>
+                <input type="text" name="userDept" value="<?php echo $userDept; ?>" required>
+                <br>
+            </div>
 
-        <input type="submit" name="update" value="Update">
-    </form>
+
+            <div class="default-email">
+                <label for="userEmail">Email:</label>
+                <input type="email" name="userEmail" value="<?php echo $userEmail; ?>" required>
+                <br>
+            </div>
+
+            <div class="input-pass">
+                <label for="userPass">Password:</label>
+                <input type="password" name="userPass" required>
+                <br>
+            </div>
+
+            <div class="input-retypePass">
+                <label for="retypeUserPass">Retype Password:</label>
+                <input type="password" name="retypeUserPass" required>
+                <br>
+            </div>
+
+            <input type="submit" class="update-button" value="Update" onclick="confirmUpdate(event)">
+        </form>
+
+        <!-- Your HTML and previous code -->
+
+        <script>
+            function confirmUpdate(event) {
+                event.preventDefault();
+
+                const userPass = document.getElementsByName('userPass')[0].value;
+                const retypeUserPass = document.getElementsByName('retypeUserPass')[0].value;
+
+                if (!userPass || !retypeUserPass) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Please fill in both Password and Retype Password!',
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Confirm Update',
+                        text: 'Are you sure you want to update?',
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, update it!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            document.getElementById('updateForm').submit();
+                        }
+                    });
+                }
+            }
+        </script>
+
+
+        </script>
+        </form>
+    </div>
 </body>
 
 </html>

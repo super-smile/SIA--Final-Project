@@ -49,7 +49,7 @@
                 </div>
             </a>
 
-            <p class="text1">Selsect a file from the computer or drag and drop here.</p>
+            <p class="text1">Select a file from the computer or drag and drop here.</p>
             <p class="text2">For the best results, please submit a PDF file.</p>
 
             <input type="file" id="pdfFile" name="pdfFile" accept=".pdf" style="display: none; visibility: visible;">
@@ -78,23 +78,30 @@
             <script>
                 document.querySelector(".submit-button").addEventListener("click", function(e) {
                     e.preventDefault();
-                    Swal.fire({
-                        title: 'Submission Confirm',
-                        html: "Are you certain you want to submit this? The information you've entered <strong>cannot be altered or reversed once</strong> it's been submitted.",
-                        showCancelButton: true,
-                        confirmButtonText: 'Confirm Submission',
-                        cancelButtonText: 'Cancel',
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            document.getElementById("upload-letter").submit();
-                            Swal.fire({
-                                title: 'Submission Successful',
-                                text: 'Thank you for submitting your form!',
-                                icon: 'success',
-                                confirmButtonText: 'OK'
-                            });
-                        }
-                    });
+
+                    const eventName = document.getElementById("eventName").value;
+                    const eventDate = document.getElementById("eventDate").value;
+                    const pdfFile = document.getElementById("pdfFile").value;
+
+                    if (!eventName || !eventDate || !pdfFile) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Please fill in all fields!',
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Submission Confirm',
+                            html: "Are you certain you want to submit this? The information you've entered <strong>cannot be altered or reversed once</strong> it's been submitted.",
+                            showCancelButton: true,
+                            confirmButtonText: 'Confirm Submission',
+                            cancelButtonText: 'Cancel',
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                document.getElementById("upload-letter").submit();
+                            }
+                        });
+                    }
                 });
             </script>
 
@@ -107,4 +114,3 @@
 </body>
 
 </html>
-
