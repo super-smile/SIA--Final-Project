@@ -53,10 +53,15 @@ mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 
 //Archive
-$queryArch = "SELECT * FROM tbl_reqhistory WHERE reqStatus = 'Approved'";
+$queryArch = "SELECT rh.*, tr.reqEventDate 
+              FROM tbl_reqhistory rh
+              JOIN tbl_requests tr ON rh.reqID = tr.reqID
+              WHERE rh.officeID = ? AND (rh.reqStatus = 'Approved' OR rh.reqStatus = 'Declined')";
 $stmtArch = mysqli_prepare($conn, $queryArch);
+mysqli_stmt_bind_param($stmtArch, "s", $userID);
 mysqli_stmt_execute($stmtArch);
 $resultArch = mysqli_stmt_get_result($stmtArch);
+
 include 'HTML/office.html';
 
 //Account Photo
@@ -246,7 +251,7 @@ $userImgBase64 = base64_encode($userImg);
                     </div>
                 </div>
 
-                <div id="form3"style="display: none;">
+                <div id="form3" style="display: none;">
                     <h2 class="form-title">Requests</h2>
                     <div class="tbl-container">
                         <table class="bordered stripe" id="dataTable" style="width:100%">
@@ -321,8 +326,9 @@ $userImgBase64 = base64_encode($userImg);
                                 <tr>
                                     <!--<th>Reference Number</th>-->
                                     <th>Request ID</th>
-                                    <th>Approval Date</th>
-                                    <th>Status</th>
+                                    <th>Letter</th>
+                                    <th>Event Date</th>
+                                    <th>User </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -330,10 +336,10 @@ $userImgBase64 = base64_encode($userImg);
                                 include 'config.php';
                                 while ($rowArch = mysqli_fetch_assoc($resultArch)) {
                                     echo "<tr>";
-                                    // refnum
                                     echo "<td>{$rowArch['reqID']}</td>";
-                                    echo "<td>{$rowArch['statusDate']}</td>";
-                                    echo "<td>{$rowArch['reqStatus']}</td>";
+                                    echo "<td><a href='view_pdf.php?reqID={$rowArch['reqID']}' target='_blank'>View Letter</a></td>";
+                                    echo "<td>{$rowArch['reqEventDate']}</td>";
+                                    echo "<td>{$rowArch['userID']}</td>";
                                     echo "</tr>";
                                 }
                                 ?>
@@ -347,7 +353,7 @@ $userImgBase64 = base64_encode($userImg);
                     <div class="tbl-container">
 
                         <div class="acc-container">
-                        <p><strong>Personal Information </strong></p>
+                            <p><strong>Personal Information </strong></p>
                             <div class="user-image-container">
                                 <?php
                                 if (!empty($userImgBase64)) {
@@ -359,7 +365,7 @@ $userImgBase64 = base64_encode($userImg);
                             </div>
                             <div class="account-photo-label">Account Photo</div><br>
 
-                                <style>
+                            <style>
                                 .user-image-container {
                                     text-align: center;
                                     margin: auto;
@@ -375,18 +381,19 @@ $userImgBase64 = base64_encode($userImg);
                                     align-items: center;
                                     padding: 0;
                                     object-fit: cover;
-                                    
+
                                 }
+
                                 .user-img {
                                     border-radius: 50%;
-                                    width: 200px; 
+                                    width: 200px;
                                     height: 200px;
                                     object-fit: cover;
                                 }
+
                                 .account-photo-label {
                                     text-align: center;
                                 }
-
                             </style>
                             <div class="form-group">
                                 <div class="label-input">
@@ -431,7 +438,7 @@ $userImgBase64 = base64_encode($userImg);
                                 link.addEventListener('click', handleLinkClick);
                             });
 
-                            $(document).ready(function () {
+                            $(document).ready(function() {
                                 $('#dataTable').DataTable();
                                 $('#dataTableArchive').DataTable();
                                 $('#orgTable').DataTable();
@@ -456,7 +463,7 @@ $userImgBase64 = base64_encode($userImg);
                             var form4 = document.getElementById("form4");
                             var form5 = document.getElementById("form5");
 
-                            button1.addEventListener("click", function () {
+                            button1.addEventListener("click", function() {
                                 form1.style.display = "block";
                                 form2.style.display = "none";
                                 form3.style.display = "none";
@@ -464,7 +471,7 @@ $userImgBase64 = base64_encode($userImg);
                                 form5.style.display = "none";
                             });
 
-                            button2.addEventListener("click", function () {
+                            button2.addEventListener("click", function() {
                                 form1.style.display = "none";
                                 form2.style.display = "block";
                                 form3.style.display = "none";
@@ -472,7 +479,7 @@ $userImgBase64 = base64_encode($userImg);
                                 form5.style.display = "none";
                             });
 
-                            button3.addEventListener("click", function () {
+                            button3.addEventListener("click", function() {
                                 form1.style.display = "none";
                                 form2.style.display = "none";
                                 form3.style.display = "block";
@@ -480,14 +487,14 @@ $userImgBase64 = base64_encode($userImg);
                                 form5.style.display = "none";
                             });
 
-                            button4.addEventListener("click", function () {
+                            button4.addEventListener("click", function() {
                                 form1.style.display = "none";
                                 form2.style.display = "none";
                                 form3.style.display = "none";
                                 form4.style.display = "block";
                                 form5.style.display = "none";
                             });
-                            button5.addEventListener("click", function () {
+                            button5.addEventListener("click", function() {
                                 form1.style.display = "none";
                                 form2.style.display = "none";
                                 form3.style.display = "none";
