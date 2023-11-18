@@ -114,7 +114,6 @@ body {
   padding: 0;
   padding-top: 20px;
   height: 100%;
-  box-shadow: 1px 0 4px rgba(0, 0, 0, 0.2);
   background: rgb(2, 0, 36);
   background: linear-gradient(
     90deg,
@@ -125,9 +124,12 @@ body {
 }
 .active-link {
   color: #a21a1e !important;
-  background-color: white;
+  background-color: #f3f3f3;
   font-weight: bold !important;
   transform: translateY(-2px);
+  border-bottom-left-radius: 30px;
+  border-top-left-radius: 30px;
+
 }
 .text {
   color: white;

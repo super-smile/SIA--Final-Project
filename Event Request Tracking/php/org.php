@@ -52,6 +52,8 @@ mysqli_stmt_execute($stmtImg);
 mysqli_stmt_bind_result($stmtImg, $userImg);
 mysqli_stmt_fetch($stmtImg);
 
+
+
 // Convert the binary image data to base64
 $userImgBase64 = base64_encode($userImg);
 
@@ -158,7 +160,7 @@ require 'HTML/org.html'
                                 </div>
                                 <div class="db-table text-bg-white mb-5">
                                     <div class="tbl-container"><strong>Request</strong></div>
-                                    <table class="table table-striped data-page-length=7" style="width:100%; font-size:12px;">
+                                    <table class="table table-striped" style="width:100%; font-size:12px;">
                                         <br>
                                         <thead>
                                             <tr>
@@ -172,7 +174,12 @@ require 'HTML/org.html'
                                         </thead>
                                         <tbody>
                                             <?php
-                                            include 'config.php';
+                                             include 'config.php';
+
+                                             // Modify your SQL query to get the 5 most recent requests
+                                             $query = "SELECT * FROM tbl_requests ORDER BY reqID DESC LIMIT 6";
+                                             $result = mysqli_query($conn, $query);
+
                                             while ($row = mysqli_fetch_assoc($result)) {
                                                 echo "<tr>";
                                                 echo "<td>{$row['reqID']}</td>";
