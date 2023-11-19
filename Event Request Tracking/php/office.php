@@ -52,15 +52,7 @@ $stmt = mysqli_prepare($conn, $query);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 
-//Archive
-$queryArch = "SELECT rh.*, tr.reqEventDate 
-              FROM tbl_reqhistory rh
-              JOIN tbl_requests tr ON rh.reqID = tr.reqID
-              WHERE rh.officeID = ? AND (rh.reqStatus = 'Approved' OR rh.reqStatus = 'Declined')";
-$stmtArch = mysqli_prepare($conn, $queryArch);
-mysqli_stmt_bind_param($stmtArch, "s", $userID);
-mysqli_stmt_execute($stmtArch);
-$resultArch = mysqli_stmt_get_result($stmtArch);
+
 
 include 'HTML/office.html';
 
@@ -262,6 +254,7 @@ $userImgBase64 = base64_encode($userImg);
                                     <th>Letter</th>
                                     <th>Event Date</th>
                                     <th>Request Sender</th>
+                                    <th>Remarks</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -274,6 +267,7 @@ $userImgBase64 = base64_encode($userImg);
                                     echo "<td><a href='view_pdf.php?reqID={$rowArch['reqID']}' target='_blank'>View Letter</a></td>";
                                     echo "<td>{$rowArch['reqEventDate']}</td>";
                                     echo "<td>{$rowArch['userID']}</td>";
+                                    echo '<td><textarea placeholder="Write you remarks" required></textarea></td>';
                                     echo "<td>
                         <form method='post'>
                             <input type='hidden' name='reqID' value='{$rowArch['reqID']}'>
@@ -300,21 +294,25 @@ $userImgBase64 = base64_encode($userImg);
 
                     // Update tbl_requests
                     $updateQuery = "UPDATE tbl_requests SET currentOffice = '{$newUserID}' WHERE reqID = '{$reqID}'";
-                    mysqli_query($conn, $updateQuery);
+                    if (!mysqli_query($conn, $updateQuery)) {
+                        echo "Update Error: " . mysqli_error($conn);
+                    }
 
                     // Insert into tbl_reqhistory
-                    $insertQuery = "INSERT INTO tbl_reqhistory (reqStatus, statusDate, orgID, reqID) VALUES (?, NOW(), ?, ?)";
+                    $insertQuery = "INSERT INTO tbl_reqhistory (reqStatus, statusDate, orgID, reqID, officeID) VALUES (?, NOW(), ?, ?, ?)";
 
                     // Use prepared statement to prevent SQL injection
                     $stmt = mysqli_prepare($conn, $insertQuery);
                     $status = 'Approved';
-                    mysqli_stmt_bind_param($stmt, 'sii', $status, $orgID, $reqID);
-                    mysqli_stmt_execute($stmt);
+                    mysqli_stmt_bind_param($stmt, 'siii', $status, $orgID, $reqID, $userID);
+
+                    if (!mysqli_stmt_execute($stmt)) {
+                        echo "Insert Error: " . mysqli_stmt_error($stmt);
+                    }
 
                     // Close the prepared statement
                     mysqli_stmt_close($stmt);
                 }
-
 
                 ?>
 
@@ -324,25 +322,40 @@ $userImgBase64 = base64_encode($userImg);
                         <table class="bordered stripe" id="dataTableArchive" style="width:100%">
                             <thead>
                                 <tr>
-                                    <!--<th>Reference Number</th>-->
                                     <th>Request ID</th>
-                                    <th>Letter</th>
-                                    <th>Event Date</th>
-                                    <th>User </th>
+                                    <th>Event Name</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                    <th>OrgID</th>
+                                    <th>Organization</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
+                                // Archive
+                                $queryArch = "SELECT rh.reqID, rh.reqStatus, rh.statusDate, rh.orgID, r.reqEventName, a.userName
+                                FROM tbl_reqhistory rh
+                                JOIN tbl_requests r ON rh.reqID = r.reqID
+                                JOIN tbl_account a ON rh.orgID = a.userID
+                                WHERE rh.officeID = ? AND (rh.reqStatus = 'Approved' OR rh.reqStatus = 'Declined')";
+                                $stmtArch = mysqli_prepare($conn, $queryArch);
+                                mysqli_stmt_bind_param($stmtArch, "s", $userID);
+                                mysqli_stmt_execute($stmtArch);
+                                $resultArch = mysqli_stmt_get_result($stmtArch);
                                 include 'config.php';
+
                                 while ($rowArch = mysqli_fetch_assoc($resultArch)) {
                                     echo "<tr>";
                                     echo "<td>{$rowArch['reqID']}</td>";
-                                    echo "<td><a href='view_pdf.php?reqID={$rowArch['reqID']}' target='_blank'>View Letter</a></td>";
-                                    echo "<td>{$rowArch['reqEventDate']}</td>";
-                                    echo "<td>{$rowArch['userID']}</td>";
+                                    echo "<td>{$rowArch['reqEventName']}</td>";
+                                    echo "<td>{$rowArch['reqStatus']}</td>";
+                                    echo "<td>{$rowArch['statusDate']}</td>";
+                                    echo "<td>{$rowArch['orgID']}</td>";
+                                    echo "<td>{$rowArch['userName']}</td>";
                                     echo "</tr>";
                                 }
                                 ?>
+
                             </tbody>
                         </table>
                     </div>
@@ -438,7 +451,7 @@ $userImgBase64 = base64_encode($userImg);
                                 link.addEventListener('click', handleLinkClick);
                             });
 
-                            $(document).ready(function() {
+                            $(document).ready(function () {
                                 $('#dataTable').DataTable();
                                 $('#dataTableArchive').DataTable();
                                 $('#orgTable').DataTable();
@@ -463,7 +476,7 @@ $userImgBase64 = base64_encode($userImg);
                             var form4 = document.getElementById("form4");
                             var form5 = document.getElementById("form5");
 
-                            button1.addEventListener("click", function() {
+                            button1.addEventListener("click", function () {
                                 form1.style.display = "block";
                                 form2.style.display = "none";
                                 form3.style.display = "none";
@@ -471,7 +484,7 @@ $userImgBase64 = base64_encode($userImg);
                                 form5.style.display = "none";
                             });
 
-                            button2.addEventListener("click", function() {
+                            button2.addEventListener("click", function () {
                                 form1.style.display = "none";
                                 form2.style.display = "block";
                                 form3.style.display = "none";
@@ -479,7 +492,7 @@ $userImgBase64 = base64_encode($userImg);
                                 form5.style.display = "none";
                             });
 
-                            button3.addEventListener("click", function() {
+                            button3.addEventListener("click", function () {
                                 form1.style.display = "none";
                                 form2.style.display = "none";
                                 form3.style.display = "block";
@@ -487,14 +500,14 @@ $userImgBase64 = base64_encode($userImg);
                                 form5.style.display = "none";
                             });
 
-                            button4.addEventListener("click", function() {
+                            button4.addEventListener("click", function () {
                                 form1.style.display = "none";
                                 form2.style.display = "none";
                                 form3.style.display = "none";
                                 form4.style.display = "block";
                                 form5.style.display = "none";
                             });
-                            button5.addEventListener("click", function() {
+                            button5.addEventListener("click", function () {
                                 form1.style.display = "none";
                                 form2.style.display = "none";
                                 form3.style.display = "none";
