@@ -29,6 +29,7 @@ body {
   display: flex;
   border-bottom-right-radius: 20px;
   box-shadow: 1px 0 4px rgba(0, 0, 0, 0.2);
+  height: 6vh;
 }
 .form-title {
   font-size: 25px;
@@ -43,6 +44,7 @@ body {
   box-shadow: 1px 0 4px rgba(0, 0, 0, 0.2);
   border-top-right-radius: 20px;
   border-bottom-right-radius: 20px;
+  height: 94vh;
 }
 .nav-link {
   cursor: pointer;
@@ -163,4 +165,18 @@ body {
   background-color: white;
   padding: 15px;
   border-radius: 5px;
+}
+.content {
+  max-height: 94vh;
+  overflow-y: scroll;
+  max-width: 100%;
+}
+
+/* Hide scrollbar for Chrome, Safari, and Edge */
+.content::-webkit-scrollbar {
+  width: 0.5em;
+}
+
+.content::-webkit-scrollbar-thumb {
+  background-color: transparent; /* You can also use 'transparent' here if you want the thumb to be invisible */
 }

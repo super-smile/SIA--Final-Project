@@ -26,6 +26,7 @@ body{
   padding-top: 20px;
   height: 100%;
   box-shadow: 1px 0 4px rgba(0, 0, 0, 0.2);
+  height: 94vh;
 }
 .header {
   align-items: center;
@@ -38,6 +39,7 @@ body{
   );
   color: white;
   display: flex;
+  height: 6vh;
 }
 
 .label-input {
@@ -135,4 +137,18 @@ body{
   text-align: center;
   padding: 20px 10px 10px;
   margin: 20px 0;
+}
+.content {
+  max-height: 94vh;
+  overflow-y: scroll;
+  max-width: 100%;
+}
+
+/* Hide scrollbar for Chrome, Safari, and Edge */
+.content::-webkit-scrollbar {
+  width: 0.5em;
+}
+
+.content::-webkit-scrollbar-thumb {
+  background-color: transparent; /* You can also use 'transparent' here if you want the thumb to be invisible */
 }

@@ -89,7 +89,7 @@ require 'HTML/org.html'
 
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-2 p-0" style="background:#a21a1e; color: white;">
+            <div class="col-md-2 p-0 sidebar-container" style="background:#a21a1e; color: white;">
                 <div class="sidebar">
                     <div class="image-container p-1 img-fluid">
                         <?php
