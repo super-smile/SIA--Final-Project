@@ -42,6 +42,33 @@ body{
   height: 6vh;
 }
 
+.edit-button {
+	box-shadow: 0px 1px 0px 0px #f0f7fa;
+	background:linear-gradient(#019ad2 100%);
+	background-color:#057fd0;
+	border-radius:5px;
+	border:1px solid #057fd0;
+	display:inline-block;
+	cursor:pointer;
+	color:white;
+	font-family: Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:5px 24px;
+	text-decoration:none;
+	text-shadow:0px -1px 0px #5b6178;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+.edit-button:hover {
+	background:linear-gradient(to bottom, #019ad2 5%, #6fc2de 100%);
+	background-color:#019ad2;
+}
+.edit-button:active {
+	position:relative;
+	top:1px;
+}
 .label-input {
   display: flex;
   align-items: center;

@@ -63,6 +63,35 @@ body {
   align-items: center;
   padding: 0;
 }
+.approve-button {
+  width: 100px;
+  margin-bottom: 10px;
+  background-color: green;
+  color: white;
+  border: 1px solid #4CAF50;
+  border-radius: 5px;
+}
+
+.approve-button:hover {
+  /* Add hover styles for the Approve button */
+  background-color: darkgreen;
+  border-color: darkgreen;
+}
+
+/* Styles for the Decline button */
+.decline-button {
+  width: 100px;
+  background-color: #a21a1e;
+  color: white;
+  border: 1px solid #a21a1e;
+  border-radius: 5px;
+}
+
+.decline-button:hover {
+  /* Add hover styles for the Decline button */
+  background-color: darkred;
+  border-color: darkred;
+}
 
 .image-container img {
   width: 100%;

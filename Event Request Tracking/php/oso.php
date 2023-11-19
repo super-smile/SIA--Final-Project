@@ -331,7 +331,7 @@ include 'HTML/oso.html'
                                         echo "<td>";
                                         echo "<form action='edit_account' method='post'>"; // <-- Corrected action attribute
                                         echo "<input type='hidden' name='userID' value='{$row['userID']}'>";
-                                        echo "<button type='submit'>Edit</button>";
+                                        echo "<button type='submit' class='edit-button'>Edit</button>";
                                         echo "</form>";
                                         echo "</td>";
                                     }

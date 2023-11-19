@@ -272,8 +272,8 @@ $userImgBase64 = base64_encode($userImg);
                         <form method='post'>
                             <input type='hidden' name='reqID' value='{$rowArch['reqID']}'>
                             <input type='hidden' name='userID' value='{$rowArch['userID']}'>
-                            <button type='submit' name='approve' style='background-color: green; color: white; border: 1px solid #4CAF50; border-radius: 5px;'>Approve</button>
-                            <button type='submit' name='decline' style='background-color: #a21a1e; color: white; border: 1px solid #a21a1e; border-radius: 5px;'>Decline</button>
+                            <button type='submit' name='approve' class='action-button approve-button'>Approve</button>
+                            <button type='submit' name='decline' class='action-button decline-button'>Decline</button>        
                         </form>
                       </td>";
                                     echo "</tr>";
