@@ -128,12 +128,9 @@ body {
 }
 .active-link {
   color: #a21a1e !important;
-  background-color: #f3f3f3;
+  background-color: white;
   font-weight: bold !important;
   transform: translateY(-2px);
-  border-bottom-left-radius: 30px;
-  border-top-left-radius: 30px;
-
 }
 .text {
   color: white;

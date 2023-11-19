@@ -34,12 +34,13 @@ $stmtAcc = mysqli_prepare($conn, $queryAcc);
 mysqli_stmt_execute($stmtAcc);
 $resultAcc = mysqli_stmt_get_result($stmtAcc);
 
-$queryReq = "SELECT * FROM tbl_reqhistory";
+//dashboard
+$queryReq = "SELECT * FROM tbl_requests";
 $stmtReq = mysqli_prepare($conn, $queryReq);
 mysqli_stmt_execute($stmtReq);
 $resultReq = mysqli_stmt_get_result($stmtReq);
 
-$queryReq2 = "SELECT * FROM tbl_reqhistory";
+$queryReq2 = "SELECT * FROM tbl_requests";
 $stmtReq2 = mysqli_prepare($conn, $queryReq2);
 mysqli_stmt_execute($stmtReq2);
 $resultReq2 = mysqli_stmt_get_result($stmtReq2);
@@ -162,16 +163,15 @@ include 'HTML/oso.html'
                                         <p class="card-text">Good day</p>
                                     </div>
                                 </div>
-                                <div class="db-container" style="height:430px">
-                                    <div class="card-header"><strong>Dashboard</strong></div>
+                                <div class="db-container">
+                                    <div class="db card-header"><strong>Dashboard</strong></div>
                                     <table id="" class="table table-striped" style="width:100%">
                                         <thead>
                                             <tr>
-                                                <th class="text-center">ID</th>
-                                                <th class="text-center">Status</th>
-                                                <th class="text-center">Date</th>
-                                                <th class="text-center">Deadline</th>
-                                                <th class="text-center">User ID</th>
+                                                <th class="text-center">Event Name</th>
+                                                <th class="text-center">Event Date</th>
+                                                <th class="text-center">Organization</th>
+                                                <th class="text-center">Current Office</th>
                                             </tr>
                                         </thead>
                                         <tbody class="text-center">
@@ -179,11 +179,10 @@ include 'HTML/oso.html'
                                             include 'config.php';
                                             while ($rowReq = mysqli_fetch_assoc($resultReq)) {
                                                 echo "<tr>";
-                                                echo "<td>{$rowReq['histID']}</td>";
-                                                echo "<td>{$rowReq['reqStatus']}</td>";
-                                                echo "<td>{$rowReq['statusDate']}</td>";
-                                                echo "<td>{$rowReq['reqDeadline']}</td>";
-                                                echo "<td>{$rowReq['orgID']}</td>";
+                                                echo "<td>{$rowReq['reqEventName']}</td>";
+                                                echo "<td>{$rowReq['reqEventDate']}</td>";
+                                                echo "<td>{$rowReq['userID']}</td>";
+                                                echo "<td>{$rowReq['currentOffice']}</td>";
                                                 echo "</tr>";
                                             }
                                             ?>
@@ -198,7 +197,7 @@ include 'HTML/oso.html'
                                         <p class="card-text">Good day</p>
                                     </div>
                                 </div>
-                                <div class="card text-bg-white mb-3" style="max-width: 100%; height:411px">
+                                <div class="pieChart card text-bg-white mb-3">
                                     <div class="card-header"><strong>Overview</strong></div>
                                     <div class="card-body">
                                         <div class="overview" style="height:411px">
@@ -239,12 +238,13 @@ include 'HTML/oso.html'
                             <table id="example" class="table table-striped" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th class="text-center">ID</th>
-                                        <th class="text-center">Status</th>
-                                        <th class="text-center">Date</th>
-                                        <th class="text-center">Deadline</th>
+                                        <th class="text-center">Request ID</th>
+                                        <th class="text-center">Event Name</th>
+                                        <th class="text-center">Letter</th>
+                                        <th class="text-center">Event Date</th>
+                                        <th class="text-center">Request Deadline</th>
                                         <th class="text-center">User ID</th>
-                                        <th class="text-center">Action</th>
+                                        <th class="text-center">Current Office</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-center">
@@ -252,12 +252,13 @@ include 'HTML/oso.html'
                                     include 'config.php';
                                     while ($rowReq2 = mysqli_fetch_assoc($resultReq2)) {
                                         echo "<tr>";
-                                        echo "<td>{$rowReq2['histID']}</td>";
-                                        echo "<td>{$rowReq2['reqStatus']}</td>";
-                                        echo "<td>{$rowReq2['statusDate']}</td>";
+                                        echo "<td>{$rowReq2['reqID']}</td>";
+                                        echo "<td>{$rowReq2['reqEventName']}</td>";
+                                        echo "<td><a href='view_pdf.php?reqID={$rowReq2['reqID']}' target='_blank'>View Letter</a></td>";
+                                        echo "<td>{$rowReq2['reqEventDate']}</td>";
                                         echo "<td>{$rowReq2['reqDeadline']}</td>";
-                                        echo "<td>{$rowReq2['orgID']}</td>";
-                                        echo '<td><button class="btn btn-primary">Update</button> <button class="btn btn-danger">Delete</button></td>';
+                                        echo "<td>{$rowReq2['userID']}</td>";
+                                        echo "<td>{$rowReq2['currentOffice']}</td>";
                                         echo "</tr>";
                                     }
                                     ?>

@@ -38,11 +38,14 @@ mysqli_stmt_execute($stmtReq);
 $resultReq = mysqli_stmt_get_result($stmtReq);
 
 //Archive
-$queryArch = "SELECT * FROM tbl_reqhistory WHERE officeID = ? AND (reqStatus = 'Approved' OR reqStatus = 'Declined')";
+$queryArch = "SELECT * 
+              FROM tbl_reqhistory 
+              WHERE (orgID = ? AND officeID = 5 AND reqStatus = 'Approved') OR reqStatus = 'Declined'";
 $stmtArch = mysqli_prepare($conn, $queryArch);
 mysqli_stmt_bind_param($stmtArch, "s", $userID);
 mysqli_stmt_execute($stmtArch);
 $resultArch = mysqli_stmt_get_result($stmtArch);
+
 
 //Account Photo
 $queryImg = "SELECT userImg FROM tbl_account WHERE userName = ?";
@@ -59,7 +62,7 @@ $userImgBase64 = base64_encode($userImg);
 
 require 'HTML/org.html'
 
-?>
+    ?>
 
 <body>
     <div class="header d-flex justify-content-between align-items-center">
@@ -152,14 +155,14 @@ require 'HTML/org.html'
                 <div id="form1" style="display: block;">
                     <h2 class="form-title">Dashboard</h2>
                     <div class="row">
-                        <div class="col-md-7" style="padding:10px">
+                        <div class="col-md-8" style="padding:10px">
                             <div class="card text-bg-white mb-5" style="max-width:100%; height:115px">
                                 <div class="card-header"><strong>Welcome!</strong></div>
                                 <div class="card-body">
                                     <p class="card-text">Welcome to Event Tracking System by Group 7</p>
                                 </div>
                                 <div class="db-table text-bg-white mb-5">
-                                    <div class="tbl-container"><strong>Request</strong></div>
+                                    <div class="tbl-container"><strong>Requests</strong></div>
                                     <table class="table table-striped" style="width:100%; font-size:12px;">
                                         <br>
                                         <thead>
@@ -174,11 +177,14 @@ require 'HTML/org.html'
                                         </thead>
                                         <tbody>
                                             <?php
-                                             include 'config.php';
+                                            include 'config.php';
 
-                                             // Modify your SQL query to get the 5 most recent requests
-                                             $query = "SELECT * FROM tbl_requests ORDER BY reqID DESC LIMIT 6";
-                                             $result = mysqli_query($conn, $query);
+                                            // Modify your SQL query to get the 5 most recent requests
+                                            $query = "SELECT r.reqID, r.reqEventName, r.reqEventDate, r.reqDeadline, a.userName
+                                            FROM tbl_requests r
+                                            JOIN tbl_account a ON r.currentOffice = a.userID
+                                            ORDER BY r.reqID DESC LIMIT 6";
+                                            $result = mysqli_query($conn, $query);
 
                                             while ($row = mysqli_fetch_assoc($result)) {
                                                 echo "<tr>";
@@ -187,17 +193,18 @@ require 'HTML/org.html'
                                                 echo "<td><a href='view_pdf.php?reqID={$row['reqID']}' target='_blank'>View Letter</a></td>";
                                                 echo "<td>{$row['reqEventDate']}</td>";
                                                 echo "<td>{$row['reqDeadline']}</td>";
-                                                echo "<td>{$row['currentOffice']}</td>";
+                                                echo "<td>{$row['userName']}</td>";  // Display the userName instead of currentOffice
                                                 echo "</tr>";
                                             }
                                             ?>
+
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-md-5" style="padding:10px">
+                        <div class="col-md-4" style="padding:10px">
                             <div class="card text-bg-white mb-3" style="max-width: 100%; height:115px;">
                                 <div class="card-header"><strong>Time</strong></div>
                                 <div class="card-body">
@@ -321,36 +328,8 @@ require 'HTML/org.html'
                 </div>
                 <div id="form2" style="display: none;">
                     <h2 class="form-title">Request</h2>
-                    <div class="req-container">
-                        <h3 id="date-time">Date</h3>
-
-                        <script>
-                            function updateDateTime() {
-                                const dateTimeElement = document.getElementById("date-time");
-                                const currentDate = new Date();
-                                const dateOptions = {
-                                    weekday: 'long',
-                                    year: 'numeric',
-                                    month: 'long',
-                                    day: 'numeric'
-                                };
-                                const timeOptions = {
-                                    hour: '2-digit',
-                                    minute: '2-digit',
-                                    second: '2-digit'
-                                };
-
-                                const formattedDate = currentDate.toLocaleDateString(undefined, dateOptions);
-                                const formattedTime = currentDate.toLocaleTimeString(undefined, timeOptions);
-
-                                dateTimeElement.innerHTML = `<span style="font-size: 20px;">${formattedDate} <span style="float: right">${formattedTime}</span></span>`;
-                            }
-                            updateDateTime();
-                            setInterval(updateDateTime, 1000);
-                        </script>
-
+                    <div class="acc-container">
                         <table id="Req2" class="table table-striped" style="width:100%">
-                            <br>
                             <thead>
                                 <tr>
                                     <th>Request ID</th>
@@ -364,17 +343,23 @@ require 'HTML/org.html'
                             <tbody>
                                 <?php
                                 include 'config.php';
-                                while ($rowReq = mysqli_fetch_assoc($resultReq)) {
+                                $query = "SELECT r.reqID, r.reqEventName, r.reqEventDate, r.reqDeadline, a.userName
+                                FROM tbl_requests r
+                                JOIN tbl_account a ON r.currentOffice = a.userID";
+                                $result = mysqli_query($conn, $query);
+
+                                while ($row = mysqli_fetch_assoc($result)) {
                                     echo "<tr>";
-                                    echo "<td>{$rowReq['reqID']}</td>";
-                                    echo "<td>{$rowReq['reqEventName']}</td>";
-                                    echo "<td><a href='view_pdf.php?reqID={$rowReq['reqID']}' target='_blank'>View Letter</a></td>";
-                                    echo "<td>{$rowReq['reqEventDate']}</td>";
-                                    echo "<td>{$rowReq['reqDeadline']}</td>";
-                                    echo "<td>{$rowReq['currentOffice']}</td>";
+                                    echo "<td>{$row['reqID']}</td>";
+                                    echo "<td>{$row['reqEventName']}</td>";
+                                    echo "<td><a href='view_pdf.php?reqID={$row['reqID']}' target='_blank'>View Letter</a></td>";
+                                    echo "<td>{$row['reqEventDate']}</td>";
+                                    echo "<td>{$row['reqDeadline']}</td>";
+                                    echo "<td>{$row['userName']}</td>";  // Display the userName instead of currentOffice
                                     echo "</tr>";
                                 }
                                 ?>
+
                             </tbody>
                         </table>
                     </div>
@@ -383,15 +368,13 @@ require 'HTML/org.html'
 
                 <div id="form3" style="display: none;">
                     <h2 class="form-title"><strong>Archive</strong></h2>
-                    <div class="req-container">
+                    <div class="acc-container">
                         <table id="Arch" class="table table-striped" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>Request ID</th>
-                                    <th>Letter</th>
-                                    <th>Event Date</th>
-                                    <th>Request Deadline</th>
-                                    <th>userID</th>
+                                    <th>reqStatus ID</th>
+                                    <th>statusDate</th>
+                                    <th>reqID</th>
 
                                 </tr>
                             </thead>
@@ -400,10 +383,9 @@ require 'HTML/org.html'
                                 include 'config.php';
                                 while ($rowArch = mysqli_fetch_assoc($resultArch)) {
                                     echo "<tr>";
+                                    echo "<td>{$rowArch['reqStatus']}</td>";
+                                    echo "<td>{$rowArch['statusDate']}</td>";
                                     echo "<td>{$rowArch['reqID']}</td>";
-                                    echo "<td><a href='view_pdf.php?reqID={$rowReq['reqID']}' target='_blank'>View Letter</a></td>";
-                                    echo "<td>{$rowArch['reqEventDate']}</td>";
-                                    echo "<td>{$rowArch['userID']}</td>";
                                     echo "</tr>";
                                 }
                                 ?>
@@ -517,7 +499,7 @@ require 'HTML/org.html'
     new DataTable('#Arch');
     new DataTable('#ReqTable');
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         // Define global DataTable options
         var globalOptions = {
             "lengthMenu": [
@@ -568,28 +550,28 @@ require 'HTML/org.html'
     var form3 = document.getElementById("form3");
     var form4 = document.getElementById("form4");
 
-    button1.addEventListener("click", function() {
+    button1.addEventListener("click", function () {
         form1.style.display = "block";
         form2.style.display = "none";
         form3.style.display = "none";
         form4.style.display = "none";
     });
 
-    button2.addEventListener("click", function() {
+    button2.addEventListener("click", function () {
         form1.style.display = "none";
         form2.style.display = "block";
         form3.style.display = "none";
         form4.style.display = "none";
     });
 
-    button3.addEventListener("click", function() {
+    button3.addEventListener("click", function () {
         form1.style.display = "none";
         form2.style.display = "none";
         form3.style.display = "block";
         form4.style.display = "none";
     });
 
-    button4.addEventListener("click", function() {
+    button4.addEventListener("click", function () {
         form1.style.display = "none";
         form2.style.display = "none";
         form3.style.display = "none";
@@ -606,7 +588,7 @@ require 'HTML/org.html'
 
     var activeButton = null;
 
-    showForm1Button.addEventListener('click', function() {
+    showForm1Button.addEventListener('click', function () {
         if (activeButton !== showForm1Button) {
             if (activeButton) {
                 activeButton.classList.remove('clicked');
@@ -616,7 +598,7 @@ require 'HTML/org.html'
         }
     });
 
-    showForm2Button.addEventListener('click', function() {
+    showForm2Button.addEventListener('click', function () {
         if (activeButton !== showForm2Button) {
             if (activeButton) {
                 activeButton.classList.remove('clicked');
@@ -626,7 +608,7 @@ require 'HTML/org.html'
         }
     });
 
-    showForm3Button.addEventListener('click', function() {
+    showForm3Button.addEventListener('click', function () {
         if (activeButton !== showForm3Button) {
             if (activeButton) {
                 activeButton.classList.remove('clicked');
@@ -636,7 +618,7 @@ require 'HTML/org.html'
         }
     });
 
-    showForm4Button.addEventListener('click', function() {
+    showForm4Button.addEventListener('click', function () {
         if (activeButton !== showForm4Button) {
             if (activeButton) {
                 activeButton.classList.remove('clicked');
