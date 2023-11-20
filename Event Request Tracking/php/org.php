@@ -62,7 +62,7 @@ $userImgBase64 = base64_encode($userImg);
 
 require 'HTML/org.html'
 
-    ?>
+?>
 
 <body>
     <div class="header d-flex justify-content-between align-items-center">
@@ -232,9 +232,9 @@ require 'HTML/org.html'
                             <div class="card text-bg-white mb-3" style="max-width: 100%; height: auto;">
                                 <div class="card-header">
 
-                                    <button onclick="prevMonth()">&#10094;</button>
+                                    <button onclick="prevMonth()" class="no-border">&#10094;</button>
                                     <strong id="monthYear"></strong>
-                                    <button onclick="nextMonth()">&#10095;</button>
+                                    <button onclick="nextMonth()" class="no-border">&#10095;</button>
                                 </div>
                                 <div class="card-body">
                                     <div id="calendar"></div>
@@ -245,6 +245,10 @@ require 'HTML/org.html'
                                 table {
                                     border-collapse: collapse;
                                     width: 100%;
+                                }
+
+                                .no-border {
+                                    border: none;
                                 }
 
                                 th,
@@ -499,7 +503,7 @@ require 'HTML/org.html'
     new DataTable('#Arch');
     new DataTable('#ReqTable');
 
-    $(document).ready(function () {
+    $(document).ready(function() {
         // Define global DataTable options
         var globalOptions = {
             "lengthMenu": [
@@ -550,28 +554,28 @@ require 'HTML/org.html'
     var form3 = document.getElementById("form3");
     var form4 = document.getElementById("form4");
 
-    button1.addEventListener("click", function () {
+    button1.addEventListener("click", function() {
         form1.style.display = "block";
         form2.style.display = "none";
         form3.style.display = "none";
         form4.style.display = "none";
     });
 
-    button2.addEventListener("click", function () {
+    button2.addEventListener("click", function() {
         form1.style.display = "none";
         form2.style.display = "block";
         form3.style.display = "none";
         form4.style.display = "none";
     });
 
-    button3.addEventListener("click", function () {
+    button3.addEventListener("click", function() {
         form1.style.display = "none";
         form2.style.display = "none";
         form3.style.display = "block";
         form4.style.display = "none";
     });
 
-    button4.addEventListener("click", function () {
+    button4.addEventListener("click", function() {
         form1.style.display = "none";
         form2.style.display = "none";
         form3.style.display = "none";
@@ -588,7 +592,7 @@ require 'HTML/org.html'
 
     var activeButton = null;
 
-    showForm1Button.addEventListener('click', function () {
+    showForm1Button.addEventListener('click', function() {
         if (activeButton !== showForm1Button) {
             if (activeButton) {
                 activeButton.classList.remove('clicked');
@@ -598,7 +602,7 @@ require 'HTML/org.html'
         }
     });
 
-    showForm2Button.addEventListener('click', function () {
+    showForm2Button.addEventListener('click', function() {
         if (activeButton !== showForm2Button) {
             if (activeButton) {
                 activeButton.classList.remove('clicked');
@@ -608,7 +612,7 @@ require 'HTML/org.html'
         }
     });
 
-    showForm3Button.addEventListener('click', function () {
+    showForm3Button.addEventListener('click', function() {
         if (activeButton !== showForm3Button) {
             if (activeButton) {
                 activeButton.classList.remove('clicked');
@@ -618,7 +622,7 @@ require 'HTML/org.html'
         }
     });
 
-    showForm4Button.addEventListener('click', function () {
+    showForm4Button.addEventListener('click', function() {
         if (activeButton !== showForm4Button) {
             if (activeButton) {
                 activeButton.classList.remove('clicked');
