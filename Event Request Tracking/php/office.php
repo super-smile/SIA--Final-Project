@@ -38,21 +38,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 $userID = $_SESSION['userID'];
-$query = "";
-if ($userID == 1) {
-    $query = "SELECT * FROM tbl_requests WHERE currentOffice = '1'";
-} elseif ($userID == 2) {
-    $query = "SELECT * FROM tbl_requests WHERE currentOffice = '2'";
-} elseif ($userID == 3) {
-    $query = "SELECT * FROM tbl_requests WHERE currentOffice = '3'";
-} elseif ($userID == 4) {
-    $query = "SELECT * FROM tbl_requests WHERE currentOffice = '4'";
-} elseif ($userID == 5) {
-    $query = "SELECT * FROM tbl_requests WHERE currentOffice = '5'";
-}
+$query = "SELECT tr.*, ta.userName 
+          FROM tbl_requests tr
+          LEFT JOIN tbl_account ta ON tr.userID = ta.userID
+          WHERE tr.currentOffice = ?";
 $stmt = mysqli_prepare($conn, $query);
+mysqli_stmt_bind_param($stmt, "s", $userID);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
+
 
 
 
@@ -268,7 +262,7 @@ $userImgBase64 = base64_encode($userImg);
                                     echo "<td>{$rowArch['reqEventName']}</td>";
                                     echo "<td><a href='view_pdf.php?reqID={$rowArch['reqID']}' target='_blank'>View Letter</a></td>";
                                     echo "<td>{$rowArch['reqEventDate']}</td>";
-                                    echo "<td>{$rowArch['userID']}</td>";
+                                    echo "<td>{$rowArch['userName']}</td>";
                                     echo '<td><textarea placeholder="Write you remarks" required></textarea></td>';
                                     echo "<td>
                         <form method='post'>
@@ -285,6 +279,7 @@ $userImgBase64 = base64_encode($userImg);
                         </table>
                     </div>
                 </div>
+                
                 <?php
 
                 function approveRequest($conn, $reqID, $orgID)

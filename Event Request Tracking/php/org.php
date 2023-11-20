@@ -38,13 +38,17 @@ mysqli_stmt_execute($stmtReq);
 $resultReq = mysqli_stmt_get_result($stmtReq);
 
 //Archive
-$queryArch = "SELECT * 
-              FROM tbl_reqhistory 
-              WHERE (orgID = ? AND officeID = 5 AND reqStatus = 'Approved') OR reqStatus = 'Declined'";
+$queryArch = "SELECT rh.*, tr.reqEventName, tr.reqLetter 
+              FROM tbl_reqhistory rh
+              LEFT JOIN tbl_requests tr ON rh.reqID = tr.reqID
+              WHERE (rh.orgID = ? AND rh.officeID = 5 AND rh.reqStatus = 'Approved') OR rh.reqStatus = 'Declined'";
 $stmtArch = mysqli_prepare($conn, $queryArch);
 mysqli_stmt_bind_param($stmtArch, "s", $userID);
 mysqli_stmt_execute($stmtArch);
 $resultArch = mysqli_stmt_get_result($stmtArch);
+
+// Rest of your PHP code remains the same
+
 
 
 //Account Photo
@@ -170,9 +174,6 @@ require 'HTML/org.html'
                                             <tr>
                                                 <th>Request ID</th>
                                                 <th>Event Name</th>
-                                                <th>Letter</th>
-                                                <th>Event Date</th>
-                                                <th>Deadline</th>
                                                 <th>Current Office</th>
                                             </tr>
                                         </thead>
@@ -191,9 +192,6 @@ require 'HTML/org.html'
                                                 echo "<tr>";
                                                 echo "<td>{$row['reqID']}</td>";
                                                 echo "<td>{$row['reqEventName']}</td>";
-                                                echo "<td><a href='view_pdf.php?reqID={$row['reqID']}' target='_blank'>View Letter</a></td>";
-                                                echo "<td>{$row['reqEventDate']}</td>";
-                                                echo "<td>{$row['reqDeadline']}</td>";
                                                 echo "<td>{$row['userName']}</td>";  // Display the userName instead of currentOffice
                                                 echo "</tr>";
                                             }
@@ -379,10 +377,11 @@ require 'HTML/org.html'
                         <table id="Arch" class="table table-striped" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>reqStatus ID</th>
-                                    <th>statusDate</th>
                                     <th>reqID</th>
-
+                                    <th>Event Name</th>
+                                    <th>Letter</th>
+                                    <th>Date Updated</th>
+                                    <th>Result</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -390,9 +389,11 @@ require 'HTML/org.html'
                                 include 'config.php';
                                 while ($rowArch = mysqli_fetch_assoc($resultArch)) {
                                     echo "<tr>";
-                                    echo "<td>{$rowArch['reqStatus']}</td>";
-                                    echo "<td>{$rowArch['statusDate']}</td>";
                                     echo "<td>{$rowArch['reqID']}</td>";
+                                    echo "<td>{$rowArch['reqEventName']}</td>";
+                                    echo "<td><a href='view_pdf.php?reqID={$rowArch['reqID']}' target='_blank'>View Letter</a></td>";
+                                    echo "<td>{$rowArch['statusDate']}</td>";
+                                    echo "<td>{$rowArch['reqStatus']}</td>";
                                     echo "</tr>";
                                 }
                                 ?>
