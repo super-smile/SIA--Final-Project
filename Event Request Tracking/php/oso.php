@@ -156,16 +156,16 @@ include 'HTML/oso.html'
                     <div id="form1" style="display: block;">
                         <h2 class="form-title">Dashboard</h2>
                         <div class="row">
-                            <div class="col-md-7" style="padding:10px">
-                                <div class="card text-bg-white mb-3" style="max-width:100%; height:115px">
+                            <div class="col-md-7" style="padding:10px;">
+                                <div class="card text-bg-white mb-3" style="max-width:100%; height:115px; margin-left:20px">
                                     <div class="card-header"><strong>Welcome!</strong></div>
                                     <div class="card-body">
                                         <p class="card-text">Good day</p>
                                     </div>
                                 </div>
-                                <div class="db-container">
+                                <div class="db-container" style=" margin-left:20px">
                                     <div class="db card-header"><strong>Dashboard</strong></div>
-                                    <table id="" class="table table-striped" style="width:100%">
+                                    <table id="" class="table table-striped" style="width:100%; ">
                                         <thead>
                                             <tr>
                                                 <th class="text-center">Event Name</th>
@@ -192,10 +192,25 @@ include 'HTML/oso.html'
                             </div>
                             <div class="col-md-5" style="padding:10px">
                                 <div class="card text-bg-white mb-3" style="max-width: 100%; height:115px">
-                                    <div class="card-header"><strong>Organizations</strong></div>
+                                    <div class="card-header"><strong>Time</strong></div>
                                     <div class="card-body">
-                                        <p class="card-text">Good day</p>
+                                    <span id="time" style="float: center; font-size: 30px"></span>
                                     </div>
+                                    <script>
+                                function updateTime() {
+                                    const timeElement = document.getElementById("time");
+                                    const timeOptions = {
+                                        hour: '2-digit',
+                                        minute: '2-digit',
+                                        second: '2-digit'
+                                    };
+                                    const currentTime = new Date().toLocaleTimeString(undefined, timeOptions);
+                                    timeElement.innerHTML = currentTime;
+                                }
+
+                                updateTime();
+                                setInterval(updateTime, 1000);
+                            </script>
                                 </div>
                                 <div class="pieChart card text-bg-white mb-3">
                                     <div class="card-header"><strong>Overview</strong></div>

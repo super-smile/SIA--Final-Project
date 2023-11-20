@@ -155,8 +155,8 @@ require 'HTML/org.html'
                 <div id="form1" style="display: block;">
                     <h2 class="form-title">Dashboard</h2>
                     <div class="row">
-                        <div class="col-md-8" style="padding:10px">
-                            <div class="card text-bg-white mb-5" style="max-width:100%; height:115px">
+                        <div class="col-md-8" style="padding:10px;">
+                            <div class="card text-bg-white mb-5" style="max-width:100%; height:115px; margin-left: 20px">
                                 <div class="card-header"><strong>Welcome!</strong></div>
                                 <div class="card-body">
                                     <p class="card-text">Welcome to Event Tracking System by Group 7</p>

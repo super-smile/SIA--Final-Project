@@ -58,7 +58,7 @@ if (isset($_POST['submit'])) {
 
 <body>
     <div class="form-container">
-        <div class="container">
+        <div class="container" style=" margin-left:20px; margin: 20px;">
             <p><strong>Personal Information</strong></p>
             <?php
             if (!empty($error)) { // Check if the $error array is not empty

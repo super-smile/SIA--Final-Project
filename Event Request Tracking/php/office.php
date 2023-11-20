@@ -163,7 +163,7 @@ $userImgBase64 = base64_encode($userImg);
                     <h2 class="form-title">Dashboard</h2>
                     <div class="row">
                         <div class="col-md-8 mb-4">
-                            <div class="card">
+                            <div class="card" style="margin-left: 20px; margin-top: 11px">
                                 <div class="card-body">
                                     <form id="formReq">
                                         <h2>Requests</h2>
@@ -174,8 +174,8 @@ $userImgBase64 = base64_encode($userImg);
                         </div>
 
                         <div class="col-md-4">
-                            <div class="card mb-4">
-                                <div class="card-body">
+                            <div class="card mb-4" style="margin-top: 11px">
+                                <div class="card-body" >
                                     <form id="formorganizations">
                                         <h2>Number of Requests</h2>
                                         <?php
