@@ -175,7 +175,7 @@ $userImgBase64 = base64_encode($userImg);
 
                         <div class="col-md-4">
                             <div class="card mb-4" style="margin-top: 11px">
-                                <div class="card-body" >
+                                <div class="card-body">
                                     <form id="formorganizations">
                                         <h2>Number of Requests</h2>
                                         <?php
@@ -290,7 +290,14 @@ $userImgBase64 = base64_encode($userImg);
                     $userID = $_SESSION['userID'];
 
                     // Increment the userID by 1
-                    $newUserID = $userID + 1;
+                    if ($userID < 5) {
+                        $newUserID = $userID + 1;
+                    }elseif ($userID == 5){
+                        $newUserID = 0;
+                    }
+                    else{
+                        $newUserID = 5;
+                    }
 
                     // Update tbl_requests
                     $updateQuery = "UPDATE tbl_requests SET currentOffice = '{$newUserID}' WHERE reqID = '{$reqID}'";

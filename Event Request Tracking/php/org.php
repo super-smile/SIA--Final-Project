@@ -31,7 +31,7 @@ mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 
 //Request
-$queryReq = "SELECT * FROM tbl_requests WHERE userID = ? and currentOffice !='Chancellor'";
+$queryReq = "SELECT * FROM tbl_requests WHERE userID = ? and currentOffice < 5";
 $stmtReq = mysqli_prepare($conn, $queryReq);
 mysqli_stmt_bind_param($stmtReq, "s", $userID);
 mysqli_stmt_execute($stmtReq);
@@ -156,7 +156,8 @@ require 'HTML/org.html'
                     <h2 class="form-title">Dashboard</h2>
                     <div class="row">
                         <div class="col-md-8" style="padding:10px;">
-                            <div class="card text-bg-white mb-5" style="max-width:100%; height:115px; margin-left: 20px">
+                            <div class="card text-bg-white mb-5"
+                                style="max-width:100%; height:115px; margin-left: 20px">
                                 <div class="card-header"><strong>Welcome!</strong></div>
                                 <div class="card-body">
                                     <p class="card-text">Welcome to Event Tracking System by Group 7</p>
@@ -327,7 +328,7 @@ require 'HTML/org.html'
                     </div>
                 </div>
                 <div id="form2" style="display: none;">
-                    <h2 class="form-title">Request</h2>
+                    <h2 class="form-title">Requests</h2>
                     <div class="acc-container">
                         <table id="Req2" class="table table-striped" style="width:100%">
                             <thead>
@@ -343,9 +344,12 @@ require 'HTML/org.html'
                             <tbody>
                                 <?php
                                 include 'config.php';
+
                                 $query = "SELECT r.reqID, r.reqEventName, r.reqEventDate, r.reqDeadline, a.userName
-                                FROM tbl_requests r
-                                JOIN tbl_account a ON r.currentOffice = a.userID";
+          FROM tbl_requests r
+          JOIN tbl_account a ON r.currentOffice = a.userID
+          WHERE a.userID < 5";
+
                                 $result = mysqli_query($conn, $query);
 
                                 while ($row = mysqli_fetch_assoc($result)) {
@@ -363,7 +367,6 @@ require 'HTML/org.html'
                             </tbody>
                         </table>
                     </div>
-
                 </div>
 
                 <div id="form3" style="display: none;">
