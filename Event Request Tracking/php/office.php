@@ -31,7 +31,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         approveRequest($conn, $reqID, $orgID);
     } elseif (isset($_POST["decline"])) {
         // Handle the decline button click
-        // Implement decline logic if needed
+        $reqID = $_POST["reqID"];
+        $orgID = $_POST["userID"];
+        declineRequest($conn, $reqID, $orgID);
     }
 }
 
@@ -284,6 +286,7 @@ $userImgBase64 = base64_encode($userImg);
                     </div>
                 </div>
                 <?php
+
                 function approveRequest($conn, $reqID, $orgID)
                 {
                     // Get the current userID
@@ -311,6 +314,32 @@ $userImgBase64 = base64_encode($userImg);
                     // Use prepared statement to prevent SQL injection
                     $stmt = mysqli_prepare($conn, $insertQuery);
                     $status = 'Approved';
+                    mysqli_stmt_bind_param($stmt, 'siii', $status, $orgID, $reqID, $userID);
+
+                    if (!mysqli_stmt_execute($stmt)) {
+                        echo "Insert Error: " . mysqli_stmt_error($stmt);
+                    }
+
+                    // Close the prepared statement
+                    mysqli_stmt_close($stmt);
+                }
+                function declineRequest($conn, $reqID, $orgID)
+                {
+                    // Get the current userID
+                    $userID = $_SESSION['userID'];
+
+                    // Update tbl_requests
+                    $updateQuery = "UPDATE tbl_requests SET currentOffice = 0 WHERE reqID = '{$reqID}'";
+                    if (!mysqli_query($conn, $updateQuery)) {
+                        echo "Update Error: " . mysqli_error($conn);
+                    }
+
+                    // Insert into tbl_reqhistory
+                    $insertQuery = "INSERT INTO tbl_reqhistory (reqStatus, statusDate, orgID, reqID, officeID) VALUES (?, NOW(), ?, ?, ?)";
+
+                    // Use prepared statement to prevent SQL injection
+                    $stmt = mysqli_prepare($conn, $insertQuery);
+                    $status = 'Declined';
                     mysqli_stmt_bind_param($stmt, 'siii', $status, $orgID, $reqID, $userID);
 
                     if (!mysqli_stmt_execute($stmt)) {
