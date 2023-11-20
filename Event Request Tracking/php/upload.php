@@ -13,9 +13,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fileContent = file_get_contents($targetFile);
 
     // File uploaded successfully, now insert data into tbl_requests
-    $reqDeadline = date("Y-m-d", strtotime($reqEventDate . "+7 days")); // Calculate reqDeadline
+    $reqDeadline = date("Y-m-d", strtotime($reqEventDate . "-7 days")); // Calculate reqDeadline
 
-    // Use prepared statements to prevent SQL injection
+    // Use prepared statements to prevent SQL injection     
     $stmt = $conn->prepare("INSERT INTO tbl_requests (reqEventName, reqLetter, reqEventDate, userID, reqDeadline) VALUES (?, ?, ?, ?, ?)");
     $stmt->bind_param("sssss", $reqEventName, $fileContent, $reqEventDate, $userID, $reqDeadline);
 
