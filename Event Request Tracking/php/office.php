@@ -3,21 +3,32 @@ session_start();
 //update
 include 'config.php';
 //Account Information
-if (isset($_SESSION['userName'])) {
-    $CurrentUser = $_SESSION['userName'];
+if (isset($_SESSION['designation'])) {
+    $designation = $_SESSION['designation'];
 
-    $query = "SELECT userName, userDept, userEmail FROM tbl_account WHERE userName = ?";
+    // Modify the SQL query to include a join with tbempinfo
+    $query = "SELECT o.designation, o.employeeID, o.officeEmail, o.officeImg, e.department 
+              FROM tbl_office o
+              JOIN tbempinfo e ON o.employeeID = e.empid
+              WHERE o.designation = ?";
+    
     $stmt = mysqli_prepare($conn, $query);
-    mysqli_stmt_bind_param($stmt, "s", $CurrentUser);
+    mysqli_stmt_bind_param($stmt, "s", $designation);
     mysqli_stmt_execute($stmt);
-    mysqli_stmt_bind_result($stmt, $dbUserName, $CuserDept, $CuserEmail);
-    mysqli_stmt_fetch($stmt);
+    mysqli_stmt_bind_result($stmt, $officeDesig, $CuserDept, $CuserEmail, $employeeID, $department);
+    
+    if (mysqli_stmt_fetch($stmt)) {
+        // Use $department as the value of $CuserDept
+        $CuserDept = $department;
+    } else {
+        // Handle the case where no data is fetched
+        // You might want to redirect to an error page or take appropriate action
+    }
 
-    $userType = $_SESSION['userType'];
-    $userID = $_SESSION['userID'];
 } else {
     header('location: login.php');
 }
+
 
 include 'config.php';
 
@@ -36,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         declineRequest($conn, $reqID, $orgID);
     }
 }
-
+//Requests 
 $userID = $_SESSION['userID'];
 $query = "SELECT tr.*, ta.userName 
           FROM tbl_requests tr
@@ -53,9 +64,10 @@ $result = mysqli_stmt_get_result($stmt);
 include 'HTML/office.html';
 
 //Account Photo
-$queryImg = "SELECT userImg FROM tbl_account WHERE userName = ?";
+$officeAccID = $_SESSION['officeAccID'];
+$queryImg = "SELECT officeImg FROM tbl_office WHERE officeAccID = ?";
 $stmtImg = mysqli_prepare($conn, $queryImg);
-mysqli_stmt_bind_param($stmtImg, "s", $CurrentUser);
+mysqli_stmt_bind_param($stmtImg, "s", $officeAccID);
 mysqli_stmt_execute($stmtImg);
 mysqli_stmt_bind_result($stmtImg, $userImg);
 mysqli_stmt_fetch($stmtImg);
@@ -72,12 +84,6 @@ $userImgBase64 = base64_encode($userImg);
             <div class="header-text">
                 <p style="font-size: 11px; font-weight: 800; margin: 0;">Event Tracking System</p>
                 <span style="font-size: 9px;">Office of the Student Organizations</span>
-
-                <?php
-                if ($userType == 'organization') {
-                    echo '<a href="letter.php" class="upload-button" id="uploadLetter">Upload a letter</a>';
-                }
-                ?>
 
             </div>
         </div>
@@ -262,7 +268,7 @@ $userImgBase64 = base64_encode($userImg);
                                     echo "<td>{$rowArch['reqEventName']}</td>";
                                     echo "<td><a href='view_pdf.php?reqID={$rowArch['reqID']}' target='_blank'>View Letter</a></td>";
                                     echo "<td>{$rowArch['reqEventDate']}</td>";
-                                    echo "<td>{$rowArch['userName']}</td>";
+                                    echo "<td>{$rowArch['designation']}</td>";
                                     echo '<td><textarea placeholder="Write you remarks" required></textarea></td>';
                                     echo "<td>
                         <form method='post'>
@@ -285,20 +291,23 @@ $userImgBase64 = base64_encode($userImg);
                 function approveRequest($conn, $reqID, $orgID)
                 {
                     // Get the current userID
-                    $userID = $_SESSION['userID'];
+                    $officeID = $_SESSION['officeAccID'];
 
-                    // Increment the userID by 1
-                    if ($userID < 5) {
-                        $newUserID = $userID + 1;
-                    }elseif ($userID == 5){
-                        $newUserID = 0;
-                    }
-                    else{
-                        $newUserID = 5;
+                    $designation = $_SESSION['designation'];
+                    if ($designation == 'Program Chair'){
+                        $nextDesignation = 'Dean';
+                    }elseif ($designation == 'Dean'){
+                        $nextDesignation = 'OSO Head';
+                    }elseif ($designation == 'OSO Head'){
+                        $nextDesignation = 'OVCAA';
+                    }elseif ($designation == 'OVCAA'){
+                        $nextDesignation = 'Chancellor';
+                    }elseif ($designation == 'Chancellor'){
+                        $nextDesignation = 'Approved';
                     }
 
                     // Update tbl_requests
-                    $updateQuery = "UPDATE tbl_requests SET currentOffice = '{$newUserID}' WHERE reqID = '{$reqID}'";
+                    $updateQuery = "UPDATE tbl_requests SET currentOffice = '{$nextDesignation}' WHERE reqID = '{$reqID}'";
                     if (!mysqli_query($conn, $updateQuery)) {
                         echo "Update Error: " . mysqli_error($conn);
                     }
@@ -309,7 +318,7 @@ $userImgBase64 = base64_encode($userImg);
                     // Use prepared statement to prevent SQL injection
                     $stmt = mysqli_prepare($conn, $insertQuery);
                     $status = 'Approved';
-                    mysqli_stmt_bind_param($stmt, 'siii', $status, $orgID, $reqID, $userID);
+                    mysqli_stmt_bind_param($stmt, 'siii', $status, $orgID, $reqID, $officeID);
 
                     if (!mysqli_stmt_execute($stmt)) {
                         echo "Insert Error: " . mysqli_stmt_error($stmt);
@@ -321,10 +330,10 @@ $userImgBase64 = base64_encode($userImg);
                 function declineRequest($conn, $reqID, $orgID)
                 {
                     // Get the current userID
-                    $userID = $_SESSION['userID'];
+                    $officeID = $_SESSION['officeAccID'];
 
                     // Update tbl_requests
-                    $updateQuery = "UPDATE tbl_requests SET currentOffice = 0 WHERE reqID = '{$reqID}'";
+                    $updateQuery = "UPDATE tbl_requests SET currentOffice = 'Declined' WHERE reqID = '{$reqID}'";
                     if (!mysqli_query($conn, $updateQuery)) {
                         echo "Update Error: " . mysqli_error($conn);
                     }
@@ -335,7 +344,7 @@ $userImgBase64 = base64_encode($userImg);
                     // Use prepared statement to prevent SQL injection
                     $stmt = mysqli_prepare($conn, $insertQuery);
                     $status = 'Declined';
-                    mysqli_stmt_bind_param($stmt, 'siii', $status, $orgID, $reqID, $userID);
+                    mysqli_stmt_bind_param($stmt, 'siii', $status, $orgID, $reqID, $officeID);
 
                     if (!mysqli_stmt_execute($stmt)) {
                         echo "Insert Error: " . mysqli_stmt_error($stmt);
@@ -544,7 +553,7 @@ $userImgBase64 = base64_encode($userImg);
                                 form3.style.display = "none";
                                 form4.style.display = "none";
                                 form5.style.display = "block";
-                                updateAccountInformation("<?php echo $dbUserName; ?>", "<?php echo $CuserDept; ?>", "<?php echo $CuserEmail; ?>");
+                                updateAccountInformation("<?php echo $officeDesig; ?>", "<?php echo $CuserDept; ?>", "<?php echo $CuserEmail; ?>");
                             });
                         </script>
 </body>

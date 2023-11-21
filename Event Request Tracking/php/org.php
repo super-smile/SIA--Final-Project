@@ -47,10 +47,6 @@ mysqli_stmt_bind_param($stmtArch, "s", $userID);
 mysqli_stmt_execute($stmtArch);
 $resultArch = mysqli_stmt_get_result($stmtArch);
 
-// Rest of your PHP code remains the same
-
-
-
 //Account Photo
 $queryImg = "SELECT userImg FROM tbl_account WHERE userName = ?";
 $stmtImg = mysqli_prepare($conn, $queryImg);
@@ -58,7 +54,6 @@ mysqli_stmt_bind_param($stmtImg, "s", $CurrentUser);
 mysqli_stmt_execute($stmtImg);
 mysqli_stmt_bind_result($stmtImg, $userImg);
 mysqli_stmt_fetch($stmtImg);
-
 
 
 // Convert the binary image data to base64
@@ -345,23 +340,14 @@ require 'HTML/org.html'
                             </thead>
                             <tbody>
                                 <?php
-                                include 'config.php';
-
-                                $query = "SELECT r.reqID, r.reqEventName, r.reqEventDate, r.reqDeadline, a.userName
-                                FROM tbl_requests r
-                                JOIN tbl_account a ON r.currentOffice = a.userID
-                                WHERE a.userID < 5";
-
-                                $result = mysqli_query($conn, $query);
-
-                                while ($row = mysqli_fetch_assoc($result)) {
+                                while ($rowReq = mysqli_fetch_assoc($resultReq)) {
                                     echo "<tr>";
-                                    echo "<td>{$row['reqID']}</td>";
-                                    echo "<td>{$row['reqEventName']}</td>";
-                                    echo "<td><a href='view_pdf.php?reqID={$row['reqID']}' target='_blank'>View Letter</a></td>";
-                                    echo "<td>{$row['reqEventDate']}</td>";
-                                    echo "<td>{$row['reqDeadline']}</td>";
-                                    echo "<td>{$row['userName']}</td>";  // Display the userName instead of currentOffice
+                                    echo "<td>{$rowReq['reqID']}</td>";
+                                    echo "<td>{$rowReq['reqEventName']}</td>";
+                                    echo "<td><a href='view_pdf.php?reqID={$rowReq['reqID']}' target='_blank'>View Letter</a></td>";
+                                    echo "<td>{$rowReq['reqEventDate']}</td>";
+                                    echo "<td>{$rowReq['reqDeadline']}</td>";
+                                    echo "<td>{$rowReq['currentOffice']}</td>";  // Display the userName instead of currentOffice
                                     echo "</tr>";
                                 }
                                 ?>

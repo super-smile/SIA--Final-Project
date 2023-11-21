@@ -21,16 +21,33 @@ if (isset($_POST['login'])) {
         $userType = $_SESSION['userType'];
         if ($userType == 'OSO') {
             header('location: oso.php');
-        } elseif ($userType == 'Office') {
-            header('location: office.php');
         } else {
             header('location: org.php');
         }
+
     } else {
-        $error[] = 'Incorrect email or password';
+        $CuserEmail = $_POST['userEmail'];
+        $CuserPass = $_POST['userPass'];
+
+        $Cselect = "SELECT * FROM tbl_office WHERE officeEmail = ? AND officePass = ?";
+        $Cstmt = mysqli_prepare($conn, $Cselect);
+        mysqli_stmt_bind_param($Cstmt, "ss", $CuserEmail, $CuserPass);
+        mysqli_stmt_execute($Cstmt);
+        $Cresult = mysqli_stmt_get_result($Cstmt);
+
+        if (mysqli_num_rows($Cresult) > 0) {
+            $Crow = mysqli_fetch_array($Cresult);
+            $_SESSION['officeAccID'] = $Crow['officeAccID'];
+            $_SESSION['designation'] = $Crow['designation'];
+            $_SESSION['employeeID'] = $Crow['employeeID'];
+            header('location: office.php');
+        } else {
+            $error[] = 'Incorrect email or password';
+        }
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -100,4 +117,5 @@ if (isset($_POST['login'])) {
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
 </body>
+
 </html>
