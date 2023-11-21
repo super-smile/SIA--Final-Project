@@ -152,19 +152,78 @@ $userImgBase64 = base64_encode($userImg);
                     <div class="row">
                         <div class="col-md-8 mb-4">
                             <div class="card" style="margin-left: 20px; margin-top: 11px">
+                            <div class="card-header"><strong>Welcome!</strong></div>
                                 <div class="card-body">
-                                    <form id="formReq">
-                                        <h2>Requests</h2>
-                                    </form>
+                                    <p class="card-text">Welcome to Event Tracking System by Group 7</p>
                                 </div>
                             </div>
-                        </div>
+                            <div class="db-table text-bg-white mb-5">
+                                    <div class="tbl-container"><strong>Requests</strong></div>
+                                    <table class="table table-striped" style="width:97.5%; font-size:12px; margin-left:20px;">
+                                        <br>
+                                        <thead>
+                                            <tr>
+                                            <th style="background-color: white;">Request ID</th>
+                                            <th style="background-color: white;">Event Name</th>
+                                            <th style="background-color: white;">Current Office</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            include 'config.php';
+
+                                            // Modify your SQL query to get the 5 most recent requests
+                                            $query = "SELECT r.reqID, r.reqEventName, r.reqEventDate, r.reqDeadline, a.userName
+                                            FROM tbl_requests r
+                                            JOIN tbl_account a ON r.currentOffice = a.userID
+                                            ORDER BY r.reqID DESC LIMIT 6";
+                                            $result = mysqli_query($conn, $query);
+
+                                            while ($row = mysqli_fetch_assoc($result)) {
+                                                echo "<tr>";
+                                                echo "<td>{$row['reqID']}</td>";
+                                                echo "<td>{$row['reqEventName']}</td>";
+                                                echo "<td>{$row['userName']}</td>";  // Display the userName instead of currentOffice
+                                                echo "</tr>";
+                                            }
+                                            ?>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        
+
+                        <style>
+                                table {
+                                    border-collapse: collapse;
+                                    width: 100%;
+                                }
+                                .no-border {
+                                    border: none;
+                                }
+
+                                th,
+                                td {
+                                    text-align: center;
+                                    padding: 8px;
+                                    border: 1px solid #ddd;
+                                }
+
+                                th {
+                                    background-color: #f0f0f0;
+                                }
+
+                                td.today {
+                                    background-color: #e6e6e6;
+                                }
+                                </style>
 
                         <div class="col-md-4">
                             <div class="card mb-4" style="margin-top: 11px">
+                            <div class="card-header"><strong>Number of Requests</strong></div>
                                 <div class="card-body">
-                                    <form id="formorganizations">
-                                        <h2>Number of Requests</h2>
+                                        
                                         <?php
                                         include 'config.php';
                                         $orgQuery = "SELECT COUNT(req.reqID) AS NumberofRequests
