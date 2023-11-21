@@ -29,11 +29,12 @@ mysqli_stmt_bind_param($stmt, "s", $userID);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 
-$queryReq = "SELECT * FROM tbl_requests WHERE userID = ? and currentOffice < 5";
+$queryReq = "SELECT * FROM tbl_requests WHERE userID = ? AND (currentOffice != 'Approved' AND currentOffice != 'Declined')";
 $stmtReq = mysqli_prepare($conn, $queryReq);
 mysqli_stmt_bind_param($stmtReq, "s", $userID);
 mysqli_stmt_execute($stmtReq);
 $resultReq = mysqli_stmt_get_result($stmtReq);
+
 
 $queryArch = "SELECT * FROM tbl_requests WHERE userID = ? AND (currentOffice = 'Approved' or currentOffice = 'Declined')";
 $stmtArch = mysqli_prepare($conn, $queryArch);
@@ -52,7 +53,7 @@ $userImgBase64 = base64_encode($userImg);
 
 require 'HTML/org.html'
 
-?>
+    ?>
 
 <body>
     <div class="header d-flex justify-content-between align-items-center">
@@ -146,7 +147,8 @@ require 'HTML/org.html'
                     <h2 class="form-title">Dashboard</h2>
                     <div class="row">
                         <div class="col-md-8" style="padding:10px;">
-                            <div class="card text-bg-white mb-5" style="max-width:100%; height:115px; margin-left: 20px">
+                            <div class="card text-bg-white mb-5"
+                                style="max-width:100%; height:115px; margin-left: 20px">
                                 <div class="card-header"><strong>Welcome!</strong></div>
                                 <div class="card-body">
                                     <p class="card-text">Welcome to Event Tracking System by Group 7</p>
@@ -331,7 +333,7 @@ require 'HTML/org.html'
                                 while ($rowReq = mysqli_fetch_assoc($resultReq)) {
                                     echo "<tr>";
                                     echo "<td>{$rowReq['reqID']}</td>";
-                                    echo "<td><a href='#myModal' data-bs-toggle='modal' data-bs-target='#myModal' data-event-name='{$rowReq['reqEventName']}'>{$rowReq['reqEventName']}</a></td>";
+                                    echo "<td><a href='#myModal' data-bs-toggle='modal' data-bs-target='#myModal' data-event-name='{$rowReq['reqEventName']}' onclick='openModal({$rowReq['reqID']})'>{$rowReq['reqEventName']}</a></td>";
                                     echo "<td><a href='view_pdf.php?reqID={$rowReq['reqID']}' target='_blank'>View Letter</a></td>";
                                     echo "<td>{$rowReq['reqEventDate']}</td>";
                                     echo "<td>{$rowReq['reqDeadline']}</td>";
@@ -339,48 +341,37 @@ require 'HTML/org.html'
                                     echo "</tr>";
                                 }
                                 ?>
-
+                                <script>
+                                    function openModal(reqID) {
+                                        // Use AJAX to fetch data from tbl_reqhistory based on reqID and update modal content
+                                        $.ajax({
+                                            url: 'get_reqhistory.php', // Create a new PHP file to handle this request
+                                            type: 'POST',
+                                            data: { reqID: reqID },
+                                            success: function (data) {
+                                                // Update the modal content with the data received from the server
+                                                $('#myModal .modal-body').html(data);
+                                            }
+                                        });
+                                    }
+                                </script>
                             </tbody>
                         </table>
                     </div>
                 </div>
 
-                <!-- ... (your existing HTML code) ... -->
-                <?php
-
-                ?>
-                <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalLabel">Event Details</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <table id="Req2" class="table table-striped" style="width:100%">
-                                    <thead>
-                                        <tr>
-                                            <th>Office ID</th>
-                                            <th>Date Approved</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-                                        $orgID = $_SESSION['userID'];
-                                        $query = "SELECT * FROM tbl_reqhistory WHERE orgID = ?";
-                                        $stmt = mysqli_prepare($conn, $query);
-                                        mysqli_stmt_bind_param($stmt, "s", $orgID);
-                                        mysqli_stmt_execute($stmt);
-                                        $resultHis = mysqli_stmt_get_result($stmt);
-                                        while ($rowReq = mysqli_fetch_assoc($resultHis)) {
-                                            echo "<tr>";
-                                            echo "<td>{$rowReq['officeID']}</td>";
-                                            echo "<td>{$rowReq['statusDate']}</td>";
-                                            echo "</tr>";
-                                        }
-                                        ?>
 
-                                    </tbody>
+                                </tbody>
                                 </table>
                             </div>
                             <div class="modal-footer">
@@ -394,12 +385,12 @@ require 'HTML/org.html'
 
                 <script>
                     // Add JavaScript to dynamically update the modal content when a link is clicked
-                    document.addEventListener('DOMContentLoaded', function() {
+                    document.addEventListener('DOMContentLoaded', function () {
                         const eventLinks = document.querySelectorAll('[data-bs-toggle="modal"]');
                         const eventDetails = document.getElementById('event-details');
 
-                        eventLinks.forEach(function(link) {
-                            link.addEventListener('click', function() {
+                        eventLinks.forEach(function (link) {
+                            link.addEventListener('click', function () {
                                 const eventName = link.getAttribute('data-event-name');
                                 eventDetails.textContent = `Event Name: ${eventName}`;
                             });
@@ -537,7 +528,7 @@ require 'HTML/org.html'
     new DataTable('#Arch');
     new DataTable('#ReqTable');
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         var globalOptions = {
             "lengthMenu": [
                 [5, 10, 25, 50, -1],
@@ -583,28 +574,28 @@ require 'HTML/org.html'
     var form3 = document.getElementById("form3");
     var form4 = document.getElementById("form4");
 
-    button1.addEventListener("click", function() {
+    button1.addEventListener("click", function () {
         form1.style.display = "block";
         form2.style.display = "none";
         form3.style.display = "none";
         form4.style.display = "none";
     });
 
-    button2.addEventListener("click", function() {
+    button2.addEventListener("click", function () {
         form1.style.display = "none";
         form2.style.display = "block";
         form3.style.display = "none";
         form4.style.display = "none";
     });
 
-    button3.addEventListener("click", function() {
+    button3.addEventListener("click", function () {
         form1.style.display = "none";
         form2.style.display = "none";
         form3.style.display = "block";
         form4.style.display = "none";
     });
 
-    button4.addEventListener("click", function() {
+    button4.addEventListener("click", function () {
         form1.style.display = "none";
         form2.style.display = "none";
         form3.style.display = "none";
@@ -621,7 +612,7 @@ require 'HTML/org.html'
 
     var activeButton = null;
 
-    showForm1Button.addEventListener('click', function() {
+    showForm1Button.addEventListener('click', function () {
         if (activeButton !== showForm1Button) {
             if (activeButton) {
                 activeButton.classList.remove('clicked');
@@ -631,7 +622,7 @@ require 'HTML/org.html'
         }
     });
 
-    showForm2Button.addEventListener('click', function() {
+    showForm2Button.addEventListener('click', function () {
         if (activeButton !== showForm2Button) {
             if (activeButton) {
                 activeButton.classList.remove('clicked');
@@ -641,7 +632,7 @@ require 'HTML/org.html'
         }
     });
 
-    showForm3Button.addEventListener('click', function() {
+    showForm3Button.addEventListener('click', function () {
         if (activeButton !== showForm3Button) {
             if (activeButton) {
                 activeButton.classList.remove('clicked');
@@ -651,7 +642,7 @@ require 'HTML/org.html'
         }
     });
 
-    showForm4Button.addEventListener('click', function() {
+    showForm4Button.addEventListener('click', function () {
         if (activeButton !== showForm4Button) {
             if (activeButton) {
                 activeButton.classList.remove('clicked');
