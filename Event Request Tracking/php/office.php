@@ -372,14 +372,14 @@ $userImgBase64 = base64_encode($userImg);
                             </thead>
                             <tbody>
                                 <?php
+                                $officeID = $_SESSION['officeAccID'];
                                 // Archive
-                                $queryArch = "SELECT rh.reqID, rh.reqStatus, rh.statusDate, rh.orgID, r.reqEventName, a.userName
+                                $queryArch = "SELECT rh.reqID, rh.reqStatus, rh.statusDate, rh.orgID, r.reqEventName, r.currentOffice
                                 FROM tbl_reqhistory rh
                                 JOIN tbl_requests r ON rh.reqID = r.reqID
-                                JOIN tbl_account a ON rh.orgID = a.userID
                                 WHERE rh.officeID = ? AND (rh.reqStatus = 'Approved' OR rh.reqStatus = 'Declined')";
                                 $stmtArch = mysqli_prepare($conn, $queryArch);
-                                mysqli_stmt_bind_param($stmtArch, "s", $userID);
+                                mysqli_stmt_bind_param($stmtArch, "s", $officeID);
                                 mysqli_stmt_execute($stmtArch);
                                 $resultArch = mysqli_stmt_get_result($stmtArch);
                                 include 'config.php';
@@ -391,7 +391,7 @@ $userImgBase64 = base64_encode($userImg);
                                     echo "<td>{$rowArch['reqStatus']}</td>";
                                     echo "<td>{$rowArch['statusDate']}</td>";
                                     echo "<td>{$rowArch['orgID']}</td>";
-                                    echo "<td>{$rowArch['userName']}</td>";
+                                    echo "<td>{$rowArch['currentOffice']}</td>";
                                     echo "</tr>";
                                 }
                                 ?>
