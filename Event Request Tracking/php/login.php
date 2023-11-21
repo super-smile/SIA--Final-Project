@@ -1,5 +1,5 @@
 <?php
-session_start(); // Start a session
+session_start();
 include 'config.php';
 
 if (isset($_POST['login'])) {
@@ -24,7 +24,6 @@ if (isset($_POST['login'])) {
         } else {
             header('location: org.php');
         }
-
     } else {
         $CuserEmail = $_POST['userEmail'];
         $CuserPass = $_POST['userPass'];
@@ -73,8 +72,7 @@ if (isset($_POST['login'])) {
                 </div>
             </div>
             <div class="col-md-6 d-flex align-items-center justify-content-center" id="login-container">
-                <div class="container text-center mx-auto"
-                    style="padding-top: 30px; padding-right: 100px; padding-left: 100px;">
+                <div class="container text-center mx-auto" style="padding-top: 30px; padding-right: 100px; padding-left: 100px;">
                     <div class="mx-auto" style="font-family: 'Poppins'; font-size: 41.953px; font: weight 700px;">
                         <strong>LOGIN</strong>
                     </div>
@@ -91,12 +89,10 @@ if (isset($_POST['login'])) {
                     </p>
                     <form method="post">
                         <div class="form-group">
-                            <input type="text" name="userEmail" class="form-control" id="InputText"
-                                placeholder="Email Address*" style=" border: 1px solid #444444; " required>
+                            <input type="text" name="userEmail" class="form-control" id="InputText" placeholder="Email Address*" style=" border: 1px solid #444444; " required>
                         </div>
                         <div class="form-group">
-                            <input type="password" name="userPass" class="form-control" id="InputPassword"
-                                placeholder="Password*" style=" border: 1px solid #444444; " required>
+                            <input type="password" name="userPass" class="form-control" id="InputPassword" placeholder="Password*" style=" border: 1px solid #444444; " required>
                         </div>
                         <button type="submit" name="login" class="btn btn-outline-dark btn-lg btn-block">LOGIN</button>
                     </form>
@@ -107,15 +103,9 @@ if (isset($_POST['login'])) {
             </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 
 </html>

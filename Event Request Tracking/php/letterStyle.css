@@ -16,8 +16,8 @@ body {
 .container {
 	display: flex;
 	flex-direction: column;
-	justify-content: center; /* Center vertically */
-	align-items: center; /* Center horizontally */
+	justify-content: center;
+	align-items: center;
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -29,7 +29,7 @@ body {
 	border-radius: 9px;
 	overflow: hidden;
 	border: 1px solid black;
-	margin: auto; /* Ensure centering within parent container */
+	margin: auto;
 }
 
 .title {

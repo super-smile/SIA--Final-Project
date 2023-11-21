@@ -93,7 +93,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             function confirmUpdate(event) {
                 event.preventDefault();
 
-                // Perform confirmation without checking for empty fields
                 Swal.fire({
                     title: 'Confirm Update',
                     text: 'Are you sure you want to update?',

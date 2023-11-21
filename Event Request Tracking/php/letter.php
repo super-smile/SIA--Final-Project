@@ -64,7 +64,6 @@
                     var fileName = fileInput.files[0] ? fileInput.files[0].name : "No file selected" + fileName;
                     var fileURL = window.URL.createObjectURL(fileInput.files[0]);
 
-                    // Update the file link with the file name and URL
                     document.querySelector(".attachment-file a").textContent = fileName;
                     document.querySelector(".attachment-file a").href = fileURL;
                 });

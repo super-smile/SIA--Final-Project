@@ -2,7 +2,6 @@
 session_start();
 
 include 'config.php';
-//Account Information
 if (isset($_SESSION['userName'])) {
     $CurrentUser = $_SESSION['userName'];
 
@@ -194,23 +193,23 @@ include 'HTML/oso.html'
                                 <div class="card text-bg-white mb-3" style="max-width: 100%; height:115px">
                                     <div class="card-header"><strong>Time</strong></div>
                                     <div class="card-body">
-                                    <span id="time" style="float: center; font-size: 30px"></span>
+                                        <span id="time" style="float: center; font-size: 30px"></span>
                                     </div>
                                     <script>
-                                function updateTime() {
-                                    const timeElement = document.getElementById("time");
-                                    const timeOptions = {
-                                        hour: '2-digit',
-                                        minute: '2-digit',
-                                        second: '2-digit'
-                                    };
-                                    const currentTime = new Date().toLocaleTimeString(undefined, timeOptions);
-                                    timeElement.innerHTML = currentTime;
-                                }
+                                        function updateTime() {
+                                            const timeElement = document.getElementById("time");
+                                            const timeOptions = {
+                                                hour: '2-digit',
+                                                minute: '2-digit',
+                                                second: '2-digit'
+                                            };
+                                            const currentTime = new Date().toLocaleTimeString(undefined, timeOptions);
+                                            timeElement.innerHTML = currentTime;
+                                        }
 
-                                updateTime();
-                                setInterval(updateTime, 1000);
-                            </script>
+                                        updateTime();
+                                        setInterval(updateTime, 1000);
+                                    </script>
                                 </div>
                                 <div class="pieChart card text-bg-white mb-3">
                                     <div class="card-header"><strong>Overview</strong></div>
@@ -343,7 +342,6 @@ include 'HTML/oso.html'
                                         echo $maskedPassword;
                                         echo "</td>";
 
-                                        // Add an Edit button with a form and a hidden input for user ID
                                         echo "<td>";
                                         echo "<form action='edit_account' method='post'>"; // <-- Corrected action attribute
                                         echo "<input type='hidden' name='userID' value='{$row['userID']}'>";
@@ -403,16 +401,12 @@ include 'HTML/oso.html'
 <script>
     const navLinks = document.querySelectorAll('.nav-link');
 
-    // Function to handle link clicks
     function handleLinkClick(event) {
-        // Remove the "active-link" class from all links
         navLinks.forEach(link => link.classList.remove('active-link'));
 
-        // Add the "active-link" class to the clicked link
         event.target.classList.add('active-link');
     }
 
-    // Add a click event listener to each navigation link
     navLinks.forEach(link => {
         link.addEventListener('click', handleLinkClick);
     });
@@ -423,13 +417,13 @@ include 'HTML/oso.html'
     new DataTable('#AllEvents');
 
     $(document).ready(function() {
-        // Define global DataTable options
+
         var globalOptions = {
             "lengthMenu": [
                 [5, 10, 25, 50, -1],
                 [5, 10, 25, 50, "All"]
             ],
-            // Add any other global DataTable options you might need
+
         };
 
         // Initialize DataTable for #example
