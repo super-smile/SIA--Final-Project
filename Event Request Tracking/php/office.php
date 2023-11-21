@@ -1,12 +1,9 @@
 <?php
 session_start();
-//update
 include 'config.php';
-//Account Information
 if (isset($_SESSION['designation'])) {
     $designation = $_SESSION['designation'];
 
-    // Modify the SQL query to include a join with tbempinfo
     $query = "SELECT o.designation, o.employeeID, o.officeEmail, o.officeImg, e.department 
               FROM tbl_office o
               JOIN tbempinfo e ON o.employeeID = e.empid
@@ -18,36 +15,27 @@ if (isset($_SESSION['designation'])) {
     mysqli_stmt_bind_result($stmt, $officeDesig, $CuserDept, $CuserEmail, $employeeID, $department);
 
     if (mysqli_stmt_fetch($stmt)) {
-        // Use $department as the value of $CuserDept
         $CuserDept = $department;
     } else {
-        // Handle the case where no data is fetched
-        // You might want to redirect to an error page or take appropriate action
     }
-
 } else {
     header('location: login.php');
 }
 
 
 include 'config.php';
-
-//Requests
-// Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["approve"])) {
-        // Handle the approve button click
         $reqID = $_POST["reqID"];
         $orgID = $_POST["userID"];
         approveRequest($conn, $reqID, $orgID);
     } elseif (isset($_POST["decline"])) {
-        // Handle the decline button click
         $reqID = $_POST["reqID"];
         $orgID = $_POST["userID"];
         declineRequest($conn, $reqID, $orgID);
     }
 }
-//Requests 
+
 $userID = $_SESSION['designation'];
 $query = "SELECT tr.*, ta.userName 
           FROM tbl_requests tr
@@ -63,7 +51,6 @@ $result = mysqli_stmt_get_result($stmt);
 
 include 'HTML/office.html';
 
-//Account Photo
 $officeAccID = $_SESSION['officeAccID'];
 $queryImg = "SELECT officeImg FROM tbl_office WHERE officeAccID = ?";
 $stmtImg = mysqli_prepare($conn, $queryImg);
@@ -158,7 +145,6 @@ $userImgBase64 = base64_encode($userImg);
             </div>
 
 
-            <!-- Content Area -->
             <div class="content" style="flex: 1; padding: 20px;">
 
                 <div id="form1" style="display: block;">
@@ -169,7 +155,6 @@ $userImgBase64 = base64_encode($userImg);
                                 <div class="card-body">
                                     <form id="formReq">
                                         <h2>Requests</h2>
-                                        <!-- req -->
                                     </form>
                                 </div>
                             </div>
@@ -200,7 +185,6 @@ $userImgBase64 = base64_encode($userImg);
                                 <div class="card-body">
                                     <form id="formoverview">
                                         <h2>Overview</h2>
-                                        <!-- pie chart here -->
                                     </form>
                                 </div>
                             </div>
@@ -312,10 +296,8 @@ $userImgBase64 = base64_encode($userImg);
                         echo "Update Error: " . mysqli_error($conn);
                     }
 
-                    // Insert into tbl_reqhistory
                     $insertQuery = "INSERT INTO tbl_reqhistory (reqStatus, statusDate, orgID, reqID, officeID) VALUES (?, NOW(), ?, ?, ?)";
 
-                    // Use prepared statement to prevent SQL injection
                     $stmt = mysqli_prepare($conn, $insertQuery);
                     $status = 'Approved';
                     mysqli_stmt_bind_param($stmt, 'siii', $status, $orgID, $reqID, $officeID);
@@ -324,24 +306,19 @@ $userImgBase64 = base64_encode($userImg);
                         echo "Insert Error: " . mysqli_stmt_error($stmt);
                     }
 
-                    // Close the prepared statement
                     mysqli_stmt_close($stmt);
                 }
                 function declineRequest($conn, $reqID, $orgID)
                 {
-                    // Get the current userID
                     $officeID = $_SESSION['officeAccID'];
 
-                    // Update tbl_requests
                     $updateQuery = "UPDATE tbl_requests SET currentOffice = 'Declined' WHERE reqID = '{$reqID}'";
                     if (!mysqli_query($conn, $updateQuery)) {
                         echo "Update Error: " . mysqli_error($conn);
                     }
 
-                    // Insert into tbl_reqhistory
                     $insertQuery = "INSERT INTO tbl_reqhistory (reqStatus, statusDate, orgID, reqID, officeID) VALUES (?, NOW(), ?, ?, ?)";
 
-                    // Use prepared statement to prevent SQL injection
                     $stmt = mysqli_prepare($conn, $insertQuery);
                     $status = 'Declined';
                     mysqli_stmt_bind_param($stmt, 'siii', $status, $orgID, $reqID, $officeID);
@@ -350,7 +327,6 @@ $userImgBase64 = base64_encode($userImg);
                         echo "Insert Error: " . mysqli_stmt_error($stmt);
                     }
 
-                    // Close the prepared statement
                     mysqli_stmt_close($stmt);
                 }
 
@@ -477,21 +453,17 @@ $userImgBase64 = base64_encode($userImg);
                         <script>
                             const navLinks = document.querySelectorAll('.nav-link');
 
-                            // Function to handle link clicks
                             function handleLinkClick(event) {
-                                // Remove the "active-link" class from all links
                                 navLinks.forEach(link => link.classList.remove('active-link'));
 
-                                // Add the "active-link" class to the clicked link
                                 event.target.classList.add('active-link');
                             }
 
-                            // Add a click event listener to each navigation link
                             navLinks.forEach(link => {
                                 link.addEventListener('click', handleLinkClick);
                             });
 
-                            $(document).ready(function () {
+                            $(document).ready(function() {
                                 $('#dataTable').DataTable();
                                 $('#dataTableArchive').DataTable();
                                 $('#orgTable').DataTable();
@@ -516,7 +488,7 @@ $userImgBase64 = base64_encode($userImg);
                             var form4 = document.getElementById("form4");
                             var form5 = document.getElementById("form5");
 
-                            button1.addEventListener("click", function () {
+                            button1.addEventListener("click", function() {
                                 form1.style.display = "block";
                                 form2.style.display = "none";
                                 form3.style.display = "none";
@@ -524,7 +496,7 @@ $userImgBase64 = base64_encode($userImg);
                                 form5.style.display = "none";
                             });
 
-                            button2.addEventListener("click", function () {
+                            button2.addEventListener("click", function() {
                                 form1.style.display = "none";
                                 form2.style.display = "block";
                                 form3.style.display = "none";
@@ -532,7 +504,7 @@ $userImgBase64 = base64_encode($userImg);
                                 form5.style.display = "none";
                             });
 
-                            button3.addEventListener("click", function () {
+                            button3.addEventListener("click", function() {
                                 form1.style.display = "none";
                                 form2.style.display = "none";
                                 form3.style.display = "block";
@@ -540,14 +512,14 @@ $userImgBase64 = base64_encode($userImg);
                                 form5.style.display = "none";
                             });
 
-                            button4.addEventListener("click", function () {
+                            button4.addEventListener("click", function() {
                                 form1.style.display = "none";
                                 form2.style.display = "none";
                                 form3.style.display = "none";
                                 form4.style.display = "block";
                                 form5.style.display = "none";
                             });
-                            button5.addEventListener("click", function () {
+                            button5.addEventListener("click", function() {
                                 form1.style.display = "none";
                                 form2.style.display = "none";
                                 form3.style.display = "none";

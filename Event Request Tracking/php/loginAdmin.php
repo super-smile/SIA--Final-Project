@@ -1,5 +1,5 @@
 <?php
-session_start(); // Start a session
+session_start();
 include 'config.php';
 
 if (isset($_POST['login'])) {
@@ -21,13 +21,10 @@ if (isset($_POST['login'])) {
         $userType = $_SESSION['userType'];
         if ($userType == 'OSO') {
             header('location: oso.php');
-        }else{
+        } else {
             header('location: loginAdmin.php');
         }
-    
-
-        
-    }else {
+    } else {
         $error[] = 'Incorrect email or password';
     }
 }
@@ -35,14 +32,16 @@ if (isset($_POST['login'])) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styleLoginAdmin.css"> 
+    <link rel="stylesheet" href="styleLoginAdmin.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href='https://fonts.googleapis.com/css?family=Poppins'>
     <title>Event Request Tracking</title>
 </head>
+
 <body>
     <div class="container-fluid">
         <div class="row">
@@ -52,19 +51,19 @@ if (isset($_POST['login'])) {
                     <div class="mt-4" style="font-size: 14px; color: white; padding-top: 90px"> </div>
                 </div>
             </div>
-            <div class="col-md-6 d-flex align-items-center justify-content-center"  id="login-container">
+            <div class="col-md-6 d-flex align-items-center justify-content-center" id="login-container">
                 <div class="container text-center mx-auto" style="padding-top: 30px; padding-right: 100px; padding-left: 100px;">
                     <div class="mx-auto" style="font-family: 'Poppins'; font-size: 41.953px; font: weight 700px;"><strong>LOGIN</strong></div>
                     <div class="border border-white w-80"></div>
                     <br>Please login to access your account</br>
                     <p>
-                    <?php
-                    if (isset($error)) {
-                        foreach ($error as $errorMsg) {
-                            echo '<span class="error-msg">' . $errorMsg . '</span>';
+                        <?php
+                        if (isset($error)) {
+                            foreach ($error as $errorMsg) {
+                                echo '<span class="error-msg">' . $errorMsg . '</span>';
+                            }
                         }
-                    }
-                    ?>
+                        ?>
                     </p>
                     <form method="post">
                         <div class="form-group">
@@ -75,19 +74,14 @@ if (isset($_POST['login'])) {
                         </div>
                         <button type="submit" name="login" class="btn btn-outline-light btn-lg btn-block">LOGIN</button>
                     </form>
-                    
+
                 </div>
             </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
+
 </html>

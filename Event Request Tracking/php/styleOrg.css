@@ -1,216 +1,210 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 * {
-  font-family: "Poppins", sans-serif;
+	font-family: "Poppins", sans-serif;
 }
 .container-fluid {
-  width: 100%;
-  height: 100%;
+	width: 100%;
+	height: 100%;
 }
 body {
-  background: #f3f3f3;
+	background: #f3f3f3;
 }
 .header {
-  display: flex;
-  align-items: center;
-  background-color: white;
-  color: black;
-  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.2);
-  height:6vh;
+	display: flex;
+	align-items: center;
+	background-color: white;
+	color: black;
+	box-shadow: 2px 0 4px rgba(0, 0, 0, 0.2);
+	height: 6vh;
 }
 .notification-icon {
-  color: white;
-  width: 30px;
-  padding: 0;
+	color: white;
+	width: 30px;
+	padding: 0;
 }
 .notif {
-  font-size: 10px;
+	font-size: 10px;
 }
 #uploadLetter {
-  font-size: 13px;
-  text-decoration: none;
-  color: #fff;
-  margin-right: 30px;
-  position: absolute;
-  top: 5px;
-  right: 20px;
-  margin-right: 40px;
+	font-size: 13px;
+	text-decoration: none;
+	color: #fff;
+	margin-right: 30px;
+	position: absolute;
+	top: 5px;
+	right: 20px;
+	margin-right: 40px;
 }
 .upload-button {
-  font-size: 12px;
-  text-decoration: none;
-  border-radius: 4px;
-  padding: 6px 12px;
-  cursor: pointer;
-  color: #fff;
-  background: black;
+	font-size: 12px;
+	text-decoration: none;
+	border-radius: 4px;
+	padding: 6px 12px;
+	cursor: pointer;
+	color: #fff;
+	background: black;
 }
 .upload-button:hover {
-  background-color: #0056b3;
-  color: white;
+	background-color: #0056b3;
+	color: white;
 }
 .notification-bell {
-  border-radius: 50%;
-  overflow: hidden;
-  background-color: black;
-  width: 28px;
-  height: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
+	border-radius: 50%;
+	overflow: hidden;
+	background-color: black;
+	width: 28px;
+	height: 28px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
 }
 .notification-bell:hover {
-  background-color: #a21a1e;
+	background-color: #a21a1e;
 }
 .image-container {
-  margin: auto;
-  margin-top: 0px;
-  width: 180px;
-  height: 180px;
-  border: 5px solid white;
-  border-radius: 50%;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0;
+	margin: auto;
+	margin-top: 0px;
+	width: 180px;
+	height: 180px;
+	border: 5px solid white;
+	border-radius: 50%;
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 0;
 }
 
 .image-container img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	border-radius: 50%;
 }
 .notification-icon {
-  color: white;
-  width: 30px;
-  padding: 0;
-  margin-right: 10px;
+	color: white;
+	width: 30px;
+	padding: 0;
+	margin-right: 10px;
 }
 .header img {
-  margin-right: 10px;
-  margin-left: 10px;
+	margin-right: 10px;
+	margin-left: 10px;
 }
 
 .header-text {
-  display: flex;
-  flex-direction: column;
-  margin: 0;
+	display: flex;
+	flex-direction: column;
+	margin: 0;
 }
 .container-form {
-  background-color: white;
-  padding: 10px;
+	background-color: white;
+	padding: 10px;
 }
 .form-group {
-  margin-bottom: 10px;
+	margin-bottom: 10px;
 }
 .db-container {
-  background-color: white;
-  border-radius: 5px;
-  margin-bottom: 20px;
-  padding: 10px;
+	background-color: white;
+	border-radius: 5px;
+	margin-bottom: 20px;
+	padding: 10px;
 }
-.sidebar-container{
-  height: 94vh;
+.sidebar-container {
+	height: 94vh;
 }
 .sidebar {
-  padding: 0;
-  padding-top: 20px;
-  height: 100%;
-  background: rgb(2, 0, 36);
-  background: linear-gradient(
-    90deg,
-    rgba(2, 0, 36, 1) 0%,
-    rgba(111, 0, 0, 1) 0%,
-    rgba(184, 20, 20, 1) 78%
-  );
+	padding: 0;
+	padding-top: 20px;
+	height: 100%;
+	background: rgb(2, 0, 36);
+	background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(111, 0, 0, 1) 0%, rgba(184, 20, 20, 1) 78%);
 }
 .active-link {
-  color: #a21a1e !important;
-  background-color: white;
-  font-weight: bold !important;
-  transform: translateY(-2px);
+	color: #a21a1e !important;
+	background-color: white;
+	font-weight: bold !important;
+	transform: translateY(-2px);
 }
 .text {
-  color: white;
-  cursor: pointer !important;
-  padding-left: 50px;
+	color: white;
+	cursor: pointer !important;
+	padding-left: 50px;
 }
 .text:hover {
-  color: #ff474d;
-  transform: translateY(-2px);
+	color: #ff474d;
+	transform: translateY(-2px);
 }
 .subtitle {
-  text-align: center;
-  padding: 0 5px !important;
-  color: white;
+	text-align: center;
+	padding: 0 5px !important;
+	color: white;
 }
 .welcom {
-  font-size: 12px;
+	font-size: 12px;
 }
 .form-title {
-  font-size: 25px;
-  font-weight: bold;
+	font-size: 25px;
+	font-weight: bold;
 }
 .acc-container {
-  background-color: white;
-  padding: 20px 40px;
-  border-radius: 5px;
-  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.2);
-  margin: 20px;
+	background-color: white;
+	padding: 20px 40px;
+	border-radius: 5px;
+	box-shadow: 2px 0 4px rgba(0, 0, 0, 0.2);
+	margin: 20px;
 }
 
 .label-input {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
 .card {
-  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.2);
+	box-shadow: 2px 0 4px rgba(0, 0, 0, 0.2);
 }
 .label-input label {
-  flex-basis: 40%;
-  text-align: left;
-  padding-right: 10px;
+	flex-basis: 40%;
+	text-align: left;
+	padding-right: 10px;
 }
 
 .sub-container {
-  border-radius: 5px;
-  background-color: #f8d7da;
-  text-align: center;
-  padding: 20px 10px 10px;
-  margin: 20px 0;
+	border-radius: 5px;
+	background-color: #f8d7da;
+	text-align: center;
+	padding: 20px 10px 10px;
+	margin: 20px 0;
 }
 
 .db-table {
-  max-width: 100%;
-  height: 115px;
-  margin-top: 40px;
+	max-width: 100%;
+	height: 115px;
+	margin-top: 40px;
 }
 
 .req-container {
-  background-color: white;
-  padding: 15px;
-  border-radius: 5px;
-  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.2);
+	background-color: white;
+	padding: 15px;
+	border-radius: 5px;
+	box-shadow: 2px 0 4px rgba(0, 0, 0, 0.2);
 }
 .date-time {
-  border-bottom: 1px solid black;
-  padding-bottom: 10px;
+	border-bottom: 1px solid black;
+	padding-bottom: 10px;
 }
 
 .content {
-  max-height: 94vh;
-  overflow-y: scroll;
-  max-width: 100%;
+	max-height: 94vh;
+	overflow-y: scroll;
+	max-width: 100%;
 }
 
-/* Hide scrollbar for Chrome, Safari, and Edge */
 .content::-webkit-scrollbar {
-  width: 0.5em;
+	width: 0.5em;
 }
 
 .content::-webkit-scrollbar-thumb {
-  background-color: transparent; /* You can also use 'transparent' here if you want the thumb to be invisible */
+	background-color: transparent;
 }

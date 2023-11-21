@@ -2,7 +2,6 @@
 session_start();
 
 include 'config.php';
-//Account Information
 if (isset($_SESSION['userName'])) {
     $CurrentUser = $_SESSION['userName'];
 
@@ -359,7 +358,6 @@ include 'HTML/oso.html'
                                         echo $maskedPassword;
                                         echo "</td>";
 
-                                        // Add an Edit button with a form and a hidden input for user ID
                                         echo "<td>";
                                         echo "<form action='edit_account' method='post'>"; // <-- Corrected action attribute
                                         echo "<input type='hidden' name='userID' value='{$row['userID']}'>";
@@ -419,16 +417,12 @@ include 'HTML/oso.html'
 <script>
     const navLinks = document.querySelectorAll('.nav-link');
 
-    // Function to handle link clicks
     function handleLinkClick(event) {
-        // Remove the "active-link" class from all links
         navLinks.forEach(link => link.classList.remove('active-link'));
 
-        // Add the "active-link" class to the clicked link
         event.target.classList.add('active-link');
     }
 
-    // Add a click event listener to each navigation link
     navLinks.forEach(link => {
         link.addEventListener('click', handleLinkClick);
     });
@@ -439,14 +433,14 @@ include 'HTML/oso.html'
     new DataTable('#AllEvents');
     new DataTable('#orgTable');
 
-    $(document).ready(function () {
-        // Define global DataTable options
+    $(document).ready(function() {
+
         var globalOptions = {
             "lengthMenu": [
                 [5, 10, 25, 50, -1],
                 [5, 10, 25, 50, "All"]
             ],
-            // Add any other global DataTable options you might need
+
         };
 
         // Initialize DataTable for #example
