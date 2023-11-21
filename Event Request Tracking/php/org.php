@@ -165,8 +165,6 @@ require 'HTML/org.html'
                                         <tbody>
                                             <?php
                                             include 'config.php';
-
-                                            // Modify your SQL query to get the 5 most recent requests
                                             $query = "SELECT r.reqID, r.reqEventName, r.reqEventDate, r.reqDeadline, a.userName
                                             FROM tbl_requests r
                                             JOIN tbl_account a ON r.currentOffice = a.userID
