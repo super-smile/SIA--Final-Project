@@ -333,11 +333,11 @@ require 'HTML/org.html'
                                 while ($rowReq = mysqli_fetch_assoc($resultReq)) {
                                     echo "<tr>";
                                     echo "<td>{$rowReq['reqID']}</td>";
-                                    echo "<td>{$rowReq['reqEventName']}</td>";
+                                    echo "<td><a href='#myModal' data-bs-toggle='modal' data-bs-target='#myModal' data-event-name='{$rowReq['reqEventName']}'>{$rowReq['reqEventName']}</a></td>";
                                     echo "<td><a href='view_pdf.php?reqID={$rowReq['reqID']}' target='_blank'>View Letter</a></td>";
                                     echo "<td>{$rowReq['reqEventDate']}</td>";
                                     echo "<td>{$rowReq['reqDeadline']}</td>";
-                                    echo "<td>{$rowReq['currentOffice']}</td>";  // Display the userName instead of currentOffice
+                                    echo "<td>{$rowReq['currentOffice']}</td>";
                                     echo "</tr>";
                                 }
                                 ?>
@@ -346,6 +346,69 @@ require 'HTML/org.html'
                         </table>
                     </div>
                 </div>
+
+                <!-- ... (your existing HTML code) ... -->
+                <?php
+
+                ?>
+                <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Event Details</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <table id="Req2" class="table table-striped" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Office ID</th>
+                                            <th>Date Approved</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $orgID = $_SESSION['userID'];
+                                        $query = "SELECT * FROM tbl_reqhistory WHERE orgID = ?";
+                                        $stmt = mysqli_prepare($conn, $query);
+                                        mysqli_stmt_bind_param($stmt, "s", $orgID);
+                                        mysqli_stmt_execute($stmt);
+                                        $resultHis = mysqli_stmt_get_result($stmt);
+                                        while ($rowReq = mysqli_fetch_assoc($resultHis)) {
+                                            echo "<tr>";
+                                            echo "<td>{$rowReq['officeID']}</td>";
+                                            echo "<td>{$rowReq['statusDate']}</td>";
+                                            echo "</tr>";
+                                        }
+                                        ?>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+                <script>
+                    // Add JavaScript to dynamically update the modal content when a link is clicked
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const eventLinks = document.querySelectorAll('[data-bs-toggle="modal"]');
+                        const eventDetails = document.getElementById('event-details');
+
+                        eventLinks.forEach(function(link) {
+                            link.addEventListener('click', function() {
+                                const eventName = link.getAttribute('data-event-name');
+                                eventDetails.textContent = `Event Name: ${eventName}`;
+                            });
+                        });
+                    });
+                </script>
+
 
                 <div id="form3" style="display: none;">
                     <h2 class="form-title"><strong>Archive</strong></h2>
