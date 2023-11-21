@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 //Requests 
-$userID = $_SESSION['userID'];
+$userID = $_SESSION['designation'];
 $query = "SELECT tr.*, ta.userName 
           FROM tbl_requests tr
           LEFT JOIN tbl_account ta ON tr.userID = ta.userID
@@ -268,7 +268,7 @@ $userImgBase64 = base64_encode($userImg);
                                     echo "<td>{$rowArch['reqEventName']}</td>";
                                     echo "<td><a href='view_pdf.php?reqID={$rowArch['reqID']}' target='_blank'>View Letter</a></td>";
                                     echo "<td>{$rowArch['reqEventDate']}</td>";
-                                    echo "<td>{$rowArch['designation']}</td>";
+                                    echo "<td>{$rowArch['userName']}</td>";
                                     echo '<td><textarea placeholder="Write you remarks" required></textarea></td>';
                                     echo "<td>
                         <form method='post'>
