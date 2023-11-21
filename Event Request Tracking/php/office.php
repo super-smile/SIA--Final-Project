@@ -11,12 +11,12 @@ if (isset($_SESSION['designation'])) {
               FROM tbl_office o
               JOIN tbempinfo e ON o.employeeID = e.empid
               WHERE o.designation = ?";
-    
+
     $stmt = mysqli_prepare($conn, $query);
     mysqli_stmt_bind_param($stmt, "s", $designation);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_bind_result($stmt, $officeDesig, $CuserDept, $CuserEmail, $employeeID, $department);
-    
+
     if (mysqli_stmt_fetch($stmt)) {
         // Use $department as the value of $CuserDept
         $CuserDept = $department;
@@ -285,7 +285,7 @@ $userImgBase64 = base64_encode($userImg);
                         </table>
                     </div>
                 </div>
-                
+
                 <?php
 
                 function approveRequest($conn, $reqID, $orgID)
@@ -294,15 +294,15 @@ $userImgBase64 = base64_encode($userImg);
                     $officeID = $_SESSION['officeAccID'];
 
                     $designation = $_SESSION['designation'];
-                    if ($designation == 'Program Chair'){
+                    if ($designation == 'Program Chair') {
                         $nextDesignation = 'Dean';
-                    }elseif ($designation == 'Dean'){
+                    } elseif ($designation == 'Dean') {
                         $nextDesignation = 'OSO Head';
-                    }elseif ($designation == 'OSO Head'){
+                    } elseif ($designation == 'OSO Head') {
                         $nextDesignation = 'OVCAA';
-                    }elseif ($designation == 'OVCAA'){
+                    } elseif ($designation == 'OVCAA') {
                         $nextDesignation = 'Chancellor';
-                    }elseif ($designation == 'Chancellor'){
+                    } elseif ($designation == 'Chancellor') {
                         $nextDesignation = 'Approved';
                     }
 

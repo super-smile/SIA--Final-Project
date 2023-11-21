@@ -38,10 +38,7 @@ mysqli_stmt_execute($stmtReq);
 $resultReq = mysqli_stmt_get_result($stmtReq);
 
 //Archive
-$queryArch = "SELECT rh.*, tr.reqEventName, tr.reqLetter 
-              FROM tbl_reqhistory rh
-              LEFT JOIN tbl_requests tr ON rh.reqID = tr.reqID
-              WHERE (rh.orgID = ? AND rh.officeID = 5 AND rh.reqStatus = 'Approved') OR rh.reqStatus = 'Declined'";
+$queryArch = "SELECT * FROM tbl_requests WHERE userID = ? AND (currentOffice = 'Approved' or currentOffice = 'Declined')";
 $stmtArch = mysqli_prepare($conn, $queryArch);
 mysqli_stmt_bind_param($stmtArch, "s", $userID);
 mysqli_stmt_execute($stmtArch);
@@ -378,8 +375,8 @@ require 'HTML/org.html'
                                     echo "<td>{$rowArch['reqID']}</td>";
                                     echo "<td>{$rowArch['reqEventName']}</td>";
                                     echo "<td><a href='view_pdf.php?reqID={$rowArch['reqID']}' target='_blank'>View Letter</a></td>";
-                                    echo "<td>{$rowArch['statusDate']}</td>";
-                                    echo "<td>{$rowArch['reqStatus']}</td>";
+                                    echo "<td>{$rowArch['reqDeadline']}</td>";
+                                    echo "<td>{$rowArch['currentOffice']}</td>";
                                     echo "</tr>";
                                 }
                                 ?>
