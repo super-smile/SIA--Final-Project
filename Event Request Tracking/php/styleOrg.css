@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
 * {
 	font-family: "Poppins", sans-serif;
 }
@@ -9,8 +10,18 @@
 body {
 	background: #f3f3f3;
 }
+/* Custom styles for the SweetAlert modal */
+.custom-swal-modal {
+	/* Add styles specific to the SweetAlert modal here */
+	font-family: "Arial", sans-serif; /* Example font-family */
+	background-color: white; /* Example background color */
+	border: 2px solid #ccc; /* Example border */
+	border-radius: 8px; /* Example border-radius */
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Example box-shadow */
+	/* Other styles as needed */
+}
+
 .header {
-	display: flex;
 	align-items: center;
 	background-color: white;
 	color: black;
@@ -117,12 +128,13 @@ body {
 	color: #ff474d;
 	transform: translateY(-2px);
 }
-.subtitle {
+.subtitle_a {
+	margin-left: 10px;
 	text-align: center;
 	padding: 0 5px !important;
-	color: white;
+	color: rgb(255, 255, 255);
 }
-.welcom {
+.welcome {
 	font-size: 12px;
 }
 .form-title {
