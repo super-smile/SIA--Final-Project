@@ -69,14 +69,10 @@ require 'HTML/org.html'
 
             </div>
         </div>
-        <div class="notification-icon position-relative" style="margin-right: 20px">
+        <div class="logoutIcon position-relative" style="margin-right: 20px">
             <div class="notification-bell">
-                <i class="fas fa-bell" style="color: white; font-size: 17px;"></i>
+            <a href="login.php"><i class="logout-btn fas fa-sign-out-alt" style="color: gray; font-size: 17px;"></i></a>
             </div>
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                <span class="notif">4</span>
-                <span class="visually-hidden">unread messages</span>
-            </span>
         </div>
     </div>
 
@@ -128,12 +124,6 @@ require 'HTML/org.html'
                         <li class="nav-item">
                             <a class="nav-link text text-left" id="showForm4">
                                 <i class="fas fa-user"></i> Account
-                            </a>
-                        </li>
-                        <br><br><br><br><br><br><br><br>
-                        <li class="nav-item">
-                            <a class="nav-link text text-left" href="login.php">
-                                <i class="fas fa-sign-out-alt"></i><u style="margin-left:2px">Logout</u>
                             </a>
                         </li>
                     </ul>

@@ -17,11 +17,7 @@ body {
 	box-shadow: 2px 0 4px rgba(0, 0, 0, 0.2);
 	height: 6vh;
 }
-.notification-icon {
-	color: white;
-	width: 30px;
-	padding: 0;
-}
+
 .notif {
 	font-size: 10px;
 }
@@ -48,19 +44,9 @@ body {
 	background-color: #0056b3;
 	color: white;
 }
-.notification-bell {
-	border-radius: 50%;
-	overflow: hidden;
-	background-color: black;
-	width: 28px;
-	height: 28px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	cursor: pointer;
-}
-.notification-bell:hover {
-	background-color: #a21a1e;
+
+.logout-btn:hover{
+	color: #da2127 !important;
 }
 .image-container {
 	margin: auto;
@@ -82,12 +68,7 @@ body {
 	object-fit: cover;
 	border-radius: 50%;
 }
-.notification-icon {
-	color: white;
-	width: 30px;
-	padding: 0;
-	margin-right: 10px;
-}
+
 .header img {
 	margin-right: 10px;
 	margin-left: 10px;
