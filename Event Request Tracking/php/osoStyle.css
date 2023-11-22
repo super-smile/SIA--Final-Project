@@ -192,3 +192,14 @@ body {
 .content::-webkit-scrollbar-thumb {
 	background-color: transparent;
 }
+
+.btn-complement {
+    background-color: #ADD8E6; /* Light blue complementing red and white */
+    border: 1px solid #ADD8E6;
+    color: #333; /* Dark text */
+}
+
+.btn-complement:hover {
+    background-color: rgba(173, 216, 230, 0.3); /* Light blue with transparency on hover */
+    color: #000; /* Black text on hover */
+}

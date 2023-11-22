@@ -249,7 +249,7 @@ $userImgBase64 = base64_encode($userImg);
                                     echo "<tr>";
                                     echo "<td>{$rowArch['reqID']}</td>";
                                     echo "<td>{$rowArch['reqEventName']}</td>";
-                                    echo "<td><a href='view_pdf.php?reqID={$rowArch['reqID']}' target='_blank'>View Letter</a></td>";
+                                    echo "<td><a href='view_pdf.php?reqID={$rowArch['reqID']}' target='_blank' class='btn btn-glass btn-complement'>View Letter</a></td>";
                                     echo "<td>{$rowArch['reqEventDate']}</td>";
                                     echo "<td>{$rowArch['userName']}</td>";
                                     echo "<td>

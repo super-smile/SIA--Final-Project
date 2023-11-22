@@ -291,7 +291,7 @@ include 'HTML/oso.html'
                                         echo "<tr>";
                                         echo "<td>{$rowReq2['reqID']}</td>";
                                         echo "<td>{$rowReq2['reqEventName']}</td>";
-                                        echo "<td><a href='view_pdf.php?reqID={$rowReq2['reqID']}' target='_blank'>View Letter</a></td>";
+                                        echo "<td><a href='view_pdf.php?reqID={$rowReq2['reqID']}' target='_blank' class='btn btn-complement'>View Letter</a></td>";
                                         echo "<td>{$rowReq2['reqEventDate']}</td>";
                                         echo "<td>{$rowReq2['reqDeadline']}</td>";
                                         echo "<td>{$rowReq2['userID']}</td>";
