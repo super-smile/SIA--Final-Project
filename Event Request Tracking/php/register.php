@@ -9,7 +9,7 @@ if (isset($_POST['submit'])) {
     $userEmail = $_POST['userEmail'];
     $userPass = $_POST['userPass'];
     $cuserPass = $_POST['cuserPass'];
-    $userType = "Organization";
+    $userType = "organization";
 
     // Check if passwords match
     if ($userPass !== $cuserPass) {

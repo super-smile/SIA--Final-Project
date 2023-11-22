@@ -34,17 +34,18 @@ mysqli_stmt_execute($stmtAcc);
 $resultAcc = mysqli_stmt_get_result($stmtAcc);
 
 //dashboard
-$queryReq = "SELECT * FROM tbl_requests";
+$queryReq = "SELECT * FROM tbl_requests ORDER BY reqID DESC";
 $stmtReq = mysqli_prepare($conn, $queryReq);
 mysqli_stmt_execute($stmtReq);
 $resultReq = mysqli_stmt_get_result($stmtReq);
+
 
 $queryReq2 = "SELECT * FROM tbl_requests";
 $stmtReq2 = mysqli_prepare($conn, $queryReq2);
 mysqli_stmt_execute($stmtReq2);
 $resultReq2 = mysqli_stmt_get_result($stmtReq2);
 
-$queryEvents = "SELECT * FROM tbl_requests";
+$queryEvents = "SELECT * FROM tbl_requests WHERE (currentOffice = 'Approved' or currentOffice ='Declined') AND reqEventDate > NOW()";
 $stmtEvents = mysqli_prepare($conn, $queryEvents);
 mysqli_stmt_execute($stmtEvents);
 $resultEvents = mysqli_stmt_get_result($stmtEvents);
@@ -61,7 +62,7 @@ mysqli_stmt_fetch($stmtImg);
 $userImgBase64 = base64_encode($userImg);
 
 include 'HTML/oso.html'
-?>
+    ?>
 
 <body>
     <div class="header d-flex justify-content-between align-items-center">
@@ -156,10 +157,17 @@ include 'HTML/oso.html'
                         <h2 class="form-title">Dashboard</h2>
                         <div class="row">
                             <div class="col-md-7" style="padding:10px;">
-                                <div class="card text-bg-white mb-3" style="max-width:100%; height:115px; margin-left:20px">
+                                <div class="card text-bg-white mb-3"
+                                    style="max-width:100%; height:115px; margin-left:20px">
                                     <div class="card-header"><strong>Welcome!</strong></div>
                                     <div class="card-body">
-                                        <p class="card-text">Good day</p>
+                                        <?php
+                                        if (isset($_SESSION['userName'])) {
+                                            $userName = $_SESSION['userName'];
+                                            echo '<p class="card-text">Good day <b>', $userName, '!</b> Welcome to Event Tracking System of Group 7 BSIT BA-3101</p>';
+                                        }
+                                        ?>
+
                                     </div>
                                 </div>
                                 <div class="db-container" style=" margin-left:20px">
@@ -226,23 +234,38 @@ include 'HTML/oso.html'
                     <div id="form2" style="display: none;">
                         <h2 class="form-title">Organizations</h2>
                         <div class="tbl-container">
-                            <table id="Requests" class="table table-striped text-center" style="width:100%">
+                            <?php
+                            include 'config.php';
+
+                            $orgQuery = "SELECT acc.userName, acc.userDept, COUNT(req.reqID) AS numActivities
+                        FROM tbl_account AS acc
+                        LEFT JOIN tbl_requests AS req ON acc.userID = req.userID
+                        WHERE acc.userType = 'organization'
+                        GROUP BY acc.userID";
+
+                            $orgResult = mysqli_query($conn, $orgQuery);
+                            ?>
+                            <table id="orgTable" class="table table-striped" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th class="text-center">Organizations Name</th>
+                                        <th class="text-center">Organization Name</th>
+                                        <th class="text-center">Department Name/th>
+                                        <th class="text-center">Number of Requests</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="text-center">
                                     <?php
-                                    include 'config.php';
-                                    while ($row = mysqli_fetch_assoc($result)) {
-                                        echo "<tr>";
-                                        echo "<td>{$row['userName']}</td>";
-                                        echo "</tr>";
+                                    while ($rowOrg = mysqli_fetch_assoc($orgResult)) {
+                                        echo '<tr>';
+                                        echo '<td>' . $rowOrg['userName'] . '</td>';
+                                        echo '<td>' . $rowOrg['userDept'] . '</td>';
+                                        echo '<td>' . $rowOrg['numActivities'] . '</td>';
+                                        echo '</tr>';
                                     }
+                                    echo '</tbody>';
+                                    echo '</table>';
                                     ?>
-                                </tbody>
-                            </table>
+
                         </div>
                     </div>
 
@@ -384,7 +407,12 @@ include 'HTML/oso.html'
         var data = google.visualization.arrayToDataTable(<?php echo json_encode($chartData); ?>);
 
         var options = {
-            title: 'Event Approval Overview'
+            title: 'Event Approval Overview',
+            width: '80%', // Set the width to 80% of the parent container
+            height: '400', // Adjust the height as needed
+            legend: {
+                position: 'right' // Place the legend at the bottom
+            }
         };
 
         var chart = new google.visualization.PieChart(document.getElementById('piechart'));
@@ -415,8 +443,9 @@ include 'HTML/oso.html'
     new DataTable('#Account');
     new DataTable('#Requests');
     new DataTable('#AllEvents');
+    new DataTable('#orgTable');
 
-    $(document).ready(function() {
+    $(document).ready(function () {
 
         var globalOptions = {
             "lengthMenu": [
@@ -470,7 +499,7 @@ include 'HTML/oso.html'
     var form5 = document.getElementById("form5");
     var form6 = document.getElementById("form6");
 
-    button1.addEventListener("click", function() {
+    button1.addEventListener("click", function () {
         form1.style.display = "block";
         form2.style.display = "none";
         form3.style.display = "none";
@@ -479,7 +508,7 @@ include 'HTML/oso.html'
         form6.style.display = "none"
     });
 
-    button2.addEventListener("click", function() {
+    button2.addEventListener("click", function () {
         form1.style.display = "none";
         form2.style.display = "block";
         form3.style.display = "none";
@@ -488,7 +517,7 @@ include 'HTML/oso.html'
         form6.style.display = "none";
     });
 
-    button3.addEventListener("click", function() {
+    button3.addEventListener("click", function () {
         form1.style.display = "none";
         form2.style.display = "none";
         form3.style.display = "block";
@@ -497,7 +526,7 @@ include 'HTML/oso.html'
         form6.style.display = "none";
     });
 
-    button4.addEventListener("click", function() {
+    button4.addEventListener("click", function () {
         form1.style.display = "none";
         form2.style.display = "none";
         form3.style.display = "none";
@@ -506,7 +535,7 @@ include 'HTML/oso.html'
         form6.style.display = "none";
     });
 
-    button5.addEventListener("click", function() {
+    button5.addEventListener("click", function () {
         form1.style.display = "none";
         form2.style.display = "none";
         form3.style.display = "none";
@@ -515,7 +544,7 @@ include 'HTML/oso.html'
         form6.style.display = "none";
     });
 
-    button6.addEventListener("click", function() {
+    button6.addEventListener("click", function () {
         form1.style.display = "none";
         form2.style.display = "none";
         form3.style.display = "none";
