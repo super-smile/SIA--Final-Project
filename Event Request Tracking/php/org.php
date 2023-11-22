@@ -118,7 +118,7 @@ require 'HTML/org.html'
 
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-2 p-0 sidebar-container" style=color: white;">
+            <div class="col-md-2 p-0 sidebar-container" style=color:white;">
                 <div id="sidebar">
                     <div class="image-container p-1 img-fluid">
                         <?php
@@ -447,15 +447,27 @@ require 'HTML/org.html'
                                 <?php
                                 include 'config.php';
                                 while ($rowArch = mysqli_fetch_assoc($resultArch)) {
-                                    echo "<tr>";
+                                    echo "<tr style='text-align: center;'>"; // Center-align the entire row
                                     echo "<td>{$rowArch['reqID']}</td>";
                                     echo "<td>{$rowArch['reqEventName']}</td>";
-                                    echo "<td><a href='view_pdf.php?reqID={$rowArch['reqID']}' target='_blank'>View Letter</a></td>";
+                                    echo "<td><a href='view_pdf.php?reqID={$rowArch['reqID']}' target='_blank' class='btn btn-glass btn-complement'>View Letter</a></td>";
                                     echo "<td>{$rowArch['reqDeadline']}</td>";
-                                    echo "<td>{$rowArch['currentOffice']}</td>";
+
+                                    $style = '';
+                                    if ($rowArch['currentOffice'] == 'Approved') {
+                                        $style = "display: inline-block; width: 70%; text-align: center; border-color: green; color: green; padding: 5px; border: 2px solid; border-radius: 5px; font-weight: bold; margin: 5px;";
+                                    } elseif ($rowArch['currentOffice'] == 'Declined') {
+                                        $style = "display: inline-block; width: 70%; text-align: center; border-color: red; color: red; padding: 5px; border: 2px solid; border-radius: 5px; font-weight: bold; margin: 5px;";
+                                    } else {
+                                        $style = "text-align: center;"; // Center-align for other cases
+                                    }
+
+                                    echo "<td style='$style'>{$rowArch['currentOffice']}</td>";
+
                                     echo "</tr>";
                                 }
                                 ?>
+                                F
                             </tbody>
                         </table>
                     </div>
