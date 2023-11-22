@@ -134,7 +134,6 @@ $userImgBase64 = base64_encode($userImg);
                                 <i class="fas fa-user"></i> Account
                             </a>
                         </li>
-                        <br><br><br><br><br><br><br>
                         <li class="nav-item">
                             <a class="nav-link text text-left" href="login.php">
                                 <i class="fas fa-sign-out-alt"></i><u>Logout</u>
@@ -348,9 +347,10 @@ $userImgBase64 = base64_encode($userImg);
                                 <?php
                                 $officeID = $_SESSION['officeAccID'];
                                 // Archive
-                                $queryArch = "SELECT rh.reqID, rh.reqStatus, rh.statusDate, rh.orgID, r.reqEventName, r.currentOffice
+                                $queryArch = "SELECT rh.reqID, rh.reqStatus, rh.statusDate, rh.orgID, r.reqEventName, r.currentOffice, ac.userName
                                 FROM tbl_reqhistory rh
                                 JOIN tbl_requests r ON rh.reqID = r.reqID
+                                JOIN tbl_account ac ON rh.orgID = ac.userID
                                 WHERE rh.officeID = ? AND (rh.reqStatus = 'Approved' OR rh.reqStatus = 'Declined')";
                                 $stmtArch = mysqli_prepare($conn, $queryArch);
                                 mysqli_stmt_bind_param($stmtArch, "s", $officeID);
@@ -365,7 +365,7 @@ $userImgBase64 = base64_encode($userImg);
                                     echo "<td>{$rowArch['reqStatus']}</td>";
                                     echo "<td>{$rowArch['statusDate']}</td>";
                                     echo "<td>{$rowArch['orgID']}</td>";
-                                    echo "<td>{$rowArch['currentOffice']}</td>";
+                                    echo "<td>{$rowArch['userName']}</td>";
                                     echo "</tr>";
                                 }
                                 ?>

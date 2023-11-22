@@ -101,6 +101,8 @@ body {
 	height: 94vh;
 }
 #sidebar {
+	display: flex;
+    flex-direction: column;
 	padding: 0;
 	padding-top: 20px;
 	height: 100%;
@@ -109,6 +111,14 @@ body {
 	box-shadow: 2px 0 4px rgba(0, 0, 0, 0.2);
 	border-top-right-radius: 20px;
 	border-bottom-right-radius: 20px;
+}
+ul.nav {
+    flex-grow: 1; /* This will make the list take up remaining space */
+    margin-bottom: 0; /* Remove default margin to prevent unwanted space at the bottom */
+}
+
+li.nav-item:last-child {
+    margin-top: auto; /* Push the last item to the bottom */
 }
 .active-link {
 	color: #a21a1e !important;
@@ -130,6 +140,16 @@ body {
 	text-align: center;
 	padding: 0 5px !important;
 	color: rgb(255, 255, 255);
+}
+.notification-bell {
+	border-radius: 100%;
+	overflow: hidden;
+	background-color: black;
+	width: 28px;
+	height: 28px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 .welcome {
 	font-size: 12px;

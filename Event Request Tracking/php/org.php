@@ -62,15 +62,16 @@ require 'HTML/org.html'
             <div class="header-text">
                 <p style="font-size: 11px; font-weight: 800; margin: 0;">Event Tracking System</p>
                 <span style="font-size: 9px;">Office of the Student Organizations</span>
-
-
             </div>
         </div>
-        <div class="logoutIcon position-relative" style="margin-right: 20px">
+        <div class="notification-icon position-relative" style="margin-right: 20px">
             <div class="notification-bell">
-                <a href="login.php"><i class="logout-btn fas fa-sign-out-alt"
-                        style="color: gray; font-size: 17px;"></i></a>
+                <i class="fas fa-bell" style="color: #fff; font-size: 17px;"></i>
             </div>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                <span class="notif">4</span>
+                <span class="visually-hidden">unread messages</span>
+            </span>
         </div>
     </div>
     <?php
@@ -163,6 +164,11 @@ require 'HTML/org.html'
                         <li class="nav-item">
                             <a class="nav-link text text-left" id="showForm4">
                                 <i class="fas fa-user"></i> Account
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text text-left" href="login.php">
+                                <i class="fas fa-sign-out-alt"></i><u>Logout</u>
                             </a>
                         </li>
                     </ul>

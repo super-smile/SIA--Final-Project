@@ -28,7 +28,10 @@ body {
 	font-size: 25px;
 	font-weight: bold;
 }
+
 #sidebar {
+	display: flex;
+    flex-direction: column;
 	padding: 0;
 	background-color: white;
 	color: #a21a1e;
@@ -38,6 +41,14 @@ body {
 	border-top-right-radius: 20px;
 	border-bottom-right-radius: 20px;
 	height: 94vh;
+}
+ul.nav {
+    flex-grow: 1; /* This will make the list take up remaining space */
+    margin-bottom: 0; /* Remove default margin to prevent unwanted space at the bottom */
+}
+
+li.nav-item:last-child {
+    margin-top: auto; /* Push the last item to the bottom */
 }
 .nav-link {
 	cursor: pointer;

@@ -140,7 +140,7 @@ include 'HTML/oso.html'
                             <a class="nav-link text text-left" id="showForm6">
                                 <i class="fas fa-user"></i> Accounts
                             </a>
-                        </li><br><br><br><br><br>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link text text-left" href="login.php">
                                 <i class="fas fa-sign-out-alt"></i><u>Logout</u>
