@@ -1,16 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 
 * {
-	padding: 0;
-	margin: 0;
 	font-family: Poppins, sans-serif;
 	box-sizing: border-box;
 }
 body {
-	display: flex;
 	justify-content: center;
 	align-items: center;
-	width: 100vw;
 }
 
 .container {
@@ -33,6 +29,7 @@ body {
 }
 
 .title {
+	color: #000;
 	position: absolute;
 	left: 34px;
 	top: 32px;
@@ -43,6 +40,7 @@ body {
 }
 
 .subtitle {
+	color: #000;
 	position: absolute;
 	left: 34px;
 	top: 84px;
@@ -53,6 +51,7 @@ body {
 }
 
 .input-event-name label {
+	color: #000;
 	position: absolute;
 	left: 34px;
 	top: 124px;
@@ -74,6 +73,7 @@ body {
 }
 
 .input-event-date label {
+	color: #000;
 	position: absolute;
 	left: 35px;
 	top: 168px;
@@ -84,6 +84,7 @@ body {
 }
 
 .input-event-date input {
+	color: rgb(0, 0, 0);
 	position: absolute;
 	width: 420px;
 	height: 33px;
@@ -216,6 +217,10 @@ body {
 	line-height: 25.857px;
 }
 
+.attachment-file {
+	margin-top: 190px;
+}
+
 .button-text {
 	padding-top: 50px;
 	text-align: left;
@@ -224,15 +229,4 @@ body {
 .pdfFile {
 	display: inline;
 	visibility: visible;
-}
-
-.attachment-file {
-	font-size: 14px;
-	color: #555;
-	margin-top: 20px;
-	display: flex;
-	justify-content: center;
-	position: absolute;
-	bottom: 5px;
-	width: 100%;
 }

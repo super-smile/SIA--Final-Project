@@ -14,13 +14,24 @@
 </head>
 
 <body>
+
     <div class="container">
 
         <form id="upload-letter" method="POST" action="upload.php" enctype="multipart/form-data">
 
-
             <p class="title">Upload Letter</p>
             <p class="subtitle">Please complete the event information.</p>
+
+
+            <div class="upload-icon">
+                <i class='bx bx-cloud-upload'></i>
+            </div>
+
+            <a href="org.php">
+                <div class="home-icon">
+                    <i class='bx bx-home'></i>
+                </div>
+            </a>
 
             <div class="input-event-name">
                 <label for="eventName">Event Name:</label>
@@ -34,45 +45,43 @@
 
             <div class="subcontainer">
                 <p class="attachment-file">
-                    <a id="file-link" href="#" target="_blank"></a>
+                    <a id="fileLink" href="#" target="_blank">No file selected</a>
                 </p>
-
             </div>
-
-            <div class="upload-icon">
-                <i class='bx bx-cloud-upload'></i>
-            </div>
-
-            <a href="org.php">
-                <div class="home-icon">
-                    <i class='bx bx-home'></i>
-                </div>
-            </a>
 
             <p class="text1">Select a file from the computer or drag and drop here.</p>
             <p class="text2">For the best results, please submit a PDF file.</p>
 
-            <input type="file" id="pdfFile" name="pdfFile" accept=".pdf" style="display: none; visibility: visible;">
-            <input type="button" value="Browse File" class="browse-file-button" onclick="uploadPDF()">
+            <input type="file" id="pdfFile" name="pdfFile" accept=".pdf" style="display: none;">
+            <input type="button" value="Browse File" class="browse-file-button" onclick="document.getElementById('pdfFile').click();">
+
             <script>
-                function uploadPDF() {
-                    document.getElementById("pdfFile").click();
+                function openFileInput() {
+                    document.getElementById('pdfFile').click();
                 }
 
-                document.getElementById("pdfFile").addEventListener("change", function() {
-                    var fileInput = this;
-                    var fileName = fileInput.files[0] ? fileInput.files[0].name : "No file selected" + fileName;
-                    var fileURL = window.URL.createObjectURL(fileInput.files[0]);
 
-                    document.querySelector(".attachment-file a").textContent = fileName;
-                    document.querySelector(".attachment-file a").href = fileURL;
+                document.getElementById('pdfFile').addEventListener('change', function() {
+                    var fileInput = this;
+                    var fileName = fileInput.files[0] ? fileInput.files[0].name : 'No file selected';
+
+                    if (fileInput.files[0]) {
+                        var fileURL = window.URL.createObjectURL(fileInput.files[0]);
+                        document.querySelector('.attachment-file a').textContent = fileName;
+                        document.querySelector('.attachment-file a').href = fileURL;
+                    } else {
+                        document.querySelector('.attachment-file a').textContent = 'No file selected';
+                        document.querySelector('.attachment-file a').removeAttribute('href');
+                    }
                 });
             </script>
 
+            <script src="script.js">
+            </script>
+
+
             <input type="submit" value="Cancel" class="cancel-button">
-
             <input type="submit" value="Submit" class="submit-button">
-
 
             <script>
                 document.querySelector(".submit-button").addEventListener("click", function(e) {
@@ -104,12 +113,12 @@
                 });
             </script>
 
-
         </form>
     </div>
 
     <script src="script.js">
     </script>
+
 </body>
 
 </html>

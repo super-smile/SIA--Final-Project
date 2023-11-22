@@ -55,17 +55,14 @@ require 'HTML/org.html'
 ?>
 
 <body>
+
     <div class="header d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center">
             <img src="logoo.png" alt="Logo" width="45" style="padding: 5px;" class="img-fluid">
             <div class="header-text">
                 <p style="font-size: 11px; font-weight: 800; margin: 0;">Event Tracking System</p>
                 <span style="font-size: 9px;">Office of the Student Organizations</span>
-                <?php
-                if ($userType == 'organization') {
-                    echo '<a href="letter.php" class="upload-button" id="uploadLetter">Upload a letter</a>';
-                }
-                ?>
+
 
             </div>
         </div>
@@ -79,6 +76,47 @@ require 'HTML/org.html'
             </span>
         </div>
     </div>
+    <?php
+    if ($userType == 'organization') {
+        echo '<a href="#" class="upload-button" id="uploadLetter">Upload a letter</a>';
+    }
+    ?>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        <?php if ($userType == 'organization') { ?>
+            document.getElementById('uploadLetter').addEventListener('click', function(event) {
+                event.preventDefault(); // Prevent default behavior of link
+
+                fetch('letter.php')
+                    .then(response => {
+                        return response.text();
+                    })
+                    .then(data => {
+                        // Display content in SweetAlert modal with custom styling
+                        Swal.fire({
+                            html: data,
+                            showConfirmButton: false,
+                            customClass: {
+                                container: 'custom-swal-modal' // Add your custom class here
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching letter.php:', error);
+                        // Show an error message if fetch fails
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Failed to fetch the letter content!',
+                        });
+                    });
+            });
+        <?php } ?>
+    </script>
+
 
     <div class="container-fluid">
         <div class="row">
@@ -98,12 +136,12 @@ require 'HTML/org.html'
                         }
                         ?>
                     </div>
-                    <div class="subtitle">
+                    <div class="subtitle_a">
 
                         <?php
                         if (isset($_SESSION['userName'])) {
                             $userName = $_SESSION['userName'];
-                            echo "<span class = welcom >Welcome Back,</span><br><p><b> $userName!</b></p>";
+                            echo "<span class = welcome>Welcome Back,</span><br><p><b> $userName!</b></p>";
                         }
                         ?>
 
