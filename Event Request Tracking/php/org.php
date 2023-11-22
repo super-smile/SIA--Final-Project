@@ -365,7 +365,7 @@ require 'HTML/org.html'
                                     echo "<tr>";
                                     echo "<td>{$rowReq['reqID']}</td>";
                                     echo "<td><a href='#myModal' data-bs-toggle='modal' data-bs-target='#myModal' data-event-name='{$rowReq['reqEventName']}' onclick='openModal({$rowReq['reqID']})'>{$rowReq['reqEventName']}</a></td>";
-                                    echo "<td><a href='view_pdf.php?reqID={$rowReq['reqID']}' target='_blank'>View Letter</a></td>";
+                                    echo "<td><a href='view_pdf.php?reqID={$rowReq['reqID']}' target='_blank' class='btn btn-complement'>View Letter</a></td>";
                                     echo "<td>{$rowReq['reqEventDate']}</td>";
                                     echo "<td>{$rowReq['reqDeadline']}</td>";
                                     echo "<td>{$rowReq['currentOffice']}</td>";
