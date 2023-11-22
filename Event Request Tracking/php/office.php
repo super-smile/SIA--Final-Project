@@ -147,13 +147,58 @@ $userImgBase64 = base64_encode($userImg);
             <div class="content" style="flex: 1; padding: 20px;">
 
                 <div id="form1" style="display: block;">
-                    <h2 class="form-title">Dashboard</h2>
+                <h2 class="form-title">Dashboard</h2>
+                        <div class="row">
+                            <div class="col-md-8" style="padding:10px;">
+                                <div class="card text-bg-white mb-3 shadow-sm"
+                                    style="max-width:100%; height:115px; margin-left:20px">
+                                    <div class="card-header"><strong>Welcome!</strong></div>
+                                    <div class="card-body">
+                                        <?php
+                                        if (isset($_SESSION['userName'])) {
+                                            $userName = $_SESSION['userName'];
+                                            echo '<p class="card-text">Good day <b>', $userName, '!</b> Welcome to Event Tracking System of Group 7 BSIT BA-3101</p>';
+                                        }
+                                        ?>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     <div class="row">
                         <div class="col-md-8 mb-4">
                             <div class="card" style="margin-left: 20px; margin-top: 11px">
                                 <div class="card-body">
                                     <form id="formReq">
                                         <h2>Requests</h2>
+                                        <table class="bordered stripe" id="dataTable" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Event Name</th>
+                                                    <th>Letter</th>
+                                                    <th>Event Date</th>
+                                                    <th>Request Sender</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                while ($rowArch = mysqli_fetch_assoc($result)) {
+                                                    echo "<tr>";
+                                                    echo "<td>{$rowArch['reqEventName']}</td>";
+                                                    echo "<td><a href='view_pdf.php?reqID={$rowArch['reqID']}' target='_blank' class='btn btn-glass btn-complement'>View Letter</a></td>";
+                                                    echo "<td>{$rowArch['reqEventDate']}</td>";
+                                                    echo "<td>{$rowArch['userName']}</td>";
+                                                    echo "<td>
+                                                        <form method='post'>
+                                                            <input type='hidden' name='reqID' value='{$rowArch['reqID']}'>
+                                                            <input type='hidden' name='userID' value='{$rowArch['userID']}'>  
+                                                        </form>
+                                                    </td>";
+                                                    echo "</tr>";
+                                                }
+                                                ?>
+                                            </tbody>
+                                        </table>
                                     </form>
                                 </div>
                             </div>
@@ -228,6 +273,12 @@ $userImgBase64 = base64_encode($userImg);
                     </div>
                 </div>
 
+                <script>
+                    $(document).ready(function () {
+                        $('#orgTable').DataTable();
+                    });
+                </script>
+
                 <div id="form3" style="display: none;">
                     <h2 class="form-title">Requests</h2>
                     <div class="tbl-container">
@@ -252,13 +303,13 @@ $userImgBase64 = base64_encode($userImg);
                                     echo "<td>{$rowArch['reqEventDate']}</td>";
                                     echo "<td>{$rowArch['userName']}</td>";
                                     echo "<td>
-                        <form method='post'>
-                            <input type='hidden' name='reqID' value='{$rowArch['reqID']}'>
-                            <input type='hidden' name='userID' value='{$rowArch['userID']}'>
-                            <button type='submit' name='approve' class='action-button approve-button'>Approve</button>
-                            <button type='submit' name='decline' class='action-button decline-button'>Decline</button>        
-                        </form>
-                      </td>";
+                                        <form method='post'>
+                                            <input type='hidden' name='reqID' value='{$rowArch['reqID']}'>
+                                            <input type='hidden' name='userID' value='{$rowArch['userID']}'>
+                                            <button type='submit' name='approve' class='action-button approve-button'>Approve</button>
+                                            <button type='submit' name='decline' class='action-button decline-button'>Decline</button>        
+                                        </form>
+                                    </td>";
                                     echo "</tr>";
                                 }
                                 ?>
@@ -268,7 +319,7 @@ $userImgBase64 = base64_encode($userImg);
                 </div>
 
                 <?php
-
+ 
                 function approveRequest($conn, $reqID, $orgID)
                 {
                     // Get the current userID
@@ -329,6 +380,14 @@ $userImgBase64 = base64_encode($userImg);
 
                 ?>
 
+                <script>
+                    $(document).ready(function () {
+                        $('#dataTable').DataTable();
+                    });
+                </script>
+
+            
+
                 <div id="form4" style="display: none;">
                     <h2 class="form-title">Archive</h2>
                     <div class="tbl-container">
@@ -374,6 +433,11 @@ $userImgBase64 = base64_encode($userImg);
                         </table>
                     </div>
                 </div>
+                <script>
+                    $(document).ready(function () {
+                        $('#dataTableArchive').DataTable();
+                    });
+                </script>
 
                 <div id="form5" style="display: none;">
                     <h2 class="form-title">Account</h2>
