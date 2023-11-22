@@ -68,7 +68,8 @@ require 'HTML/org.html'
         </div>
         <div class="logoutIcon position-relative" style="margin-right: 20px">
             <div class="notification-bell">
-            <a href="login.php"><i class="logout-btn fas fa-sign-out-alt" style="color: gray; font-size: 17px;"></i></a>
+                <a href="login.php"><i class="logout-btn fas fa-sign-out-alt"
+                        style="color: gray; font-size: 17px;"></i></a>
             </div>
         </div>
     </div>
@@ -83,7 +84,7 @@ require 'HTML/org.html'
 
     <script>
         <?php if ($userType == 'organization') { ?>
-            document.getElementById('uploadLetter').addEventListener('click', function(event) {
+            document.getElementById('uploadLetter').addEventListener('click', function (event) {
                 event.preventDefault(); // Prevent default behavior of link
 
                 fetch('letter.php')
@@ -116,8 +117,8 @@ require 'HTML/org.html'
 
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-2 p-0 sidebar-container" style="background:#a21a1e; color: white;">
-                <div class="sidebar">
+            <div class="col-md-2 p-0 sidebar-container" style=color: white;">
+                <div id="sidebar">
                     <div class="image-container p-1 img-fluid">
                         <?php
                         if (isset($_SESSION['userName'])) {
@@ -174,16 +175,20 @@ require 'HTML/org.html'
                     <h2 class="form-title">Dashboard</h2>
                     <div class="row">
                         <div class="col-md-8" style="padding:10px;">
-                            <div class="card text-bg-white mb-5"
+                            <div class="card text-bg-white mb-5 shadow-sm"
                                 style="max-width:100%; height:115px; margin-left: 20px">
                                 <div class="card-header"><strong>Welcome!</strong></div>
                                 <div class="card-body">
-                                    <p class="card-text">Welcome to Event Tracking System by Group 7</p>
+                                    <?php
+                                    if (isset($_SESSION['userName'])) {
+                                        $userName = $_SESSION['userName'];
+                                        echo '<p class="card-text">Good day <b>', $userName, '!</b> Welcome to Event Tracking System of Group 7 BSIT BA-3101</p>';
+                                    }
+                                    ?>
                                 </div>
-                                <div class="db-table text-bg-white mb-5">
-                                    <div class="tbl-container"><strong>Requests</strong></div>
-                                    <table class="table table-striped" style="width:100%; font-size:12px;">
-                                        <br>
+                                <div class="db-container shadow-sm p-3">
+                                    <div class="db" style="margin-bottom: 10px"><strong>Dashboard</strong></div>
+                                    <table class="table table-striped" style="width:100%; ">
                                         <thead>
                                             <tr>
                                                 <th>Request ID</th>
@@ -209,7 +214,7 @@ require 'HTML/org.html'
                         </div>
 
                         <div class="col-md-4" style="padding:10px">
-                            <div class="card text-bg-white mb-3" style="max-width: 100%; height:115px;">
+                            <div class="card text-bg-white mb-3 shadow-sm" style="max-width: 100%; height:115px;">
                                 <div class="card-header"><strong>Time</strong></div>
                                 <div class="card-body">
                                     <span id="time" style="float: center; font-size: 30px"></span>
@@ -233,7 +238,7 @@ require 'HTML/org.html'
                             </script>
 
 
-                            <div class="card text-bg-white mb-3" style="max-width: 100%; height: auto;">
+                            <div class="card text-bg-white mb-3 shadow-sm" style="max-width: 100%; height: auto;">
                                 <div class="card-header">
 
                                     <button onclick="prevMonth()" class="no-border">&#10094;</button>
@@ -340,12 +345,12 @@ require 'HTML/org.html'
                         <table id="Req2" class="table table-striped" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>Request ID</th>
-                                    <th>Event Name</th>
-                                    <th>Letter</th>
-                                    <th>Event Date</th>
-                                    <th>Deadline</th>
-                                    <th>Current Office</th>
+                                    <th class="text-center">Request ID</th>
+                                    <th class="text-center">Event Name</th>
+                                    <th class="text-center">Letter</th>
+                                    <th class="text-center">Event Date</th>
+                                    <th class="text-center">Deadline</th>
+                                    <th class="text-center">Current Office</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -425,11 +430,11 @@ require 'HTML/org.html'
                         <table id="Arch" class="table table-striped" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>reqID</th>
-                                    <th>Event Name</th>
-                                    <th>Letter</th>
-                                    <th>Date Updated</th>
-                                    <th>Result</th>
+                                    <th class="text-center">reqID</th>
+                                    <th class="text-center">Event Name</th>
+                                    <th class="text-center">Letter</th>
+                                    <th class="text-center">Date Updated</th>
+                                    <th class="text-center">Result</th>
                                 </tr>
                             </thead>
                             <tbody>

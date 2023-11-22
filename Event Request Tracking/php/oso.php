@@ -157,7 +157,7 @@ include 'HTML/oso.html'
                         <h2 class="form-title">Dashboard</h2>
                         <div class="row">
                             <div class="col-md-7" style="padding:10px;">
-                                <div class="card text-bg-white mb-3"
+                                <div class="card text-bg-white mb-3 shadow-sm"
                                     style="max-width:100%; height:115px; margin-left:20px">
                                     <div class="card-header"><strong>Welcome!</strong></div>
                                     <div class="card-body">
@@ -170,7 +170,7 @@ include 'HTML/oso.html'
 
                                     </div>
                                 </div>
-                                <div class="db-container" style=" margin-left:20px">
+                                <div class="db-container shadow-sm" style=" margin-left:20px">
                                     <div class="db card-header"><strong>Dashboard</strong></div>
                                     <table id="" class="table table-striped" style="width:100%; ">
                                         <thead>
@@ -198,7 +198,7 @@ include 'HTML/oso.html'
                                 </div>
                             </div>
                             <div class="col-md-5" style="padding:10px">
-                                <div class="card text-bg-white mb-3" style="max-width: 100%; height:115px">
+                                <div class="card text-bg-white mb-3 shadow-sm" style="max-width: 100%; height:115px">
                                     <div class="card-header"><strong>Time</strong></div>
                                     <div class="card-body">
                                         <span id="time" style="float: center; font-size: 30px"></span>
@@ -219,7 +219,7 @@ include 'HTML/oso.html'
                                         setInterval(updateTime, 1000);
                                     </script>
                                 </div>
-                                <div class="pieChart card text-bg-white mb-3">
+                                <div class="pieChart card text-bg-white mb-3 shadow-sm">
                                     <div class="card-header"><strong>Overview</strong></div>
                                     <div class="card-body">
                                         <div class="overview" style="height:411px">

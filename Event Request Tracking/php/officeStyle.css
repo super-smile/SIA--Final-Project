@@ -21,7 +21,6 @@ body {
 	background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(111, 0, 0, 1) 0%, rgba(184, 20, 20, 1) 78%);
 	color: white;
 	display: flex;
-	border-bottom-right-radius: 20px;
 	box-shadow: 1px 0 4px rgba(0, 0, 0, 0.2);
 	height: 6vh;
 }

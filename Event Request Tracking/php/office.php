@@ -240,7 +240,6 @@ $userImgBase64 = base64_encode($userImg);
                                     <th>Letter</th>
                                     <th>Event Date</th>
                                     <th>Request Sender</th>
-                                    <th>Remarks</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -253,7 +252,6 @@ $userImgBase64 = base64_encode($userImg);
                                     echo "<td><a href='view_pdf.php?reqID={$rowArch['reqID']}' target='_blank'>View Letter</a></td>";
                                     echo "<td>{$rowArch['reqEventDate']}</td>";
                                     echo "<td>{$rowArch['userName']}</td>";
-                                    echo '<td><textarea placeholder="Write you remarks" required></textarea></td>';
                                     echo "<td>
                         <form method='post'>
                             <input type='hidden' name='reqID' value='{$rowArch['reqID']}'>

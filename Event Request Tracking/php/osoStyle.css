@@ -27,6 +27,8 @@ body {
 	height: 100%;
 	box-shadow: 1px 0 4px rgba(0, 0, 0, 0.2);
 	height: 94vh;
+	border-top-right-radius: 20px;
+	border-bottom-right-radius: 20px;
 }
 .header {
 	align-items: center;
@@ -35,6 +37,7 @@ body {
 	color: white;
 	display: flex;
 	height: 6vh;
+	box-shadow: 2px 0 4px rgba(0, 0, 0, 0.2);
 }
 
 .edit-button {
@@ -167,6 +170,7 @@ body {
 	padding: 20px 40px;
 	border-radius: 5px;
 	margin: 20px;
+	box-shadow: 2px 0 4px rgba(0, 0, 0, 0.2);
 }
 .sub-container {
 	border-radius: 5px;
