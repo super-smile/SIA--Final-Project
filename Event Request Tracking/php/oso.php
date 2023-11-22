@@ -34,17 +34,18 @@ mysqli_stmt_execute($stmtAcc);
 $resultAcc = mysqli_stmt_get_result($stmtAcc);
 
 //dashboard
-$queryReq = "SELECT * FROM tbl_requests";
+$queryReq = "SELECT * FROM tbl_requests ORDER BY reqID DESC";
 $stmtReq = mysqli_prepare($conn, $queryReq);
 mysqli_stmt_execute($stmtReq);
 $resultReq = mysqli_stmt_get_result($stmtReq);
+
 
 $queryReq2 = "SELECT * FROM tbl_requests";
 $stmtReq2 = mysqli_prepare($conn, $queryReq2);
 mysqli_stmt_execute($stmtReq2);
 $resultReq2 = mysqli_stmt_get_result($stmtReq2);
 
-$queryEvents = "SELECT * FROM tbl_requests";
+$queryEvents = "SELECT * FROM tbl_requests WHERE (currentOffice = 'Approved' or currentOffice ='Declined') AND reqEventDate > NOW()";
 $stmtEvents = mysqli_prepare($conn, $queryEvents);
 mysqli_stmt_execute($stmtEvents);
 $resultEvents = mysqli_stmt_get_result($stmtEvents);
@@ -160,7 +161,13 @@ include 'HTML/oso.html'
                                     style="max-width:100%; height:115px; margin-left:20px">
                                     <div class="card-header"><strong>Welcome!</strong></div>
                                     <div class="card-body">
-                                        <p class="card-text">Good day</p>
+                                        <?php
+                                        if (isset($_SESSION['userName'])) {
+                                            $userName = $_SESSION['userName'];
+                                            echo '<p class="card-text">Good day <b>', $userName, '!</b> Welcome to Event Tracking System of Group 7 BSIT BA-3101</p>';
+                                        }
+                                        ?>
+
                                     </div>
                                 </div>
                                 <div class="db-container" style=" margin-left:20px">
@@ -400,7 +407,12 @@ include 'HTML/oso.html'
         var data = google.visualization.arrayToDataTable(<?php echo json_encode($chartData); ?>);
 
         var options = {
-            title: 'Event Approval Overview'
+            title: 'Event Approval Overview',
+            width: '80%', // Set the width to 80% of the parent container
+            height: '400', // Adjust the height as needed
+            legend: {
+                position: 'right' // Place the legend at the bottom
+            }
         };
 
         var chart = new google.visualization.PieChart(document.getElementById('piechart'));
@@ -433,7 +445,7 @@ include 'HTML/oso.html'
     new DataTable('#AllEvents');
     new DataTable('#orgTable');
 
-    $(document).ready(function() {
+    $(document).ready(function () {
 
         var globalOptions = {
             "lengthMenu": [
