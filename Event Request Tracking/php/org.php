@@ -22,8 +22,7 @@ include 'config.php';
 $userID = $_SESSION['userID'];
 $orgID = $_SESSION['userID'];
 
-
-$query = "SELECT * FROM tbl_requests WHERE userID = ? and currentOffice !='Chancellor'";
+$query = "SELECT * FROM tbl_requests WHERE userID = ? AND (currentOffice != 'Approved' AND currentOffice != 'Declined')";
 $stmt = mysqli_prepare($conn, $query);
 mysqli_stmt_bind_param($stmt, "s", $userID);
 mysqli_stmt_execute($stmt);
@@ -166,18 +165,11 @@ require 'HTML/org.html'
                                         </thead>
                                         <tbody>
                                             <?php
-                                            include 'config.php';
-                                            $query = "SELECT r.reqID, r.reqEventName, r.reqEventDate, r.reqDeadline, a.userName
-                                            FROM tbl_requests r
-                                            JOIN tbl_account a ON r.currentOffice = a.userID
-                                            ORDER BY r.reqID DESC LIMIT 6";
-                                            $result = mysqli_query($conn, $query);
-
                                             while ($row = mysqli_fetch_assoc($result)) {
                                                 echo "<tr>";
                                                 echo "<td>{$row['reqID']}</td>";
                                                 echo "<td>{$row['reqEventName']}</td>";
-                                                echo "<td>{$row['userName']}</td>";  // Display the userName instead of currentOffice
+                                                echo "<td>{$row['currentOffice']}</td>";  // Display the userName instead of currentOffice
                                                 echo "</tr>";
                                             }
                                             ?>

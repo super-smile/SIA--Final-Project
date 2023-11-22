@@ -101,9 +101,9 @@ $userImgBase64 = base64_encode($userImg);
                     </div>
                     <div class="subtitle">
                         <?php
-                        if (isset($_SESSION['userName'])) {
-                            $userName = $_SESSION['userName'];
-                            echo "<span class = welcom >Welcome Back,</span><br><p><b> $userName!</b></p>";
+                        if (isset($_SESSION['designation'])) {
+                            $designation = $_SESSION['designation'];
+                            echo "<span class = welcom >Welcome Back,</span><br><p><b> $designation!</b></p>";
                         }
                         ?>
                     </div>
