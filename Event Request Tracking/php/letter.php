@@ -44,9 +44,7 @@
             </div>
 
             <div class="subcontainer">
-                <p class="attachment-file">
-                    <a id="fileLink" href="#" target="_blank">No file selected</a>
-                </p>
+
             </div>
 
             <p class="text1">Select a file from the computer or drag and drop here.</p>

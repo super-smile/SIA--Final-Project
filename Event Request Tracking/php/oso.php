@@ -62,7 +62,7 @@ mysqli_stmt_fetch($stmtImg);
 $userImgBase64 = base64_encode($userImg);
 
 include 'HTML/oso.html'
-    ?>
+?>
 
 <body>
     <div class="header d-flex justify-content-between align-items-center">
@@ -157,8 +157,7 @@ include 'HTML/oso.html'
                         <h2 class="form-title">Dashboard</h2>
                         <div class="row">
                             <div class="col-md-7" style="padding:10px;">
-                                <div class="card text-bg-white mb-3 shadow-sm"
-                                    style="max-width:100%; height:115px; margin-left:20px">
+                                <div class="card text-bg-white mb-3 shadow-sm" style="max-width:100%; height:115px; margin-left:20px">
                                     <div class="card-header"><strong>Welcome!</strong></div>
                                     <div class="card-body">
                                         <?php
@@ -366,13 +365,49 @@ include 'HTML/oso.html'
                                         echo "</td>";
 
                                         echo "<td>";
-                                        echo "<form action='edit_account' method='post'>"; // <-- Corrected action attribute
-                                        echo "<input type='hidden' name='userID' value='{$row['userID']}'>";
-                                        echo "<button type='submit' class='edit-button'>Edit</button>";
-                                        echo "</form>";
+                                        echo "<button class='edit-button' data-user-id='{$row['userID']}'>Edit</button>"; // Add data attribute to store user ID
                                         echo "</td>";
                                     }
                                     ?>
+
+                                    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+                                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                                    <script>
+                                        // Add event listener to all elements with class 'edit-button'
+                                        var editButtons = document.querySelectorAll('.edit-button');
+                                        editButtons.forEach(button => {
+                                            button.addEventListener('click', function(event) {
+                                                event.preventDefault();
+
+                                                var userID = this.getAttribute('data-user-id'); // Get user ID from data attribute
+
+                                                // Fetch the content of edit_account.php
+                                                fetch('edit_account.php', {
+                                                        method: 'POST',
+                                                        headers: {
+                                                            'Content-Type': 'application/x-www-form-urlencoded'
+                                                        },
+                                                        body: 'userID=' + userID // Send the user ID in the request body
+                                                    })
+                                                    .then(response => response.text())
+                                                    .then(data => {
+                                                        // Display the fetched content as a SweetAlert modal
+                                                        Swal.fire({
+                                                            html: data,
+                                                            showConfirmButton: false
+                                                        });
+                                                    })
+                                                    .catch(error => {
+                                                        console.error('Error fetching edit_account.php:', error);
+                                                        Swal.fire({
+                                                            icon: 'error',
+                                                            title: 'Oops...',
+                                                            text: 'Failed to fetch account details!'
+                                                        });
+                                                    });
+                                            });
+                                        });
+                                    </script>
                                 </tbody>
 
                             </table>
@@ -445,7 +480,7 @@ include 'HTML/oso.html'
     new DataTable('#AllEvents');
     new DataTable('#orgTable');
 
-    $(document).ready(function () {
+    $(document).ready(function() {
 
         var globalOptions = {
             "lengthMenu": [
@@ -499,7 +534,7 @@ include 'HTML/oso.html'
     var form5 = document.getElementById("form5");
     var form6 = document.getElementById("form6");
 
-    button1.addEventListener("click", function () {
+    button1.addEventListener("click", function() {
         form1.style.display = "block";
         form2.style.display = "none";
         form3.style.display = "none";
@@ -508,7 +543,7 @@ include 'HTML/oso.html'
         form6.style.display = "none"
     });
 
-    button2.addEventListener("click", function () {
+    button2.addEventListener("click", function() {
         form1.style.display = "none";
         form2.style.display = "block";
         form3.style.display = "none";
@@ -517,7 +552,7 @@ include 'HTML/oso.html'
         form6.style.display = "none";
     });
 
-    button3.addEventListener("click", function () {
+    button3.addEventListener("click", function() {
         form1.style.display = "none";
         form2.style.display = "none";
         form3.style.display = "block";
@@ -526,7 +561,7 @@ include 'HTML/oso.html'
         form6.style.display = "none";
     });
 
-    button4.addEventListener("click", function () {
+    button4.addEventListener("click", function() {
         form1.style.display = "none";
         form2.style.display = "none";
         form3.style.display = "none";
@@ -535,7 +570,7 @@ include 'HTML/oso.html'
         form6.style.display = "none";
     });
 
-    button5.addEventListener("click", function () {
+    button5.addEventListener("click", function() {
         form1.style.display = "none";
         form2.style.display = "none";
         form3.style.display = "none";
@@ -544,7 +579,7 @@ include 'HTML/oso.html'
         form6.style.display = "none";
     });
 
-    button6.addEventListener("click", function () {
+    button6.addEventListener("click", function() {
         form1.style.display = "none";
         form2.style.display = "none";
         form3.style.display = "none";

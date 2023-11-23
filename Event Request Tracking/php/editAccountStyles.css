@@ -1,21 +1,17 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 
 * {
-	padding: 0;
-	margin: 0;
 	font-family: Poppins, sans-serif;
 	box-sizing: border-box;
 }
 
 body {
-	display: flex;
 	justify-content: center;
 	align-items: center;
-	width: 100vw;
-	padding-top: 50px;
 }
 
 .title {
+	color: #000;
 	position: absolute;
 	left: 34px;
 	top: 32px;
@@ -49,10 +45,12 @@ body {
 }
 
 .default-orgName label {
+	color: #000;
+	font-family: Poppins, sans-serif;
 	position: absolute;
 	left: 34px;
 	top: 100px;
-	font-size: 19.03px;
+	font-size: 17px;
 	font-weight: 400;
 	line-height: 18.86px;
 	word-wrap: break-word;
@@ -70,10 +68,11 @@ body {
 }
 
 .default-dept label {
+	color: #000;
 	position: absolute;
 	left: 34px;
 	top: 150px;
-	font-size: 19.03px;
+	font-size: 17px;
 	font-weight: 400;
 	line-height: 18.86px;
 	word-wrap: break-word;
@@ -91,10 +90,11 @@ body {
 }
 
 .default-email label {
+	color: #000;
 	position: absolute;
 	left: 34px;
 	top: 200px;
-	font-size: 19.03px;
+	font-size: 17px;
 	font-weight: 400;
 	line-height: 18.86px;
 	word-wrap: break-word;
@@ -112,10 +112,11 @@ body {
 }
 
 .input-pass label {
+	color: #000;
 	position: absolute;
 	left: 34px;
 	top: 250px;
-	font-size: 19.03px;
+	font-size: 17px;
 	font-weight: 400;
 	line-height: 18.86px;
 	word-wrap: break-word;
@@ -133,10 +134,11 @@ body {
 }
 
 .input-retypePass label {
+	color: #000;
 	position: absolute;
 	left: 34px;
 	top: 300px;
-	font-size: 19.03px;
+	font-size: 17px;
 	font-weight: 400;
 	line-height: 18.86px;
 	word-wrap: break-word;
