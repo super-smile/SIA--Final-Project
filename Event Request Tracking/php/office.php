@@ -46,6 +46,16 @@ mysqli_stmt_bind_param($stmt, "s", $userID);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 
+$userID = $_SESSION['designation'];
+$queryC = "SELECT tr.*, ta.userName 
+          FROM tbl_requests tr
+          LEFT JOIN tbl_account ta ON tr.userID = ta.userID
+          WHERE tr.currentOffice = ?";
+$stmtC = mysqli_prepare($conn, $queryC);
+mysqli_stmt_bind_param($stmtC, "s", $userID);
+mysqli_stmt_execute($stmtC);
+$resultC = mysqli_stmt_get_result($stmtC);
+
 
 
 
@@ -146,10 +156,10 @@ $userImgBase64 = base64_encode($userImg);
 
             <div class="content" style="flex: 1; padding: 20px;">
 
-                <div id="form1" style="display: block;">
-                <h2 class="form-title">Dashboard</h2>
+            <div id="form1" style="display: block;">
+                        <h2 class="form-title">Dashboard</h2>
                         <div class="row">
-                            <div class="col-md-8" style="padding:10px;">
+                            <div class="col-md-7" style="padding:10px;">
                                 <div class="card text-bg-white mb-3 shadow-sm"
                                     style="max-width:100%; height:115px; margin-left:20px">
                                     <div class="card-header"><strong>Welcome!</strong></div>
@@ -163,53 +173,38 @@ $userImgBase64 = base64_encode($userImg);
 
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    <div class="row">
-                        <div class="col-md-8 mb-4">
-                            <div class="card" style="margin-left: 20px; margin-top: 11px">
-                                <div class="card-body">
-                                    <form id="formReq">
-                                        <h2>Requests</h2>
-                                        <table class="bordered stripe" id="dataTable" style="width:100%">
-                                            <thead>
-                                                <tr>
-                                                    <th>Event Name</th>
-                                                    <th>Letter</th>
-                                                    <th>Event Date</th>
-                                                    <th>Request Sender</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php
-                                                while ($rowArch = mysqli_fetch_assoc($result)) {
-                                                    echo "<tr>";
-                                                    echo "<td>{$rowArch['reqEventName']}</td>";
-                                                    echo "<td><a href='view_pdf.php?reqID={$rowArch['reqID']}' target='_blank' class='btn btn-glass btn-complement'>View Letter</a></td>";
-                                                    echo "<td>{$rowArch['reqEventDate']}</td>";
-                                                    echo "<td>{$rowArch['userName']}</td>";
-                                                    echo "<td>
-                                                        <form method='post'>
-                                                            <input type='hidden' name='reqID' value='{$rowArch['reqID']}'>
-                                                            <input type='hidden' name='userID' value='{$rowArch['userID']}'>  
-                                                        </form>
-                                                    </td>";
-                                                    echo "</tr>";
-                                                }
-                                                ?>
-                                            </tbody>
-                                        </table>
-                                    </form>
+                                <div class="db-container shadow-sm" style=" margin-left:20px">
+                                    <div class="db card-header"><strong>Dashboard</strong></div>
+                                    <table id="" class="table table-striped" style="width:100%; ">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">Event Name</th>
+                                                <th class="text-center">Event Date</th>
+                                                <th class="text-center">Organization</th>
+                                                <th class="text-center">Current Office</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="text-center">
+                                            <?php
+                                            include 'config.php';
+                                            while ($rowReq = mysqli_fetch_assoc($result)) {
+                                                echo "<tr>";
+                                                echo "<td>{$rowReq['reqEventName']}</td>";
+                                                echo "<td>{$rowReq['reqEventDate']}</td>";
+                                                echo "<td>{$rowReq['userID']}</td>";
+                                                echo "<td>{$rowReq['currentOffice']}</td>";
+                                                echo "</tr>";
+                                            }
+                                            ?>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="card mb-4" style="margin-top: 11px">
-                                <div class="card-body">
-                                    <form id="formorganizations">
-                                        <h2>Number of Requests</h2>
-                                        <?php
+                            <div class="col-md-5" style="padding:10px">
+                                <div class="card text-bg-white mb-3 shadow-sm" style="max-width: 100%; height:115px">
+                                    <div class="card-header"><strong>Number of Requests</strong></div>
+                                    <div class="card-body">
+                                    <?php
                                         include 'config.php';
                                         $orgQuery = "SELECT COUNT(req.reqID) AS NumberofRequests
                                             FROM tbl_requests AS req
@@ -221,20 +216,20 @@ $userImgBase64 = base64_encode($userImg);
                                             echo '<td>' . $rowOrg['NumberofRequests'] . '</td>';
                                         }
                                         ?>
-                                    </form>
+                                    </div>
+                                    
                                 </div>
-                            </div>
-
-                            <div class="card">
-                                <div class="card-body">
-                                    <form id="formoverview">
-                                        <h2>Overview</h2>
-                                    </form>
+                                <div class="pieChart card text-bg-white mb-3 shadow-sm">
+                                    <div class="card-header"><strong>Overview</strong></div>
+                                    <div class="card-body">
+                                        <div class="overview" style="height:411px">
+                                            <div id="piechart" style="width: 100%;"></div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
                 <div id="form2" style="display: none;">
                     <h2 class="form-title">Organizations</h2>
@@ -295,17 +290,17 @@ $userImgBase64 = base64_encode($userImg);
                             </thead>
                             <tbody>
                                 <?php
-                                while ($rowArch = mysqli_fetch_assoc($result)) {
+                                while ($rowC = mysqli_fetch_assoc($resultC)) {
                                     echo "<tr>";
-                                    echo "<td>{$rowArch['reqID']}</td>";
-                                    echo "<td>{$rowArch['reqEventName']}</td>";
-                                    echo "<td><a href='view_pdf.php?reqID={$rowArch['reqID']}' target='_blank' class='btn btn-glass btn-complement'>View Letter</a></td>";
-                                    echo "<td>{$rowArch['reqEventDate']}</td>";
-                                    echo "<td>{$rowArch['userName']}</td>";
+                                    echo "<td>{$rowC['reqID']}</td>";
+                                    echo "<td>{$rowC['reqEventName']}</td>";
+                                    echo "<td><a href='view_pdf.php?reqID={$rowC['reqID']}' target='_blank' class='btn btn-glass btn-complement'>View Letter</a></td>";
+                                    echo "<td>{$rowC['reqEventDate']}</td>";
+                                    echo "<td>{$rowC['userName']}</td>";
                                     echo "<td>
                                         <form method='post'>
-                                            <input type='hidden' name='reqID' value='{$rowArch['reqID']}'>
-                                            <input type='hidden' name='userID' value='{$rowArch['userID']}'>
+                                            <input type='hidden' name='reqID' value='{$rowC['reqID']}'>
+                                            <input type='hidden' name='userID' value='{$rowC['userID']}'>
                                             <button type='submit' name='approve' class='action-button approve-button'>Approve</button>
                                             <button type='submit' name='decline' class='action-button decline-button'>Decline</button>        
                                         </form>
@@ -319,7 +314,7 @@ $userImgBase64 = base64_encode($userImg);
                 </div>
 
                 <?php
- 
+
                 function approveRequest($conn, $reqID, $orgID)
                 {
                     // Get the current userID
@@ -386,7 +381,7 @@ $userImgBase64 = base64_encode($userImg);
                     });
                 </script>
 
-            
+
 
                 <div id="form4" style="display: none;">
                     <h2 class="form-title">Archive</h2>
@@ -525,7 +520,7 @@ $userImgBase64 = base64_encode($userImg);
                                 link.addEventListener('click', handleLinkClick);
                             });
 
-                            $(document).ready(function() {
+                            $(document).ready(function () {
                                 $('#dataTable').DataTable();
                                 $('#dataTableArchive').DataTable();
                                 $('#orgTable').DataTable();
@@ -550,7 +545,7 @@ $userImgBase64 = base64_encode($userImg);
                             var form4 = document.getElementById("form4");
                             var form5 = document.getElementById("form5");
 
-                            button1.addEventListener("click", function() {
+                            button1.addEventListener("click", function () {
                                 form1.style.display = "block";
                                 form2.style.display = "none";
                                 form3.style.display = "none";
@@ -558,7 +553,7 @@ $userImgBase64 = base64_encode($userImg);
                                 form5.style.display = "none";
                             });
 
-                            button2.addEventListener("click", function() {
+                            button2.addEventListener("click", function () {
                                 form1.style.display = "none";
                                 form2.style.display = "block";
                                 form3.style.display = "none";
@@ -566,7 +561,7 @@ $userImgBase64 = base64_encode($userImg);
                                 form5.style.display = "none";
                             });
 
-                            button3.addEventListener("click", function() {
+                            button3.addEventListener("click", function () {
                                 form1.style.display = "none";
                                 form2.style.display = "none";
                                 form3.style.display = "block";
@@ -574,14 +569,14 @@ $userImgBase64 = base64_encode($userImg);
                                 form5.style.display = "none";
                             });
 
-                            button4.addEventListener("click", function() {
+                            button4.addEventListener("click", function () {
                                 form1.style.display = "none";
                                 form2.style.display = "none";
                                 form3.style.display = "none";
                                 form4.style.display = "block";
                                 form5.style.display = "none";
                             });
-                            button5.addEventListener("click", function() {
+                            button5.addEventListener("click", function () {
                                 form1.style.display = "none";
                                 form2.style.display = "none";
                                 form3.style.display = "none";
