@@ -40,7 +40,8 @@ $userID = $_SESSION['designation'];
 $query = "SELECT tr.*, ta.userName 
           FROM tbl_requests tr
           LEFT JOIN tbl_account ta ON tr.userID = ta.userID
-          WHERE tr.currentOffice = ?";
+          WHERE tr.currentOffice = ?
+          ORDER BY tr.reqID DESC";
 $stmt = mysqli_prepare($conn, $query);
 mysqli_stmt_bind_param($stmt, "s", $userID);
 mysqli_stmt_execute($stmt);
@@ -181,7 +182,6 @@ $userImgBase64 = base64_encode($userImg);
                                                 <th class="text-center">Event Name</th>
                                                 <th class="text-center">Event Date</th>
                                                 <th class="text-center">Organization</th>
-                                                <th class="text-center">Current Office</th>
                                             </tr>
                                         </thead>
                                         <tbody class="text-center">
@@ -192,7 +192,6 @@ $userImgBase64 = base64_encode($userImg);
                                                 echo "<td>{$rowReq['reqEventName']}</td>";
                                                 echo "<td>{$rowReq['reqEventDate']}</td>";
                                                 echo "<td>{$rowReq['userID']}</td>";
-                                                echo "<td>{$rowReq['currentOffice']}</td>";
                                                 echo "</tr>";
                                             }
                                             ?>
