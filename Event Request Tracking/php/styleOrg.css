@@ -120,6 +120,18 @@ ul.nav {
 li.nav-item:last-child {
     margin-top: auto; /* Push the last item to the bottom */
 }
+#Req2, #Arch {
+	margin: auto;
+	width: 50%; /* You can adjust the width as needed */
+}
+
+#Req2, #Arch tbody {
+	text-align: center;
+}
+
+#Req2, #Arch tr {
+	vertical-align: middle;
+}
 .active-link {
 	color: #a21a1e !important;
 	background-color: white;

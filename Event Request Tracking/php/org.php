@@ -66,12 +66,8 @@ require 'HTML/org.html'
         </div>
         <div class="notification-icon position-relative" style="margin-right: 20px">
             <div class="notification-bell">
-                <i class="fas fa-bell" style="color: #fff; font-size: 17px;"></i>
+                <i class="fas fa-user" style="color: #fff; font-size: 17px;"></i>
             </div>
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                <span class="notif">4</span>
-                <span class="visually-hidden">unread messages</span>
-            </span>
         </div>
     </div>
     <?php
@@ -86,25 +82,23 @@ require 'HTML/org.html'
     <script>
         <?php if ($userType == 'organization') { ?>
             document.getElementById('uploadLetter').addEventListener('click', function (event) {
-                event.preventDefault(); // Prevent default behavior of link
+                event.preventDefault();
 
                 fetch('letter.php')
                     .then(response => {
                         return response.text();
                     })
                     .then(data => {
-                        // Display content in SweetAlert modal with custom styling
                         Swal.fire({
                             html: data,
                             showConfirmButton: false,
                             customClass: {
-                                container: 'custom-swal-modal' // Add your custom class here
+                                container: 'custom-swal-modal'
                             }
                         });
                     })
                     .catch(error => {
                         console.error('Error fetching letter.php:', error);
-                        // Show an error message if fetch fails
                         Swal.fire({
                             icon: 'error',
                             title: 'Oops...',
@@ -114,7 +108,6 @@ require 'HTML/org.html'
             });
         <?php } ?>
     </script>
-
 
     <div class="container-fluid">
         <div class="row">
@@ -174,7 +167,6 @@ require 'HTML/org.html'
                     </ul>
                 </div>
             </div>
-
 
             <div class="content container-fluid" style="flex: 1; padding: 20px;">
                 <div id="form1" style="display: block;">
@@ -364,7 +356,9 @@ require 'HTML/org.html'
                                 while ($rowReq = mysqli_fetch_assoc($resultReq)) {
                                     echo "<tr>";
                                     echo "<td>{$rowReq['reqID']}</td>";
-                                    echo "<td><a href='#myModal' data-bs-toggle='modal' data-bs-target='#myModal' data-event-name='{$rowReq['reqEventName']}' onclick='openModal({$rowReq['reqID']})'>{$rowReq['reqEventName']}</a></td>";
+                                    $style = '';
+                                    $style = "font-weight: bold; text-decoration: none;";
+                                    echo "<td><a style='$style' href='#myModal' data-bs-toggle='modal' data-bs-target='#myModal' data-event-name='{$rowReq['reqEventName']}' onclick='openModal({$rowReq['reqID']})'>{$rowReq['reqEventName']}</a></td>";
                                     echo "<td><a href='view_pdf.php?reqID={$rowReq['reqID']}' target='_blank' class='btn btn-complement'>View Letter</a></td>";
                                     echo "<td>{$rowReq['reqEventDate']}</td>";
                                     echo "<td>{$rowReq['reqDeadline']}</td>";
@@ -455,19 +449,17 @@ require 'HTML/org.html'
 
                                     $style = '';
                                     if ($rowArch['currentOffice'] == 'Approved') {
-                                        $style = "display: inline-block; width: 70%; text-align: center; border-color: green; color: green; padding: 5px; border: 2px solid; border-radius: 5px; font-weight: bold; margin: 5px;";
+                                        $style = "color: green;";
                                     } elseif ($rowArch['currentOffice'] == 'Declined') {
-                                        $style = "display: inline-block; width: 70%; text-align: center; border-color: red; color: red; padding: 5px; border: 2px solid; border-radius: 5px; font-weight: bold; margin: 5px;";
+                                        $style = "color: red;";
                                     } else {
                                         $style = "text-align: center;"; // Center-align for other cases
                                     }
 
                                     echo "<td style='$style'>{$rowArch['currentOffice']}</td>";
-
                                     echo "</tr>";
                                 }
                                 ?>
-                                F
                             </tbody>
                         </table>
                     </div>

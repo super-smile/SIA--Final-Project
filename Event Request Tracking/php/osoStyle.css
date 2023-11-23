@@ -33,12 +33,12 @@ body {
   flex-direction: column;
 }
 ul.nav {
-  flex-grow: 1; /* This will make the list take up remaining space */
-  margin-bottom: 0; /* Remove default margin to prevent unwanted space at the bottom */
+  flex-grow: 1; 
+  margin-bottom: 0; 
 }
 
 li.nav-item:last-child {
-  margin-top: auto; /* Push the last item to the bottom */
+  margin-top: auto;
 }
 .header {
   align-items: center;
@@ -153,6 +153,18 @@ li.nav-item:last-child {
   overflow-y: hidden;
 }
 
+#Requests {
+  margin: auto;
+  width: 50%;
+}
+
+#Requests tbody {
+  text-align: center;
+}
+
+#Requests tr {
+  vertical-align: middle;
+}
 .active-link {
   color: white !important;
   background-color: #a21a1e;
@@ -209,17 +221,12 @@ li.nav-item:last-child {
 }
 
 .btn-complement {
-  background-color: #add8e6; /* Light blue complementing red and white */
+  background-color: #add8e6;
   border: 1px solid #add8e6;
-  color: #333; /* Dark text */
+  color: #333;
 }
 
 .btn-complement:hover {
-  background-color: rgba(
-    173,
-    216,
-    230,
-    0.3
-  ); /* Light blue with transparency on hover */
-  color: #000; /* Black text on hover */
+  background-color: rgba(173, 216, 230, 0.3);
+  color: #000;
 }

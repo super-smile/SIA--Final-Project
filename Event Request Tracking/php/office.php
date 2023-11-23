@@ -89,6 +89,20 @@ $userImgBase64 = base64_encode($userImg);
             <div class="notification-bell">
                 <i class="fas fa-bell" style="color: white; font-size: 17px;"></i>
             </div>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                <?php
+                include 'config.php';
+                $orgQuery = "SELECT COUNT(req.reqID) AS NumberofRequests
+                FROM tbl_requests AS req
+                WHERE currentOffice = '$userID'";
+
+                $orgResult = mysqli_query($conn, $orgQuery);
+
+                while ($rowOrg = mysqli_fetch_assoc($orgResult)) {
+                    echo '<span class="notif">' . $rowOrg['NumberofRequests'] . '</span>';
+                }
+                ?>
+            </span>
         </div>
     </div>
 
@@ -157,78 +171,78 @@ $userImgBase64 = base64_encode($userImg);
 
             <div class="content" style="flex: 1; padding: 20px;">
 
-            <div id="form1" style="display: block;">
-                        <h2 class="form-title">Dashboard</h2>
-                        <div class="row">
-                            <div class="col-md-7" style="padding:10px;">
-                                <div class="card text-bg-white mb-3 shadow-sm"
-                                    style="max-width:100%; height:115px; margin-left:20px">
-                                    <div class="card-header"><strong>Welcome!</strong></div>
-                                    <div class="card-body">
-                                        <?php
-                                        if (isset($_SESSION['userName'])) {
-                                            $userName = $_SESSION['userName'];
-                                            echo '<p class="card-text">Good day <b>', $userName, '!</b> Welcome to Event Tracking System of Group 7 BSIT BA-3101</p>';
-                                        }
-                                        ?>
+                <div id="form1" style="display: block;">
+                    <h2 class="form-title">Dashboard</h2>
+                    <div class="row">
+                        <div class="col-md-7" style="padding:10px;">
+                            <div class="card text-bg-white mb-3 shadow-sm"
+                                style="max-width:100%; height:115px; margin-left:20px">
+                                <div class="card-header"><strong>Welcome!</strong></div>
+                                <div class="card-body">
+                                    <?php
+                                    if (isset($_SESSION['userName'])) {
+                                        $userName = $_SESSION['userName'];
+                                        echo '<p class="card-text">Good day <b>', $userName, '!</b> Welcome to Event Tracking System of Group 7 BSIT BA-3101</p>';
+                                    }
+                                    ?>
 
-                                    </div>
-                                </div>
-                                <div class="db-container shadow-sm" style=" margin-left:20px">
-                                    <div class="db card-header"><strong>Dashboard</strong></div>
-                                    <table id="" class="table table-striped" style="width:100%; ">
-                                        <thead>
-                                            <tr>
-                                                <th class="text-center">Event Name</th>
-                                                <th class="text-center">Event Date</th>
-                                                <th class="text-center">Organization</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="text-center">
-                                            <?php
-                                            include 'config.php';
-                                            while ($rowReq = mysqli_fetch_assoc($result)) {
-                                                echo "<tr>";
-                                                echo "<td>{$rowReq['reqEventName']}</td>";
-                                                echo "<td>{$rowReq['reqEventDate']}</td>";
-                                                echo "<td>{$rowReq['userID']}</td>";
-                                                echo "</tr>";
-                                            }
-                                            ?>
-                                        </tbody>
-                                    </table>
                                 </div>
                             </div>
-                            <div class="col-md-5" style="padding:10px">
-                                <div class="card text-bg-white mb-3 shadow-sm" style="max-width: 100%; height:115px">
-                                    <div class="card-header"><strong>Number of Requests</strong></div>
-                                    <div class="card-body">
-                                    <?php
+                            <div class="db-container shadow-sm" style=" margin-left:20px">
+                                <div class="db card-header"><strong>Dashboard</strong></div>
+                                <table id="" class="table table-striped" style="width:100%; ">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">Event Name</th>
+                                            <th class="text-center">Event Date</th>
+                                            <th class="text-center">Organization</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="text-center">
+                                        <?php
                                         include 'config.php';
-                                        $orgQuery = "SELECT COUNT(req.reqID) AS NumberofRequests
+                                        while ($rowReq = mysqli_fetch_assoc($result)) {
+                                            echo "<tr>";
+                                            echo "<td>{$rowReq['reqEventName']}</td>";
+                                            echo "<td>{$rowReq['reqEventDate']}</td>";
+                                            echo "<td>{$rowReq['userID']}</td>";
+                                            echo "</tr>";
+                                        }
+                                        ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-5" style="padding:10px">
+                            <div class="card text-bg-white mb-3 shadow-sm" style="max-width: 100%; height:115px">
+                                <div class="card-header"><strong>Number of Requests</strong></div>
+                                <div class="card-body">
+                                    <?php
+                                    include 'config.php';
+                                    $orgQuery = "SELECT COUNT(req.reqID) AS NumberofRequests
                                             FROM tbl_requests AS req
                                             WHERE currentOffice = '$userID'";
 
-                                        $orgResult = mysqli_query($conn, $orgQuery);
+                                    $orgResult = mysqli_query($conn, $orgQuery);
 
-                                        while ($rowOrg = mysqli_fetch_assoc($orgResult)) {
-                                            echo '<td>' . $rowOrg['NumberofRequests'] . '</td>';
-                                        }
-                                        ?>
-                                    </div>
-                                    
+                                    while ($rowOrg = mysqli_fetch_assoc($orgResult)) {
+                                        echo '<td><ab>' . $rowOrg['NumberofRequests'] . '</ab></td>';
+                                    }
+                                    ?>
                                 </div>
-                                <div class="pieChart card text-bg-white mb-3 shadow-sm">
-                                    <div class="card-header"><strong>Overview</strong></div>
-                                    <div class="card-body">
-                                        <div class="overview" style="height:411px">
-                                            <div id="piechart" style="width: 100%;"></div>
-                                        </div>
+
+                            </div>
+                            <div class="pieChart card text-bg-white mb-3 shadow-sm">
+                                <div class="card-header"><strong>Overview</strong></div>
+                                <div class="card-body">
+                                    <div class="overview" style="height:400px">
+                                        <div id="piechart" style="width: 100%;"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
 
                 <div id="form2" style="display: none;">
                     <h2 class="form-title">Organizations</h2>
@@ -404,7 +418,8 @@ $userImgBase64 = base64_encode($userImg);
                                 FROM tbl_reqhistory rh
                                 JOIN tbl_requests r ON rh.reqID = r.reqID
                                 JOIN tbl_account ac ON rh.orgID = ac.userID
-                                WHERE rh.officeID = ? AND (rh.reqStatus = 'Approved' OR rh.reqStatus = 'Declined')";
+                                WHERE rh.officeID = ? AND (rh.reqStatus = 'Approved' OR rh.reqStatus = 'Declined')
+                                ORDER BY reqID DESC ";
                                 $stmtArch = mysqli_prepare($conn, $queryArch);
                                 mysqli_stmt_bind_param($stmtArch, "s", $officeID);
                                 mysqli_stmt_execute($stmtArch);

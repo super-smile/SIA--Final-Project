@@ -58,11 +58,10 @@ mysqli_stmt_execute($stmtImg);
 mysqli_stmt_bind_result($stmtImg, $userImg);
 mysqli_stmt_fetch($stmtImg);
 
-// Convert the binary image data to base64
 $userImgBase64 = base64_encode($userImg);
 
 include 'HTML/oso.html'
-?>
+    ?>
 
 <body>
     <div class="header d-flex justify-content-between align-items-center">
@@ -75,12 +74,8 @@ include 'HTML/oso.html'
         </div>
         <div class="notification-icon position-relative" style="margin-right: 20px">
             <div class="notification-bell">
-                <i class="fas fa-bell" style="color: #a21a1e; font-size: 17px;"></i>
+            <i class="fas fa-user" style="color: #a21a1e; font-size: 17px;"></i>
             </div>
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                <span class="notif">4</span>
-                <span class="visually-hidden">unread messages</span>
-            </span>
         </div>
     </div>
     <div class="container-fluid">
@@ -157,7 +152,8 @@ include 'HTML/oso.html'
                         <h2 class="form-title">Dashboard</h2>
                         <div class="row">
                             <div class="col-md-7" style="padding:10px;">
-                                <div class="card text-bg-white mb-3 shadow-sm" style="max-width:100%; height:115px; margin-left:20px">
+                                <div class="card text-bg-white mb-3 shadow-sm"
+                                    style="max-width:100%; height:115px; margin-left:20px">
                                     <div class="card-header"><strong>Welcome!</strong></div>
                                     <div class="card-body">
                                         <?php
@@ -235,12 +231,11 @@ include 'HTML/oso.html'
                         <div class="tbl-container">
                             <?php
                             include 'config.php';
-
                             $orgQuery = "SELECT acc.userName, acc.userDept, COUNT(req.reqID) AS numActivities
-                        FROM tbl_account AS acc
-                        LEFT JOIN tbl_requests AS req ON acc.userID = req.userID
-                        WHERE acc.userType = 'organization'
-                        GROUP BY acc.userID";
+                            FROM tbl_account AS acc
+                            LEFT JOIN tbl_requests AS req ON acc.userID = req.userID
+                            WHERE acc.userType = 'organization'
+                            GROUP BY acc.userID";
 
                             $orgResult = mysqli_query($conn, $orgQuery);
                             ?>
@@ -248,7 +243,7 @@ include 'HTML/oso.html'
                                 <thead>
                                     <tr>
                                         <th class="text-center">Organization Name</th>
-                                        <th class="text-center">Department Name/th>
+                                        <th class="text-center">Department Name</th>
                                         <th class="text-center">Number of Requests</th>
                                     </tr>
                                 </thead>
@@ -261,17 +256,16 @@ include 'HTML/oso.html'
                                         echo '<td>' . $rowOrg['numActivities'] . '</td>';
                                         echo '</tr>';
                                     }
-                                    echo '</tbody>';
-                                    echo '</table>';
                                     ?>
-
+                                </tbody>
+                            </table>
                         </div>
                     </div>
 
                     <div id="form3" style="display: none;">
                         <h2 class="form-title">Requests</h2>
                         <div class="tbl-container">
-                            <table id="example" class="table table-striped" style="width:100%">
+                            <table id="Requests" class="table table-striped" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th class="text-center">Request ID</th>
@@ -370,28 +364,27 @@ include 'HTML/oso.html'
                                     }
                                     ?>
 
-                                    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+                                    <link rel="stylesheet"
+                                        href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
                                     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
                                     <script>
-                                        // Add event listener to all elements with class 'edit-button'
                                         var editButtons = document.querySelectorAll('.edit-button');
                                         editButtons.forEach(button => {
-                                            button.addEventListener('click', function(event) {
+                                            button.addEventListener('click', function (event) {
                                                 event.preventDefault();
 
-                                                var userID = this.getAttribute('data-user-id'); // Get user ID from data attribute
+                                                var userID = this.getAttribute('data-user-id');
 
-                                                // Fetch the content of edit_account.php
                                                 fetch('edit_account.php', {
-                                                        method: 'POST',
-                                                        headers: {
-                                                            'Content-Type': 'application/x-www-form-urlencoded'
-                                                        },
-                                                        body: 'userID=' + userID // Send the user ID in the request body
-                                                    })
+                                                    method: 'POST',
+                                                    headers: {
+                                                        'Content-Type': 'application/x-www-form-urlencoded'
+                                                    },
+                                                    body: 'userID=' + userID
+                                                })
                                                     .then(response => response.text())
                                                     .then(data => {
-                                                        // Display the fetched content as a SweetAlert modal
+
                                                         Swal.fire({
                                                             html: data,
                                                             showConfirmButton: false
@@ -443,10 +436,10 @@ include 'HTML/oso.html'
 
         var options = {
             title: 'Event Approval Overview',
-            width: '80%', // Set the width to 80% of the parent container
-            height: '400', // Adjust the height as needed
+            width: '80%',
+            height: '400',
             legend: {
-                position: 'right' // Place the legend at the bottom
+                position: 'right'
             }
         };
 
@@ -480,7 +473,7 @@ include 'HTML/oso.html'
     new DataTable('#AllEvents');
     new DataTable('#orgTable');
 
-    $(document).ready(function() {
+    $(document).ready(function () {
 
         var globalOptions = {
             "lengthMenu": [
@@ -490,25 +483,25 @@ include 'HTML/oso.html'
 
         };
 
-        // Initialize DataTable for #example
+        
         if ($.fn.dataTable.isDataTable('#example')) {
             $('#example').DataTable().destroy();
         }
         $('#example').DataTable(globalOptions);
 
-        // Initialize DataTable for #Account
+        
         if ($.fn.dataTable.isDataTable('#Account')) {
             $('#Account').DataTable().destroy();
         }
         $('#Account').DataTable(globalOptions);
 
-        // Initialize DataTable for #Requests
+        
         if ($.fn.dataTable.isDataTable('#Requests')) {
             $('#Requests').DataTable().destroy();
         }
         $('#Requests').DataTable(globalOptions);
 
-        // Initialize DataTable for #AllEvents
+        
         if ($.fn.dataTable.isDataTable('#AllEvents')) {
             $('#AllEvents').DataTable().destroy();
         }
@@ -534,7 +527,7 @@ include 'HTML/oso.html'
     var form5 = document.getElementById("form5");
     var form6 = document.getElementById("form6");
 
-    button1.addEventListener("click", function() {
+    button1.addEventListener("click", function () {
         form1.style.display = "block";
         form2.style.display = "none";
         form3.style.display = "none";
@@ -543,7 +536,7 @@ include 'HTML/oso.html'
         form6.style.display = "none"
     });
 
-    button2.addEventListener("click", function() {
+    button2.addEventListener("click", function () {
         form1.style.display = "none";
         form2.style.display = "block";
         form3.style.display = "none";
@@ -552,7 +545,7 @@ include 'HTML/oso.html'
         form6.style.display = "none";
     });
 
-    button3.addEventListener("click", function() {
+    button3.addEventListener("click", function () {
         form1.style.display = "none";
         form2.style.display = "none";
         form3.style.display = "block";
@@ -561,7 +554,7 @@ include 'HTML/oso.html'
         form6.style.display = "none";
     });
 
-    button4.addEventListener("click", function() {
+    button4.addEventListener("click", function () {
         form1.style.display = "none";
         form2.style.display = "none";
         form3.style.display = "none";
@@ -570,7 +563,7 @@ include 'HTML/oso.html'
         form6.style.display = "none";
     });
 
-    button5.addEventListener("click", function() {
+    button5.addEventListener("click", function () {
         form1.style.display = "none";
         form2.style.display = "none";
         form3.style.display = "none";
@@ -579,7 +572,7 @@ include 'HTML/oso.html'
         form6.style.display = "none";
     });
 
-    button6.addEventListener("click", function() {
+    button6.addEventListener("click", function () {
         form1.style.display = "none";
         form2.style.display = "none";
         form3.style.display = "none";
