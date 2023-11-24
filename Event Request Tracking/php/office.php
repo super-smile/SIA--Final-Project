@@ -529,8 +529,10 @@ $userImgBase64 = base64_encode($userImg);
     function drawChart() {
         <?php
         include('config.php');
+        $officeID = $_SESSION['officeAccID'];
 
-        $queryPie = "SELECT reqStatus, COUNT(reqStatus) as count FROM tbl_reqhistory GROUP BY reqStatus";
+
+        $queryPie = "SELECT reqStatus, COUNT(reqStatus) as count FROM tbl_reqhistory WHERE officeID = '$officeID' GROUP BY reqStatus";
         $resultPie = mysqli_query($conn, $queryPie);
 
         $chartData = [['Status', 'Count']];
