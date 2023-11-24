@@ -175,8 +175,7 @@ $userImgBase64 = base64_encode($userImg);
                     <h2 class="form-title">Dashboard</h2>
                     <div class="row">
                         <div class="col-md-7" style="padding:10px;">
-                            <div class="card text-bg-white mb-3 shadow-sm"
-                                style="max-width:100%; height:115px; margin-left:20px">
+                            <div class="card text-bg-white mb-3 shadow-sm" style="max-width:100%; height:115px; margin-left:20px">
                                 <div class="card-header"><strong>Welcome!</strong></div>
                                 <div class="card-body">
                                     <?php
@@ -282,7 +281,7 @@ $userImgBase64 = base64_encode($userImg);
                 </div>
 
                 <script>
-                    $(document).ready(function () {
+                    $(document).ready(function() {
                         $('#orgTable').DataTable();
                     });
                 </script>
@@ -389,7 +388,7 @@ $userImgBase64 = base64_encode($userImg);
                 ?>
 
                 <script>
-                    $(document).ready(function () {
+                    $(document).ready(function() {
                         $('#dataTable').DataTable();
                     });
                 </script>
@@ -443,7 +442,7 @@ $userImgBase64 = base64_encode($userImg);
                     </div>
                 </div>
                 <script>
-                    $(document).ready(function () {
+                    $(document).ready(function() {
                         $('#dataTableArchive').DataTable();
                     });
                 </script>
@@ -520,6 +519,40 @@ $userImgBase64 = base64_encode($userImg);
                                 <span class="sub-email">Email: studentorganization.lipa@g.batstate-u.edu.ph</span>
                             </div>
                         </div>
+                        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    google.charts.load('current', {
+        'packages': ['corechart']
+    });
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        <?php
+        include('config.php');
+
+        $queryPie = "SELECT reqStatus, COUNT(reqStatus) as count FROM tbl_reqhistory GROUP BY reqStatus";
+        $resultPie = mysqli_query($conn, $queryPie);
+
+        $chartData = [['Status', 'Count']];
+        while ($rowPie = mysqli_fetch_assoc($resultPie)) {
+            $chartData[] = [$rowPie['reqStatus'], (int) $rowPie['count']];
+        }
+        ?>
+        var data = google.visualization.arrayToDataTable(<?php echo json_encode($chartData); ?>);
+
+        var options = {
+            title: 'Event Approval Overview',
+            width: '80%',
+            height: '400',
+            legend: {
+                position: 'right'
+            }
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        chart.draw(data, options);
+    }
+</script>
 
                         <script>
                             const navLinks = document.querySelectorAll('.nav-link');
@@ -534,7 +567,7 @@ $userImgBase64 = base64_encode($userImg);
                                 link.addEventListener('click', handleLinkClick);
                             });
 
-                            $(document).ready(function () {
+                            $(document).ready(function() {
                                 $('#dataTable').DataTable();
                                 $('#dataTableArchive').DataTable();
                                 $('#orgTable').DataTable();
@@ -559,7 +592,7 @@ $userImgBase64 = base64_encode($userImg);
                             var form4 = document.getElementById("form4");
                             var form5 = document.getElementById("form5");
 
-                            button1.addEventListener("click", function () {
+                            button1.addEventListener("click", function() {
                                 form1.style.display = "block";
                                 form2.style.display = "none";
                                 form3.style.display = "none";
@@ -567,7 +600,7 @@ $userImgBase64 = base64_encode($userImg);
                                 form5.style.display = "none";
                             });
 
-                            button2.addEventListener("click", function () {
+                            button2.addEventListener("click", function() {
                                 form1.style.display = "none";
                                 form2.style.display = "block";
                                 form3.style.display = "none";
@@ -575,7 +608,7 @@ $userImgBase64 = base64_encode($userImg);
                                 form5.style.display = "none";
                             });
 
-                            button3.addEventListener("click", function () {
+                            button3.addEventListener("click", function() {
                                 form1.style.display = "none";
                                 form2.style.display = "none";
                                 form3.style.display = "block";
@@ -583,14 +616,14 @@ $userImgBase64 = base64_encode($userImg);
                                 form5.style.display = "none";
                             });
 
-                            button4.addEventListener("click", function () {
+                            button4.addEventListener("click", function() {
                                 form1.style.display = "none";
                                 form2.style.display = "none";
                                 form3.style.display = "none";
                                 form4.style.display = "block";
                                 form5.style.display = "none";
                             });
-                            button5.addEventListener("click", function () {
+                            button5.addEventListener("click", function() {
                                 form1.style.display = "none";
                                 form2.style.display = "none";
                                 form3.style.display = "none";
