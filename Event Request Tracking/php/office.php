@@ -179,9 +179,9 @@ $userImgBase64 = base64_encode($userImg);
                                 <div class="card-header"><strong>Welcome!</strong></div>
                                 <div class="card-body">
                                     <?php
-                                    if (isset($_SESSION['userName'])) {
-                                        $userName = $_SESSION['userName'];
-                                        echo '<p class="card-text">Good day <b>', $userName, '!</b> Welcome to Event Tracking System of Group 7 BSIT BA-3101</p>';
+                                    if (isset($_SESSION['designation'])) {
+                                        $designation = $_SESSION['designation'];
+                                        echo '<p class="card-text">Good day <b>', $designation, '!</b> Welcome to Event Tracking System of Group 7 BSIT BA-3101</p>';
                                     }
                                     ?>
 
