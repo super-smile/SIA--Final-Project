@@ -516,7 +516,7 @@ $userImgBase64 = base64_encode($userImg);
                                 <p class="sub-title">If you find that the provided information is incorrect, please
                                     reach out to the Office of Student
                                     Organization for assistance.</p>
-                                <span class="sub-email">Email: studentorganization.lipa@g.batstate-u.edu.ph</span>
+                                <span class="sub-email">Email: ict.lipa@g.batstate-u.edu.ph</span>
                             </div>
                         </div>
                         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>

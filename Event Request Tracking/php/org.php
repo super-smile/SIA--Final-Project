@@ -532,7 +532,7 @@ require 'HTML/org.html'
                             <p class="sub-title">If you find that the provided information is incorrect, please
                                 reach out to the
                                 Lipa Office for assistance.</p>
-                            <span class="sub-email">Email: ict.lipa@g.batstate-u.edu.ph</span>
+                            <span class="sub-email">Email: oso.lipa@g.batstate-u.edu.ph</span>
                         </div>
                     </div>
                 </div>
