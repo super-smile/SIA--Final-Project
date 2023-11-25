@@ -78,7 +78,7 @@
             </script>
 
 
-            <input type="submit" value="Cancel" class="cancel-button">
+            <input type="button" value="Cancel" class="cancel-button" onclick="window.location.href='org.php'">
             <input type="submit" value="Submit" class="submit-button">
 
             <script>
