@@ -19,6 +19,20 @@
 
         <form id="upload-letter" method="POST" action="upload.php" enctype="multipart/form-data">
 
+            <div class="input-event-name">
+                <label for="eventName">Event Name:</label>
+                <input type="text" name="eventName" id="eventName" required />
+            </div>
+
+            <div class="input-event-date">
+                <label for="eventDate">Event Date:</label>
+                <div style="font-size: 0.6em; margin-top: -6.5em; color: red;">Note: Schedule your event date one week from today for timely administrator approval.</div>
+                <?php
+                    $minDate = date('Y-m-d', strtotime('+1 week')); // Allow dates starting from tomorrow
+                ?>
+                <input type="date" name="eventDate" id="eventDate" required min="<?php echo $minDate; ?>"/>
+            </div>
+
             <p class="title">Upload Letter</p>
             <p class="subtitle">Please complete the event information.</p>
 
@@ -32,16 +46,6 @@
                     <i class='bx bx-home'></i>
                 </div>
             </a>
-
-            <div class="input-event-name">
-                <label for="eventName">Event Name:</label>
-                <input type="text" name="eventName" id="eventName" required />
-            </div>
-
-            <div class="input-event-date">
-                <label for="eventDate">Event Date:</label>
-                <input type="date" name="eventDate" id="eventDate" required />
-            </div>
 
             <div class="subcontainer">
 
@@ -73,10 +77,6 @@
                     }
                 });
             </script>
-
-            <script src="script.js">
-            </script>
-
 
             <input type="button" value="Cancel" class="cancel-button" onclick="window.location.href='org.php'">
             <input type="submit" value="Submit" class="submit-button">
@@ -113,10 +113,7 @@
 
         </form>
     </div>
-
-    <script src="script.js">
-    </script>
-
+    
 </body>
 
 </html>
