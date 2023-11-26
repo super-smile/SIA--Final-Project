@@ -204,7 +204,7 @@ $userImgBase64 = base64_encode($userImg);
                                             echo "<tr>";
                                             echo "<td>{$rowReq['reqEventName']}</td>";
                                             echo "<td>{$rowReq['reqEventDate']}</td>";
-                                            echo "<td>{$rowReq['userID']}</td>";
+                                            echo "<td>{$rowReq['userName']}</td>";
                                             echo "</tr>";
                                         }
                                         ?>
