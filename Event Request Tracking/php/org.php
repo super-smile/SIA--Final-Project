@@ -52,7 +52,7 @@ $userImgBase64 = base64_encode($userImg);
 
 require 'HTML/org.html'
 
-    ?>
+?>
 
 <body>
 
@@ -81,7 +81,7 @@ require 'HTML/org.html'
 
     <script>
         <?php if ($userType == 'organization') { ?>
-            document.getElementById('uploadLetter').addEventListener('click', function (event) {
+            document.getElementById('uploadLetter').addEventListener('click', function(event) {
                 event.preventDefault();
 
                 fetch('letter.php')
@@ -92,9 +92,7 @@ require 'HTML/org.html'
                         Swal.fire({
                             html: data,
                             showConfirmButton: false,
-                            customClass: {
-                                container: 'custom-swal-modal'
-                            }
+
                         });
                     })
                     .catch(error => {
@@ -173,8 +171,7 @@ require 'HTML/org.html'
                     <h2 class="form-title">Dashboard</h2>
                     <div class="row">
                         <div class="col-md-8" style="padding:10px;">
-                            <div class="card text-bg-white mb-5 shadow-sm"
-                                style="max-width:100%; height:115px; margin-left: 20px">
+                            <div class="card text-bg-white mb-5 shadow-sm" style="max-width:100%; height:115px; margin-left: 20px">
                                 <div class="card-header"><strong>Welcome!</strong></div>
                                 <div class="card-body">
                                     <?php
@@ -372,8 +369,10 @@ require 'HTML/org.html'
                                         $.ajax({
                                             url: 'get_reqhistory.php', // Create a new PHP file to handle this request
                                             type: 'POST',
-                                            data: { reqID: reqID },
-                                            success: function (data) {
+                                            data: {
+                                                reqID: reqID
+                                            },
+                                            success: function(data) {
                                                 // Update the modal content with the data received from the server
                                                 $('#myModal .modal-body').html(data);
                                             }
@@ -385,14 +384,12 @@ require 'HTML/org.html'
                     </div>
                 </div>
 
-                <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true">
+                <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalLabel">Event Details</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
 
@@ -410,12 +407,12 @@ require 'HTML/org.html'
 
                 <script>
                     // Add JavaScript to dynamically update the modal content when a link is clicked
-                    document.addEventListener('DOMContentLoaded', function () {
+                    document.addEventListener('DOMContentLoaded', function() {
                         const eventLinks = document.querySelectorAll('[data-bs-toggle="modal"]');
                         const eventDetails = document.getElementById('event-details');
 
-                        eventLinks.forEach(function (link) {
-                            link.addEventListener('click', function () {
+                        eventLinks.forEach(function(link) {
+                            link.addEventListener('click', function() {
                                 const eventName = link.getAttribute('data-event-name');
                                 eventDetails.textContent = `Event Name: ${eventName}`;
                             });
@@ -563,7 +560,7 @@ require 'HTML/org.html'
     new DataTable('#Arch');
     new DataTable('#ReqTable');
 
-    $(document).ready(function () {
+    $(document).ready(function() {
         var globalOptions = {
             "lengthMenu": [
                 [5, 10, 25, 50, -1],
@@ -609,28 +606,28 @@ require 'HTML/org.html'
     var form3 = document.getElementById("form3");
     var form4 = document.getElementById("form4");
 
-    button1.addEventListener("click", function () {
+    button1.addEventListener("click", function() {
         form1.style.display = "block";
         form2.style.display = "none";
         form3.style.display = "none";
         form4.style.display = "none";
     });
 
-    button2.addEventListener("click", function () {
+    button2.addEventListener("click", function() {
         form1.style.display = "none";
         form2.style.display = "block";
         form3.style.display = "none";
         form4.style.display = "none";
     });
 
-    button3.addEventListener("click", function () {
+    button3.addEventListener("click", function() {
         form1.style.display = "none";
         form2.style.display = "none";
         form3.style.display = "block";
         form4.style.display = "none";
     });
 
-    button4.addEventListener("click", function () {
+    button4.addEventListener("click", function() {
         form1.style.display = "none";
         form2.style.display = "none";
         form3.style.display = "none";
@@ -647,7 +644,7 @@ require 'HTML/org.html'
 
     var activeButton = null;
 
-    showForm1Button.addEventListener('click', function () {
+    showForm1Button.addEventListener('click', function() {
         if (activeButton !== showForm1Button) {
             if (activeButton) {
                 activeButton.classList.remove('clicked');
@@ -657,7 +654,7 @@ require 'HTML/org.html'
         }
     });
 
-    showForm2Button.addEventListener('click', function () {
+    showForm2Button.addEventListener('click', function() {
         if (activeButton !== showForm2Button) {
             if (activeButton) {
                 activeButton.classList.remove('clicked');
@@ -667,7 +664,7 @@ require 'HTML/org.html'
         }
     });
 
-    showForm3Button.addEventListener('click', function () {
+    showForm3Button.addEventListener('click', function() {
         if (activeButton !== showForm3Button) {
             if (activeButton) {
                 activeButton.classList.remove('clicked');
@@ -677,7 +674,7 @@ require 'HTML/org.html'
         }
     });
 
-    showForm4Button.addEventListener('click', function () {
+    showForm4Button.addEventListener('click', function() {
         if (activeButton !== showForm4Button) {
             if (activeButton) {
                 activeButton.classList.remove('clicked');
