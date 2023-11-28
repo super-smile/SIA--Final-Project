@@ -301,7 +301,7 @@ $userImgBase64 = base64_encode($userImg);
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php
+                            <?php
                                 while ($rowC = mysqli_fetch_assoc($resultC)) {
                                     echo "<tr>";
                                     echo "<td>{$rowC['reqID']}</td>";
@@ -313,13 +313,14 @@ $userImgBase64 = base64_encode($userImg);
                                         <form method='post'>
                                             <input type='hidden' name='reqID' value='{$rowC['reqID']}'>
                                             <input type='hidden' name='userID' value='{$rowC['userID']}'>
-                                            <button type='submit' name='approve' class='action-button approve-button'>Approve</button>
-                                            <button type='submit' name='decline' class='action-button decline-button'>Decline</button>        
+                                            <button type='submit' name='approve' class='action-button approve-button' onclick='return confirm(\"Are you sure you want to approve?\")'>Approve</button>
+                                            <button type='submit' name='decline' class='action-button decline-button' onclick='return confirm(\"Are you sure you want to decline?\")'>Decline</button>
                                         </form>
                                     </td>";
                                     echo "</tr>";
                                 }
                                 ?>
+
                             </tbody>
                         </table>
                     </div>
