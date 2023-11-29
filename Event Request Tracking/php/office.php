@@ -1,22 +1,25 @@
 <?php
 session_start();
 include 'config.php';
+
 if (isset($_SESSION['designation'])) {
     $designation = $_SESSION['designation'];
+    $officeAccID = $_SESSION['officeAccID'];
 
     $query = "SELECT o.designation, o.employeeID, o.officeEmail, o.officeImg, e.department 
               FROM tbl_office o
               JOIN tbempinfo e ON o.employeeID = e.empid
-              WHERE o.designation = ?";
+              WHERE o.designation = ?
+              AND o.officeAccID = '$officeAccID'";
 
     $stmt = mysqli_prepare($conn, $query);
     mysqli_stmt_bind_param($stmt, "s", $designation);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_bind_result($stmt, $officeDesig, $CuserDept, $CuserEmail, $employeeID, $department);
-
     if (mysqli_stmt_fetch($stmt)) {
         $CuserDept = $department;
     } else {
+        // Handle the case where no results are found if necessary
     }
 } else {
     header('location: login.php');
@@ -40,22 +43,36 @@ $userID = $_SESSION['designation'];
 $query = "SELECT tr.*, ta.userName 
           FROM tbl_requests tr
           LEFT JOIN tbl_account ta ON tr.userID = ta.userID
-          WHERE tr.currentOffice = ?
+          WHERE tr.currentOffice = ? AND ta.userDept = ?
           ORDER BY tr.reqID DESC";
 $stmt = mysqli_prepare($conn, $query);
-mysqli_stmt_bind_param($stmt, "s", $userID);
+mysqli_stmt_bind_param($stmt, "ss", $userID, $CuserDept);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 
 $userID = $_SESSION['designation'];
-$queryC = "SELECT tr.*, ta.userName 
-          FROM tbl_requests tr
-          LEFT JOIN tbl_account ta ON tr.userID = ta.userID
-          WHERE tr.currentOffice = ?";
-$stmtC = mysqli_prepare($conn, $queryC);
-mysqli_stmt_bind_param($stmtC, "s", $userID);
-mysqli_stmt_execute($stmtC);
-$resultC = mysqli_stmt_get_result($stmtC);
+
+if ($userID == "OVCAA" or $userID == "Chancellor") {
+    $queryC = "SELECT tr.*, ta.userName 
+               FROM tbl_requests tr
+               LEFT JOIN tbl_account ta ON tr.userID = ta.userID
+               WHERE tr.currentOffice = ?";
+    $stmtC = mysqli_prepare($conn, $queryC);
+    mysqli_stmt_bind_param($stmtC, "s", $userID);
+    mysqli_stmt_execute($stmtC);
+    $resultC = mysqli_stmt_get_result($stmtC);
+} else {
+
+    $queryC = "SELECT tr.*, ta.userName 
+               FROM tbl_requests tr
+               LEFT JOIN tbl_account ta ON tr.userID = ta.userID
+               WHERE tr.currentOffice = ? AND ta.userDept = ?";
+    $stmtC = mysqli_prepare($conn, $queryC);
+    mysqli_stmt_bind_param($stmtC, "ss", $userID, $CuserDept);
+    mysqli_stmt_execute($stmtC);
+    $resultC = mysqli_stmt_get_result($stmtC);
+}
+
 
 
 
@@ -175,7 +192,8 @@ $userImgBase64 = base64_encode($userImg);
                     <h2 class="form-title">Dashboard</h2>
                     <div class="row">
                         <div class="col-md-7" style="padding:10px;">
-                            <div class="card text-bg-white mb-3 shadow-sm" style="max-width:100%; height:115px; margin-left:20px">
+                            <div class="card text-bg-white mb-3 shadow-sm"
+                                style="max-width:100%; height:115px; margin-left:20px">
                                 <div class="card-header"><strong>Welcome!</strong></div>
                                 <div class="card-body">
                                     <?php
@@ -281,7 +299,7 @@ $userImgBase64 = base64_encode($userImg);
                 </div>
 
                 <script>
-                    $(document).ready(function() {
+                    $(document).ready(function () {
                         $('#orgTable').DataTable();
                     });
                 </script>
@@ -292,16 +310,16 @@ $userImgBase64 = base64_encode($userImg);
                         <table class="bordered stripe" id="dataTable" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>Request ID</th>
-                                    <th>Event Name</th>
-                                    <th>Letter</th>
-                                    <th>Event Date</th>
-                                    <th>Request Sender</th>
-                                    <th>Action</th>
+                                    <th class="text-center">Request ID</th>
+                                    <th class="text-center">Event Name</th>
+                                    <th class="text-center">Letter</th>
+                                    <th class="text-center">Event Date</th>
+                                    <th class="text-center">Request Sender</th>
+                                    <th class="text-center">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            <?php
+                                <?php
                                 while ($rowC = mysqli_fetch_assoc($resultC)) {
                                     echo "<tr>";
                                     echo "<td>{$rowC['reqID']}</td>";
@@ -389,7 +407,7 @@ $userImgBase64 = base64_encode($userImg);
                 ?>
 
                 <script>
-                    $(document).ready(function() {
+                    $(document).ready(function () {
                         $('#dataTable').DataTable();
                     });
                 </script>
@@ -443,7 +461,7 @@ $userImgBase64 = base64_encode($userImg);
                     </div>
                 </div>
                 <script>
-                    $(document).ready(function() {
+                    $(document).ready(function () {
                         $('#dataTableArchive').DataTable();
                     });
                 </script>
@@ -521,41 +539,41 @@ $userImgBase64 = base64_encode($userImg);
                             </div>
                         </div>
                         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<script type="text/javascript">
-    google.charts.load('current', {
-        'packages': ['corechart']
-    });
-    google.charts.setOnLoadCallback(drawChart);
+                        <script type="text/javascript">
+                            google.charts.load('current', {
+                                'packages': ['corechart']
+                            });
+                            google.charts.setOnLoadCallback(drawChart);
 
-    function drawChart() {
-        <?php
-        include('config.php');
-        $officeID = $_SESSION['officeAccID'];
+                            function drawChart() {
+                                <?php
+                                include('config.php');
+                                $officeID = $_SESSION['officeAccID'];
 
 
-        $queryPie = "SELECT reqStatus, COUNT(reqStatus) as count FROM tbl_reqhistory WHERE officeID = '$officeID' GROUP BY reqStatus";
-        $resultPie = mysqli_query($conn, $queryPie);
+                                $queryPie = "SELECT reqStatus, COUNT(reqStatus) as count FROM tbl_reqhistory WHERE officeID = '$officeID' GROUP BY reqStatus";
+                                $resultPie = mysqli_query($conn, $queryPie);
 
-        $chartData = [['Status', 'Count']];
-        while ($rowPie = mysqli_fetch_assoc($resultPie)) {
-            $chartData[] = [$rowPie['reqStatus'], (int) $rowPie['count']];
-        }
-        ?>
-        var data = google.visualization.arrayToDataTable(<?php echo json_encode($chartData); ?>);
+                                $chartData = [['Status', 'Count']];
+                                while ($rowPie = mysqli_fetch_assoc($resultPie)) {
+                                    $chartData[] = [$rowPie['reqStatus'], (int) $rowPie['count']];
+                                }
+                                ?>
+                                var data = google.visualization.arrayToDataTable(<?php echo json_encode($chartData); ?>);
 
-        var options = {
-            title: 'Event Approval Overview',
-            width: '80%',
-            height: '400',
-            legend: {
-                position: 'right'
-            }
-        };
+                                var options = {
+                                    title: 'Event Approval Overview',
+                                    width: '80%',
+                                    height: '400',
+                                    legend: {
+                                        position: 'right'
+                                    }
+                                };
 
-        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-        chart.draw(data, options);
-    }
-</script>
+                                var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+                                chart.draw(data, options);
+                            }
+                        </script>
 
                         <script>
                             const navLinks = document.querySelectorAll('.nav-link');
@@ -570,7 +588,7 @@ $userImgBase64 = base64_encode($userImg);
                                 link.addEventListener('click', handleLinkClick);
                             });
 
-                            $(document).ready(function() {
+                            $(document).ready(function () {
                                 $('#dataTable').DataTable();
                                 $('#dataTableArchive').DataTable();
                                 $('#orgTable').DataTable();
@@ -595,7 +613,7 @@ $userImgBase64 = base64_encode($userImg);
                             var form4 = document.getElementById("form4");
                             var form5 = document.getElementById("form5");
 
-                            button1.addEventListener("click", function() {
+                            button1.addEventListener("click", function () {
                                 form1.style.display = "block";
                                 form2.style.display = "none";
                                 form3.style.display = "none";
@@ -603,7 +621,7 @@ $userImgBase64 = base64_encode($userImg);
                                 form5.style.display = "none";
                             });
 
-                            button2.addEventListener("click", function() {
+                            button2.addEventListener("click", function () {
                                 form1.style.display = "none";
                                 form2.style.display = "block";
                                 form3.style.display = "none";
@@ -611,7 +629,7 @@ $userImgBase64 = base64_encode($userImg);
                                 form5.style.display = "none";
                             });
 
-                            button3.addEventListener("click", function() {
+                            button3.addEventListener("click", function () {
                                 form1.style.display = "none";
                                 form2.style.display = "none";
                                 form3.style.display = "block";
@@ -619,14 +637,14 @@ $userImgBase64 = base64_encode($userImg);
                                 form5.style.display = "none";
                             });
 
-                            button4.addEventListener("click", function() {
+                            button4.addEventListener("click", function () {
                                 form1.style.display = "none";
                                 form2.style.display = "none";
                                 form3.style.display = "none";
                                 form4.style.display = "block";
                                 form5.style.display = "none";
                             });
-                            button5.addEventListener("click", function() {
+                            button5.addEventListener("click", function () {
                                 form1.style.display = "none";
                                 form2.style.display = "none";
                                 form3.style.display = "none";
