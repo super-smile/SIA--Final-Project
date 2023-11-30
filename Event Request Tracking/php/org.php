@@ -194,7 +194,7 @@ require 'HTML/org.html'
                                     }
                                     ?>
                                 </div>
-                                <div class="db-container shadow-sm p-3" style="margin-top: 50px;">
+                                <div class="db-container shadow-sm p-3" style="margin-top: 25px; max-height: 350px; y-overflow: hidden">
                                     <div class="db" style="margin-bottom: 10px;"><strong>Dashboard</strong></div>
                                     <table class="table table-striped" style="width:100%; ">
                                         <thead>
@@ -253,7 +253,7 @@ require 'HTML/org.html'
                             </script>
 
 
-                            <div class="card text-bg-white mb-3 shadow-sm" style="max-width: 100%; height: auto; margin-top:33px">
+                            <div class="card text-bg-white mb-3 shadow-sm" style="max-width: 100%; height: auto; margin-top:30px">
                                 <div class="card-header">
 
                                     <button onclick="prevMonth()" class="no-border">&#10094;</button>
