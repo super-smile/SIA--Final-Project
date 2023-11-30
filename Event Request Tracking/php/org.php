@@ -199,7 +199,6 @@ require 'HTML/org.html'
                                     <table class="table table-striped" style="width:100%; ">
                                         <thead>
                                             <tr>
-                                                <th>Request ID</th>
                                                 <th>Event Name</th>
                                                 <th>Current Office</th>
                                             </tr>
@@ -209,7 +208,6 @@ require 'HTML/org.html'
                                             $counter = 0;  
                                             while ($row = mysqli_fetch_assoc($result)) {
                                                 echo "<tr>";
-                                                echo "<td>{$row['reqID']}</td>";
                                                 echo "<td>{$row['reqEventName']}</td>";
                                                 echo "<td>{$row['currentOffice']}</td>";
                                                 echo "</tr>";
