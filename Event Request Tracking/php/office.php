@@ -270,7 +270,7 @@ $userImgBase64 = base64_encode($userImg);
                         $orgQuery = "SELECT acc.userName, acc.userDept, COUNT(req.reqID) AS numActivities
                         FROM tbl_account AS acc
                         LEFT JOIN tbl_requests AS req ON acc.userID = req.userID
-                        WHERE acc.userType = 'organization'
+                        WHERE acc.userType = 'organization' 
                         GROUP BY acc.userID";
 
                         $orgResult = mysqli_query($conn, $orgQuery);

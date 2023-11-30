@@ -22,11 +22,24 @@ include 'config.php';
 $userID = $_SESSION['userID'];
 $orgID = $_SESSION['userID'];
 
-$query = "SELECT * FROM tbl_requests WHERE userID = ? AND (currentOffice != 'Approved' AND currentOffice != 'Declined')";
+$query = "SELECT * FROM tbl_requests 
+          WHERE userID = ? 
+          AND (currentOffice != 'Approved' AND currentOffice != 'Declined') 
+          ORDER BY reqID DESC";
 $stmt = mysqli_prepare($conn, $query);
+
+if (!$stmt) {
+    die('Error in preparing statement: ' . mysqli_error($conn));
+}
+
 mysqli_stmt_bind_param($stmt, "s", $userID);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
+
+if (!$result) {
+    die('Error in getting result: ' . mysqli_error($conn));
+}
+
 
 $queryReq = "SELECT * FROM tbl_requests WHERE userID = ? AND (currentOffice != 'Approved' AND currentOffice != 'Declined')";
 $stmtReq = mysqli_prepare($conn, $queryReq);
@@ -181,8 +194,8 @@ require 'HTML/org.html'
                                     }
                                     ?>
                                 </div>
-                                <div class="db-container shadow-sm p-3">
-                                    <div class="db" style="margin-bottom: 10px"><strong>Dashboard</strong></div>
+                                <div class="db-container shadow-sm p-3" style="margin-top: 50px;">
+                                    <div class="db" style="margin-bottom: 10px;"><strong>Dashboard</strong></div>
                                     <table class="table table-striped" style="width:100%; ">
                                         <thead>
                                             <tr>
@@ -193,14 +206,21 @@ require 'HTML/org.html'
                                         </thead>
                                         <tbody>
                                             <?php
+                                            $counter = 0;  
                                             while ($row = mysqli_fetch_assoc($result)) {
                                                 echo "<tr>";
                                                 echo "<td>{$row['reqID']}</td>";
                                                 echo "<td>{$row['reqEventName']}</td>";
-                                                echo "<td>{$row['currentOffice']}</td>";  // Display the userName instead of currentOffice
+                                                echo "<td>{$row['currentOffice']}</td>";
                                                 echo "</tr>";
+
+                                                $counter++;
+                                                if ($counter >= 6) {
+                                                    break;   
+                                                }
                                             }
                                             ?>
+                                        </tbody>
 
                                         </tbody>
                                     </table>
@@ -233,7 +253,7 @@ require 'HTML/org.html'
                             </script>
 
 
-                            <div class="card text-bg-white mb-3 shadow-sm" style="max-width: 100%; height: auto;">
+                            <div class="card text-bg-white mb-3 shadow-sm" style="max-width: 100%; height: auto; margin-top:33px">
                                 <div class="card-header">
 
                                     <button onclick="prevMonth()" class="no-border">&#10094;</button>
