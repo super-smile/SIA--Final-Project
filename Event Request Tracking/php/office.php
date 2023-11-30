@@ -494,7 +494,16 @@ $userImgBase64 = base64_encode($userImg);
                                     echo "<td>{$rowArch['statusDate']}</td>";
                                     echo "<td>{$rowArch['organization']}</td>";
                                     echo "<td>{$rowArch['reqEventName']}</td>";
-                                    echo "<td>{$rowArch['reqStatus']}</td>";
+                                    $style = '';
+                                    if ($rowArch['reqStatus'] == 'Approved') {
+                                        $style = "color: green;";
+                                    } elseif ($rowArch['reqStatus'] == 'Declined') {
+                                        $style = "color: red;";
+                                    } else {
+                                        $style = "text-align: center;"; // Center-align for other cases
+                                    }
+
+                                    echo "<td style='$style'>{$rowArch['reqStatus']}</td>";
                                     echo "<td><a href='view_pdf.php?reqID={$rowArch['reqID']}' target='_blank' class='btn btn-glass btn-complement'>View Letter</a></td>";
                                     echo "</tr>";
                                 }
