@@ -192,8 +192,7 @@ $userImgBase64 = base64_encode($userImg);
                     <h2 class="form-title">Dashboard</h2>
                     <div class="row">
                         <div class="col-md-7" style="padding:10px;">
-                            <div class="card text-bg-white mb-3 shadow-sm"
-                                style="max-width:100%; height:115px; margin-left:20px">
+                            <div class="card text-bg-white mb-3 shadow-sm" style="max-width:100%; height:115px; margin-left:20px">
                                 <div class="card-header"><strong>Welcome!</strong></div>
                                 <div class="card-body">
                                     <?php
@@ -270,7 +269,7 @@ $userImgBase64 = base64_encode($userImg);
                         $orgQuery = "SELECT acc.userName, acc.userDept, COUNT(req.reqID) AS numActivities
                         FROM tbl_account AS acc
                         LEFT JOIN tbl_requests AS req ON acc.userID = req.userID
-                        WHERE acc.userType = 'organization' 
+                        WHERE acc.userType = 'organization'AND acc.userDept ='$CuserDept'
                         GROUP BY acc.userID";
 
                         $orgResult = mysqli_query($conn, $orgQuery);
@@ -294,17 +293,15 @@ $userImgBase64 = base64_encode($userImg);
                         echo '</tbody>';
                         echo '</table>';
                         ?>
-
                     </div>
                 </div>
-
                 <script>
-                    $(document).ready(function () {
+                    $(document).ready(function() {
                         $('#orgTable').DataTable();
                     });
                 </script>
 
-<div id="form3" style="display: none;">
+                <div id="form3" style="display: none;">
                     <h2 class="form-title">Requests</h2>
                     <div class="tbl-container">
                         <table class="bordered stripe" id="dataTable" style="width:100%">
@@ -312,13 +309,13 @@ $userImgBase64 = base64_encode($userImg);
                                 <tr>
                                     <th>Event Date</th>
                                     <th>Event Name</th>
-                                    <th>Letter</th> 
+                                    <th>Letter</th>
                                     <th>Organization</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            <?php
+                                <?php
                                 while ($rowReq2 = mysqli_fetch_assoc($resultC)) {
                                     echo "<tr>";
                                     echo "<td>{$rowReq2['reqEventDate']}</td>";
@@ -378,22 +375,22 @@ $userImgBase64 = base64_encode($userImg);
                 </div>
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-<script>
-    // Add JavaScript to dynamically update the modal content when a link is clicked
-    document.addEventListener('DOMContentLoaded', function() {
-        const eventLinks = document.querySelectorAll('[data-bs-toggle="modal"]');
-        const eventDetails = document.getElementById('event-details');
+                <script>
+                    // Add JavaScript to dynamically update the modal content when a link is clicked
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const eventLinks = document.querySelectorAll('[data-bs-toggle="modal"]');
+                        const eventDetails = document.getElementById('event-details');
 
-        eventLinks.forEach(function(link) {
-            link.addEventListener('click', function() {
-                const eventName = link.getAttribute('data-event-name');
-                eventDetails.textContent = `Event Name: ${eventName}`;
-            });
-        });
-    });
-</script>
+                        eventLinks.forEach(function(link) {
+                            link.addEventListener('click', function() {
+                                const eventName = link.getAttribute('data-event-name');
+                                eventDetails.textContent = `Event Name: ${eventName}`;
+                            });
+                        });
+                    });
+                </script>
                 <?php
-            
+
                 function approveRequest($conn, $reqID, $orgID)
                 {
                     // Get the current userID
@@ -488,7 +485,7 @@ $userImgBase64 = base64_encode($userImg);
                                 mysqli_stmt_bind_param($stmtArch, "s", $officeID);
                                 mysqli_stmt_execute($stmtArch);
                                 $resultArch = mysqli_stmt_get_result($stmtArch);
-                                
+
                                 while ($rowArch = mysqli_fetch_assoc($resultArch)) {
                                     echo "<tr>";
                                     echo "<td>{$rowArch['statusDate']}</td>";
@@ -643,7 +640,7 @@ $userImgBase64 = base64_encode($userImg);
                                 link.addEventListener('click', handleLinkClick);
                             });
 
-                            $(document).ready(function () {
+                            $(document).ready(function() {
                                 $('#dataTable').DataTable();
                                 $('#dataTableArchive').DataTable();
                                 $('#orgTable').DataTable();
@@ -668,7 +665,7 @@ $userImgBase64 = base64_encode($userImg);
                             var form4 = document.getElementById("form4");
                             var form5 = document.getElementById("form5");
 
-                            button1.addEventListener("click", function () {
+                            button1.addEventListener("click", function() {
                                 form1.style.display = "block";
                                 form2.style.display = "none";
                                 form3.style.display = "none";
@@ -676,7 +673,7 @@ $userImgBase64 = base64_encode($userImg);
                                 form5.style.display = "none";
                             });
 
-                            button2.addEventListener("click", function () {
+                            button2.addEventListener("click", function() {
                                 form1.style.display = "none";
                                 form2.style.display = "block";
                                 form3.style.display = "none";
@@ -684,7 +681,7 @@ $userImgBase64 = base64_encode($userImg);
                                 form5.style.display = "none";
                             });
 
-                            button3.addEventListener("click", function () {
+                            button3.addEventListener("click", function() {
                                 form1.style.display = "none";
                                 form2.style.display = "none";
                                 form3.style.display = "block";
@@ -692,14 +689,14 @@ $userImgBase64 = base64_encode($userImg);
                                 form5.style.display = "none";
                             });
 
-                            button4.addEventListener("click", function () {
+                            button4.addEventListener("click", function() {
                                 form1.style.display = "none";
                                 form2.style.display = "none";
                                 form3.style.display = "none";
                                 form4.style.display = "block";
                                 form5.style.display = "none";
                             });
-                            button5.addEventListener("click", function () {
+                            button5.addEventListener("click", function() {
                                 form1.style.display = "none";
                                 form2.style.display = "none";
                                 form3.style.display = "none";
