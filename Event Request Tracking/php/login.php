@@ -110,10 +110,6 @@ if (isset($_POST['login'])) {
             }
         </style>
 
-        <div class="login-as-admin">
-            <a href="loginAdmin.php">Login as Admin</a>
-        </div>
-
     </div>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"

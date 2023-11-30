@@ -304,48 +304,96 @@ $userImgBase64 = base64_encode($userImg);
                     });
                 </script>
 
-                <div id="form3" style="display: none;">
+<div id="form3" style="display: none;">
                     <h2 class="form-title">Requests</h2>
                     <div class="tbl-container">
                         <table class="bordered stripe" id="dataTable" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th class="text-center">Request ID</th>
-                                    <th class="text-center">Event Name</th>
-                                    <th class="text-center">Letter</th>
-                                    <th class="text-center">Event Date</th>
-                                    <th class="text-center">Request Sender</th>
-                                    <th class="text-center">Action</th>
+                                    <th>Event Date</th>
+                                    <th>Event Name</th>
+                                    <th>Letter</th> 
+                                    <th>Organization</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php
-                                while ($rowC = mysqli_fetch_assoc($resultC)) {
+                            <?php
+                                while ($rowReq2 = mysqli_fetch_assoc($resultC)) {
                                     echo "<tr>";
-                                    echo "<td>{$rowC['reqID']}</td>";
-                                    echo "<td>{$rowC['reqEventName']}</td>";
-                                    echo "<td><a href='view_pdf.php?reqID={$rowC['reqID']}' target='_blank' class='btn btn-glass btn-complement'>View Letter</a></td>";
-                                    echo "<td>{$rowC['reqEventDate']}</td>";
-                                    echo "<td>{$rowC['userName']}</td>";
+                                    echo "<td>{$rowReq2['reqEventDate']}</td>";
+                                    $style = '';
+                                    $style = "font-weight: bold; text-decoration: none;";
+                                    echo "<td><a style='$style' href='#myModal' data-bs-toggle='modal' data-bs-target='#myModal' data-event-name='{$rowReq2['reqEventName']}' onclick='openModal({$rowReq2['reqID']})'>{$rowReq2['reqEventName']}</a></td>";
+                                    echo "<td><a href='view_pdf.php?reqID={$rowReq2['reqID']}' target='_blank' class='btn btn-glass btn-complement'>View Letter</a></td>";
+                                    echo "<td>{$rowReq2['userName']}</td>";
                                     echo "<td>
                                         <form method='post'>
-                                            <input type='hidden' name='reqID' value='{$rowC['reqID']}'>
-                                            <input type='hidden' name='userID' value='{$rowC['userID']}'>
+                                            <input type='hidden' name='reqID' value='{$rowReq2['reqID']}'>
+                                            <input type='hidden' name='userID' value='{$rowReq2['userID']}'>
                                             <button type='submit' name='approve' class='action-button approve-button' onclick='return confirm(\"Are you sure you want to approve?\")'>Approve</button>
-                                            <button type='submit' name='decline' class='action-button decline-button' onclick='return confirm(\"Are you sure you want to decline?\")'>Decline</button>
+                                            <button type='submit' name='decline' class='action-button decline-button' onclick='return confirm(\"Are you sure you want to decline? Remarks: \" + prompt(\"Enter remarks:\"))'>Decline</button>
                                         </form>
                                     </td>";
                                     echo "</tr>";
                                 }
                                 ?>
-
+                                <script>
+                                    function openModal(reqID) {
+                                        // Use AJAX to fetch data from tbl_reqhistory based on reqID and update modal content
+                                        $.ajax({
+                                            url: 'get_reqhistory.php', // Create a new PHP file to handle this request
+                                            type: 'POST',
+                                            data: {
+                                                reqID: reqID
+                                            },
+                                            success: function(data) {
+                                                // Update the modal content with the data received from the server
+                                                $('#myModal .modal-body').html(data);
+                                            }
+                                        });
+                                    }
+                                </script>
                             </tbody>
                         </table>
                     </div>
                 </div>
+                <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Event Details</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
 
+                                </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // Add JavaScript to dynamically update the modal content when a link is clicked
+    document.addEventListener('DOMContentLoaded', function() {
+        const eventLinks = document.querySelectorAll('[data-bs-toggle="modal"]');
+        const eventDetails = document.getElementById('event-details');
+
+        eventLinks.forEach(function(link) {
+            link.addEventListener('click', function() {
+                const eventName = link.getAttribute('data-event-name');
+                eventDetails.textContent = `Event Name: ${eventName}`;
+            });
+        });
+    });
+</script>
                 <?php
-
+            
                 function approveRequest($conn, $reqID, $orgID)
                 {
                     // Get the current userID
@@ -407,12 +455,10 @@ $userImgBase64 = base64_encode($userImg);
                 ?>
 
                 <script>
-                    $(document).ready(function () {
+                    $(document).ready(function() {
                         $('#dataTable').DataTable();
                     });
                 </script>
-
-
 
                 <div id="form4" style="display: none;">
                     <h2 class="form-title">Archive</h2>
@@ -420,51 +466,51 @@ $userImgBase64 = base64_encode($userImg);
                         <table class="bordered stripe" id="dataTableArchive" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>Request ID</th>
+                                    <th>Date</th>
+                                    <th>Organization</th>
                                     <th>Event Name</th>
                                     <th>Status</th>
-                                    <th>Date</th>
-                                    <th>OrgID</th>
-                                    <th>Organization</th>
+                                    <th>Letter</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
                                 $officeID = $_SESSION['officeAccID'];
                                 // Archive
-                                $queryArch = "SELECT rh.reqID, rh.reqStatus, rh.statusDate, rh.orgID, r.reqEventName, r.currentOffice, ac.userName
-                                FROM tbl_reqhistory rh
-                                JOIN tbl_requests r ON rh.reqID = r.reqID
-                                JOIN tbl_account ac ON rh.orgID = ac.userID
-                                WHERE rh.officeID = ? AND (rh.reqStatus = 'Approved' OR rh.reqStatus = 'Declined')
-                                ORDER BY reqID DESC ";
+                                $queryArch = "SELECT rh.statusDate, ac.userName AS organization, r.reqEventName, rh.reqStatus, r.reqLetter, r.reqID
+                                                FROM tbl_reqhistory rh
+                                                JOIN tbl_requests r ON rh.reqID = r.reqID
+                                                JOIN tbl_account ac ON rh.orgID = ac.userID
+                                                WHERE rh.officeID = ? AND (rh.reqStatus = 'Approved' OR rh.reqStatus = 'Declined')
+                                                ORDER BY rh.statusDate DESC";
+
                                 $stmtArch = mysqli_prepare($conn, $queryArch);
                                 mysqli_stmt_bind_param($stmtArch, "s", $officeID);
                                 mysqli_stmt_execute($stmtArch);
                                 $resultArch = mysqli_stmt_get_result($stmtArch);
-                                include 'config.php';
-
+                                
                                 while ($rowArch = mysqli_fetch_assoc($resultArch)) {
                                     echo "<tr>";
-                                    echo "<td>{$rowArch['reqID']}</td>";
+                                    echo "<td>{$rowArch['statusDate']}</td>";
+                                    echo "<td>{$rowArch['organization']}</td>";
                                     echo "<td>{$rowArch['reqEventName']}</td>";
                                     echo "<td>{$rowArch['reqStatus']}</td>";
-                                    echo "<td>{$rowArch['statusDate']}</td>";
-                                    echo "<td>{$rowArch['orgID']}</td>";
-                                    echo "<td>{$rowArch['userName']}</td>";
+                                    echo "<td><a href='view_pdf.php?reqID={$rowArch['reqID']}' target='_blank' class='btn btn-glass btn-complement'>View Letter</a></td>";
                                     echo "</tr>";
                                 }
                                 ?>
-
                             </tbody>
                         </table>
                     </div>
                 </div>
                 <script>
-                    $(document).ready(function () {
+                    $(document).ready(function() {
                         $('#dataTableArchive').DataTable();
                     });
                 </script>
+
+
+
 
                 <div id="form5" style="display: none;">
                     <h2 class="form-title">Account</h2>

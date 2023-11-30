@@ -340,7 +340,6 @@ require 'HTML/org.html'
                         <table id="Req2" class="table table-striped" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th class="text-center">Request ID</th>
                                     <th class="text-center">Event Name</th>
                                     <th class="text-center">Letter</th>
                                     <th class="text-center">Event Date</th>
@@ -352,7 +351,6 @@ require 'HTML/org.html'
                                 <?php
                                 while ($rowReq = mysqli_fetch_assoc($resultReq)) {
                                     echo "<tr>";
-                                    echo "<td>{$rowReq['reqID']}</td>";
                                     $style = '';
                                     $style = "font-weight: bold; text-decoration: none;";
                                     echo "<td><a style='$style' href='#myModal' data-bs-toggle='modal' data-bs-target='#myModal' data-event-name='{$rowReq['reqEventName']}' onclick='openModal({$rowReq['reqID']})'>{$rowReq['reqEventName']}</a></td>";
@@ -427,7 +425,6 @@ require 'HTML/org.html'
                         <table id="Arch" class="table table-striped" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th class="text-center">reqID</th>
                                     <th class="text-center">Event Name</th>
                                     <th class="text-center">Letter</th>
                                     <th class="text-center">Date Updated</th>
@@ -439,7 +436,6 @@ require 'HTML/org.html'
                                 include 'config.php';
                                 while ($rowArch = mysqli_fetch_assoc($resultArch)) {
                                     echo "<tr style='text-align: center;'>"; // Center-align the entire row
-                                    echo "<td>{$rowArch['reqID']}</td>";
                                     echo "<td>{$rowArch['reqEventName']}</td>";
                                     echo "<td><a href='view_pdf.php?reqID={$rowArch['reqID']}' target='_blank' class='btn btn-glass btn-complement'>View Letter</a></td>";
                                     echo "<td>{$rowArch['reqDeadline']}</td>";
