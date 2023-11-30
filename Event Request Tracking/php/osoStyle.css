@@ -153,16 +153,16 @@ li.nav-item:last-child {
   overflow-y: hidden;
 }
 
-#Requests {
+#Requests, #Account {
   margin: auto;
   width: 50%;
 }
 
-#Requests tbody {
+#Requests tbody, #Account tbody {
   text-align: center;
 }
 
-#Requests tr {
+#Requests tr,#Account tr {
   vertical-align: middle;
 }
 .active-link {
