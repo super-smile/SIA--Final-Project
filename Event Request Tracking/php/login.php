@@ -21,6 +21,8 @@ if (isset($_POST['login'])) {
         $userType = $_SESSION['userType'];
         if ($userType == 'organization') {
             header('location: org.php');
+        }elseif ($userType == 'OSO') {
+            header('location: oso.php');
         } else {
             $error[] = 'Incorrect email or password';
         }

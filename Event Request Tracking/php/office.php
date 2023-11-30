@@ -52,7 +52,7 @@ $result = mysqli_stmt_get_result($stmt);
 
 $userID = $_SESSION['designation'];
 
-if ($userID == "OVCAA" or $userID == "Chancellor") {
+if ($userID == "OVCAA" or $userID == "Chancellor" or $userID == "OSO Head") {
     $queryC = "SELECT tr.*, ta.userName 
                FROM tbl_requests tr
                LEFT JOIN tbl_account ta ON tr.userID = ta.userID
@@ -110,7 +110,7 @@ $userImgBase64 = base64_encode($userImg);
                 <?php
                 $userID = $_SESSION['designation'];
 
-                if ($userID == "OVCAA" or $userID == "Chancellor") {
+                if ($userID == "OVCAA" or $userID == "Chancellor" or $userID == "OSO Head") {
                     include 'config.php';
                     $orgQuery = "SELECT COUNT(req.reqID) AS NumberofRequests
                     FROM tbl_requests AS req
@@ -253,7 +253,7 @@ $userImgBase64 = base64_encode($userImg);
                                     <?php
                                     $userID = $_SESSION['designation'];
 
-                                    if ($userID == "OVCAA" or $userID == "Chancellor") {
+                                    if ($userID == "OVCAA" or $userID == "Chancellor" or $userID == "OSO Head") {
                                         include 'config.php';
                                         $orgQuery = "SELECT COUNT(req.reqID) AS NumberofRequests
                                         FROM tbl_requests AS req
