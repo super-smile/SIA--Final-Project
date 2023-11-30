@@ -224,3 +224,6 @@ li.nav-item:last-child {
     background-color: rgba(173, 216, 230, 0.3); 
     color: #000;  
 }
+#userDeptDisplay {
+	text-transform: uppercase;
+}
