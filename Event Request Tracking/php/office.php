@@ -108,16 +108,33 @@ $userImgBase64 = base64_encode($userImg);
             </div>
             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                 <?php
-                include 'config.php';
-                $orgQuery = "SELECT COUNT(req.reqID) AS NumberofRequests
-                FROM tbl_requests AS req
-                WHERE currentOffice = '$userID'";
+                $userID = $_SESSION['designation'];
 
-                $orgResult = mysqli_query($conn, $orgQuery);
+                if ($userID == "OVCAA" or $userID == "Chancellor") {
+                    include 'config.php';
+                    $orgQuery = "SELECT COUNT(req.reqID) AS NumberofRequests
+                    FROM tbl_requests AS req
+                    WHERE currentOffice = '$userID'";
 
-                while ($rowOrg = mysqli_fetch_assoc($orgResult)) {
-                    echo '<span class="notif">' . $rowOrg['NumberofRequests'] . '</span>';
+                    $orgResult = mysqli_query($conn, $orgQuery);
+
+                    while ($rowOrg = mysqli_fetch_assoc($orgResult)) {
+                        echo '<span class="notif">' . $rowOrg['NumberofRequests'] . '</span>';
+                    }
+                } else {
+                    include 'config.php';
+                    $orgQuery = "SELECT COUNT(req.reqID) AS NumberofRequests
+                FROM tbl_requests req
+               LEFT JOIN tbl_account ta ON req.userID = ta.userID
+               WHERE req.currentOffice = '$userID' AND ta.userDept = '$CuserDept'";
+
+                    $orgResult = mysqli_query($conn, $orgQuery);
+
+                    while ($rowOrg = mysqli_fetch_assoc($orgResult)) {
+                        echo '<span class="notif">' . $rowOrg['NumberofRequests'] . '</span>';
+                    }
                 }
+
                 ?>
             </span>
         </div>
@@ -234,16 +251,33 @@ $userImgBase64 = base64_encode($userImg);
                                 <div class="card-header"><strong>Number of Requests</strong></div>
                                 <div class="card-body">
                                     <?php
-                                    include 'config.php';
-                                    $orgQuery = "SELECT COUNT(req.reqID) AS NumberofRequests
-                                            FROM tbl_requests AS req
-                                            WHERE currentOffice = '$userID'";
+                                    $userID = $_SESSION['designation'];
 
-                                    $orgResult = mysqli_query($conn, $orgQuery);
+                                    if ($userID == "OVCAA" or $userID == "Chancellor") {
+                                        include 'config.php';
+                                        $orgQuery = "SELECT COUNT(req.reqID) AS NumberofRequests
+                                        FROM tbl_requests AS req
+                                        WHERE currentOffice = '$userID'";
 
-                                    while ($rowOrg = mysqli_fetch_assoc($orgResult)) {
-                                        echo '<td><ab>' . $rowOrg['NumberofRequests'] . '</ab></td>';
+                                        $orgResult = mysqli_query($conn, $orgQuery);
+
+                                        while ($rowOrg = mysqli_fetch_assoc($orgResult)) {
+                                            echo '<span class="notif">' . $rowOrg['NumberofRequests'] . '</span>';
+                                        }
+                                    } else {
+                                        include 'config.php';
+                                        $orgQuery = "SELECT COUNT(req.reqID) AS NumberofRequests
+                                        FROM tbl_requests req
+                                        LEFT JOIN tbl_account ta ON req.userID = ta.userID
+                                        WHERE req.currentOffice = '$userID' AND ta.userDept = '$CuserDept'";
+
+                                        $orgResult = mysqli_query($conn, $orgQuery);
+
+                                        while ($rowOrg = mysqli_fetch_assoc($orgResult)) {
+                                            echo '<span class="notif">' . $rowOrg['NumberofRequests'] . '</span>';
+                                        }
                                     }
+
                                     ?>
                                 </div>
 
