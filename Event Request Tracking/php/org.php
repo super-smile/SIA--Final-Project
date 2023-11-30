@@ -456,7 +456,9 @@ require 'HTML/org.html'
                                 include 'config.php';
                                 while ($rowArch = mysqli_fetch_assoc($resultArch)) {
                                     echo "<tr style='text-align: center;'>"; // Center-align the entire row
-                                    echo "<td>{$rowArch['reqEventName']}</td>";
+                                    $style = '';
+                                    $style = "font-weight: bold; text-decoration: none;";
+                                    echo "<td><a style='$style' href='#myModal' data-bs-toggle='modal' data-bs-target='#myModal' data-event-name='{$rowArch['reqEventName']}' onclick='openModal({$rowArch['reqID']})'>{$rowArch['reqEventName']}</a></td>";
                                     echo "<td><a href='view_pdf.php?reqID={$rowArch['reqID']}' target='_blank' class='btn btn-glass btn-complement'>View Letter</a></td>";
                                     echo "<td>{$rowArch['reqDeadline']}</td>";
 

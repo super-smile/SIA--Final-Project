@@ -74,7 +74,7 @@ include 'HTML/oso.html'
         </div>
         <div class="notification-icon position-relative" style="margin-right: 20px">
             <div class="notification-bell">
-            <i class="fas fa-user" style="color: #a21a1e; font-size: 17px;"></i>
+                <i class="fas fa-user" style="color: #a21a1e; font-size: 17px;"></i>
             </div>
         </div>
     </div>
@@ -283,7 +283,9 @@ include 'HTML/oso.html'
                                     while ($rowReq2 = mysqli_fetch_assoc($resultReq2)) {
                                         echo "<tr>";
                                         echo "<td>{$rowReq2['reqID']}</td>";
-                                        echo "<td>{$rowReq2['reqEventName']}</td>";
+                                        $style = '';
+                                        $style = "font-weight: bold; text-decoration: none;";
+                                        echo "<td><a style='$style' href='#myModal' data-bs-toggle='modal' data-bs-target='#myModal' data-event-name='{$rowReq2['reqEventName']}' onclick='openModal({$rowReq2['reqID']})'>{$rowReq2['reqEventName']}</a></td>";
                                         echo "<td><a href='view_pdf.php?reqID={$rowReq2['reqID']}' target='_blank' class='btn btn-complement'>View Letter</a></td>";
                                         echo "<td>{$rowReq2['reqEventDate']}</td>";
                                         echo "<td>{$rowReq2['reqDeadline']}</td>";
@@ -292,11 +294,63 @@ include 'HTML/oso.html'
                                         echo "</tr>";
                                     }
                                     ?>
+
                                 </tbody>
                             </table>
                         </div>
                     </div>
+                    <script>
+                                    function openModal(reqID) {
+                                        // Use AJAX to fetch data from tbl_reqhistory based on reqID and update modal content
+                                        $.ajax({
+                                            url: 'get_reqhistory.php', // Create a new PHP file to handle this request
+                                            type: 'POST',
+                                            data: {
+                                                reqID: reqID
+                                            },
+                                            success: function (data) {
+                                                // Update the modal content with the data received from the server
+                                                $('#myModal .modal-body').html(data);
+                                            }
+                                        });
+                                    }
+                                </script>
+                                <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Event Details</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
 
+                                </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+                <script>
+                    // Add JavaScript to dynamically update the modal content when a link is clicked
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const eventLinks = document.querySelectorAll('[data-bs-toggle="modal"]');
+                        const eventDetails = document.getElementById('event-details');
+
+                        eventLinks.forEach(function (link) {
+                            link.addEventListener('click', function () {
+                                const eventName = link.getAttribute('data-event-name');
+                                eventDetails.textContent = `Event Name: ${eventName}`;
+                            });
+                        });
+                    });
+                </script>
                     <div id="form4" style="display: none">
                         <h2 class="form-title">All Events</h2>
                         <div class="tbl-container">
@@ -483,25 +537,25 @@ include 'HTML/oso.html'
 
         };
 
-        
+
         if ($.fn.dataTable.isDataTable('#example')) {
             $('#example').DataTable().destroy();
         }
         $('#example').DataTable(globalOptions);
 
-        
+
         if ($.fn.dataTable.isDataTable('#Account')) {
             $('#Account').DataTable().destroy();
         }
         $('#Account').DataTable(globalOptions);
 
-        
+
         if ($.fn.dataTable.isDataTable('#Requests')) {
             $('#Requests').DataTable().destroy();
         }
         $('#Requests').DataTable(globalOptions);
 
-        
+
         if ($.fn.dataTable.isDataTable('#AllEvents')) {
             $('#AllEvents').DataTable().destroy();
         }
