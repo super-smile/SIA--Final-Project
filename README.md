@@ -45,6 +45,12 @@ organizations.
 - Continuous refinement to ensure alignment with the objectives of Batangas State University&#39;s
 National Engineering University Lipa Campus.
 
+## Website Screenshots
+![Screenshot (682)](https://github.com/super-smile/SIA--Final-Project/assets/121793229/94ffa201-9462-480c-9554-ae6025e2e77a)
+![Screenshot (689)](https://github.com/super-smile/SIA--Final-Project/assets/121793229/d0c90299-72d2-4f6c-9a65-dbcb9136f745)
+![Screenshot (671)](https://github.com/super-smile/SIA--Final-Project/assets/121793229/53925233-ef16-42cd-8753-bad6ceb3df89)
+![Screenshot (685)](https://github.com/super-smile/SIA--Final-Project/assets/121793229/b1a77e59-c0f2-4caf-aa9f-a84d58b976ef)
+
 ## Project
 
 This project is submitted by:
