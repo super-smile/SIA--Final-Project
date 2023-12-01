@@ -61,4 +61,4 @@ This project is submitted by:
 - Perez, Jazzmin H.
 - Telesforo, Leanne Frank O.
 
-This project is submitted to: MS. Niña Aguila
+This project is submitted to: Ms. Niña Aguila
